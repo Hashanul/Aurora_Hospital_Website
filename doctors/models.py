@@ -54,5 +54,6 @@ class DepartmentGroup(models.Model):
     departments = models.ManyToManyField(Department, blank=True, related_name='groups')
 
     def __str__(self):
-        return f"{self.group_name} - {self.departments}"
+        return f"{self.group_name} - {self.departments}" 
+    
 
