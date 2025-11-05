@@ -9,6 +9,13 @@ class Department(models.Model):
         return self.name
 
 
+class Schedule(models.Model):
+    day = models.CharField(max_length=100)
+    time = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"Day: {self.day}, Time: {self.time}"
+
 
 class Doctor(models.Model):
     name = models.CharField(max_length=255)
@@ -17,6 +24,7 @@ class Doctor(models.Model):
 
     # Foreign keys
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True, related_name='doctors')
+    schedule = models.ForeignKey(Schedule, on_delete=models.SET_NULL, null=True, blank=True, related_name='doctors')
     
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=15)
@@ -25,7 +33,8 @@ class Doctor(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Dr. {self.name} - ({self.department})"
+        return f"Dr. {self.name} - ({self.department} - {self.schedule})"
+    
 
 class Service(models.Model):
     service_title = models.CharField(max_length=255)
@@ -38,4 +47,12 @@ class Service(models.Model):
 
     def __str__(self):
         return f"Service Title: {self.service_title}"
+    
+
+class DepartmentGroup(models.Model):
+    group_name = models.CharField(max_length=250, null=True, blank=True)
+    departments = models.ManyToManyField(Department, blank=True, related_name='groups')
+
+    def __str__(self):
+        return f"{self.group_name} - {self.departments}"
 

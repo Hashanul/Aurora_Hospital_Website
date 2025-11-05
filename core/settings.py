@@ -124,7 +124,7 @@ USE_TZ = True
 #settings.py
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_DIRS = [BASE_DIR / 'static']
+# STATICFILES_DIRS = [BASE_DIR / 'static']
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 # URL used to access the media
 MEDIA_URL = '/media/'
