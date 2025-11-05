@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-
+ 
 
 class Hero(models.Model):
     title = models.CharField(max_length=255, null=True, blank=True)
