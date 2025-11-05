@@ -12,7 +12,7 @@ class Department(models.Model):
 
 class Doctor(models.Model):
     name = models.CharField(max_length=255)
-    designation = models.CharField(max_length=255)
+    designation = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
 
     # Foreign keys
@@ -25,6 +25,17 @@ class Doctor(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Dr. {self.name} ({self.specialty})"
+        return f"Dr. {self.name} - ({self.department})"
 
+class Service(models.Model):
+    service_title = models.CharField(max_length=255)
+    service_category = models.ForeignKey(Department, on_delete=models.SET_NULL, blank=True, null=True)
+    service_description = models.TextField(blank=True, null=True)
+
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Service Title: {self.service_title}"
 

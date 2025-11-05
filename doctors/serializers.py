@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Doctor, Department
+from .models import Doctor, Department, Service
 
 class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -44,4 +44,12 @@ class DoctorSerializer(serializers.ModelSerializer):
         doctor = Doctor.objects.create(**validated_data)
         return doctor
     
+
+class ServiceSerializer(serializers.ModelSerializer):
+   
+    class Meta:
+        model = Service
+        fields = ['id', 'service_title', 'service_category', 'service_description', 'is_active']
+
+        
 
