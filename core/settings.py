@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'doctors',
     'patients',
     'news',
+    'appointment',
 
     'rest_framework',
 
