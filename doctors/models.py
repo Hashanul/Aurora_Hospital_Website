@@ -33,7 +33,7 @@ class Doctor(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Dr. {self.name} - ({self.department} - {self.schedule})"
+        return f"Dr. {self.name} - ({self.department})"
     
 
 class Service(models.Model):

@@ -10,3 +10,8 @@ class Appointment(models.Model):
     department_name = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True)
     doctor_name = models.ForeignKey(Doctor, on_delete=models.SET_NULL, null=True, blank=True)
     schedule = models.ForeignKey(Schedule, on_delete=models.SET_NULL, null=True, blank=True)
+    
+
+    def __str__(self):
+        return f"Appointment Information: {self.patient_name} - {self.department_name}"
+
