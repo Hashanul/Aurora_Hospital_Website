@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Hero, Banner
+from .models import Hero, Banner, Contact
 
 
 @admin.register(Hero)
@@ -17,4 +17,10 @@ class BannerAdmin(admin.ModelAdmin):
     search_fields = ['title']
     ordering = ['created_at']
 
+@admin.register(Contact)
+class ContactAdmin(admin.ModelAdmin):
+    list_display = ['name', 'email', 'phone', 'subject', 'created_at']
+    list_filter = ['subject']
+    search_fields = ['name', 'phone', 'email' 'subject']
+    ordering = ['created_at']
 
