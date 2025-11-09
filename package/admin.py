@@ -8,3 +8,4 @@ class Health_packageAdmin(admin.ModelAdmin):
     list_filter = ['gender', 'price']
     search_fields = ['title']
 
+
