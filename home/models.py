@@ -8,7 +8,8 @@ class Hero(models.Model):
     sub_title = models.CharField(max_length=255, null=True, blank=True)
     image = models.ImageField(upload_to='media/hero/', null=True, blank=True)
     is_active = models.BooleanField(default=True)
-    created_by = models.ForeignKey(User, blank=True, null=True)
+    
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -20,7 +21,8 @@ class Banner(models.Model):
     sub_title = models.CharField(max_length=255, null=True, blank=True)
     image = models.ImageField(upload_to='media/banner/', null=True, blank=True)
     is_active = models.BooleanField(default=True)
-    created_by = models.ForeignKey(User, blank=True, null=True)
+
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
