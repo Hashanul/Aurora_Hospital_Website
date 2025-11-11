@@ -4,7 +4,7 @@ from .views import DoctorViewSet, DepartmentViewSet, ServiceViewSet, ScheduleVie
 
 router = DefaultRouter()
 
-router.register('doctors', DoctorViewSet)
+router.register('doctors', DoctorViewSet, basename='doctor')
 router.register('departments', DepartmentViewSet)
 router.register('department_group', DepartmentGroupViewSet)
 router.register('services', ServiceViewSet)

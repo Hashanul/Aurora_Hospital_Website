@@ -4,9 +4,9 @@ from django.contrib.auth.models import User
 
 class Health_package(models.Model):
     GENDER_CHOICES = [
-        ('M', 'Male'),
-        ('F', 'Female'),
-        ('O', 'Other'),
+        ('Male', 'Male'),
+        ('Female', 'Female'),
+        ('Other', 'Other'),
     ]
     
     title = models.CharField(max_length=255)
@@ -20,4 +20,4 @@ class Health_package(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Health Package: {self.title}"
+        return f"Health Package: {self.title} - {self.gender}"
