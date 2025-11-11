@@ -49,23 +49,58 @@ class DoctorSerializer(serializers.ModelSerializer):
         schedule_day = validated_data.pop('schedule_day', None)
         schedule_time = validated_data.pop('schedule_time', None)
 
-        if schedule_day:
-            schedule, created = Schedule.objects.get_or_create(day=schedule_day)
-            validated_data['schedule'] = schedule
-        if schedule_time and schedule_day:
-            schedule.time = schedule_time
-            schedule.save()
-
         if department_name:
             # Get or create department
             department, created = Department.objects.get_or_create(name=department_name)
+            if department_description and department_name:
+                department.description = department_description
+                department.save()
             validated_data['department'] = department
-        if department_description and department_name:
-            department.description = department_description
-            department.save()
+
+        if schedule_day:
+            schedule, created = Schedule.objects.get_or_create(day=schedule_day)
+            if schedule_time and schedule_day:
+                schedule.time = schedule_time
+                schedule.save()
+            validated_data['schedule'] = schedule
+
         # Now safe to create Doctor without extra fields
         doctor = Doctor.objects.create(**validated_data)
         return doctor
+    
+    def update(self, instance, validated_data):
+        # Extract custom fields
+        department_name = validated_data.pop('department_name', None)
+        department_description = validated_data.pop('department_description', None)
+        schedule_day = validated_data.pop('schedule_day', None)
+        schedule_time = validated_data.pop('schedule_time', None)
+
+        # Update Department
+        if department_name:
+            department, created = Department.objects.get_or_create(name=department_name)
+            if department_description:
+                department.description = department_description
+                department.save()
+            instance.department = department
+        elif 'department_id' in validated_data:
+            instance.department = validated_data.pop('department_id')
+
+        # Update Schedule
+        if schedule_day:
+            schedule, created = Schedule.objects.get_or_create(day=schedule_day)
+            if schedule_time:
+                schedule.time = schedule_time
+                schedule.save()
+            instance.schedule = schedule
+        elif 'schedule_id' in validated_data:
+            instance.schedule = validated_data.pop('schedule_id')
+
+        # Update other fields
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+
+        instance.save()
+        return instance
     
 
 class ServiceSerializer(serializers.ModelSerializer):
@@ -97,3 +132,13 @@ class DepartmentGroupSerializer(serializers.ModelSerializer):
         return group
     
 
+
+    def update(self, instance, validated_data):
+        department_ids = validated_data.pop('department_ids', None)
+        if department_ids is not None:
+            instance.departments.set(department_ids)
+
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        return instance

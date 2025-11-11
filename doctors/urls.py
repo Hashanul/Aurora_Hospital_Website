@@ -3,12 +3,14 @@ from rest_framework.routers import DefaultRouter
 from .views import DoctorViewSet, DepartmentViewSet, ServiceViewSet, ScheduleViewSet, DepartmentGroupViewSet
 
 router = DefaultRouter()
-router.register(r'doctors', DoctorViewSet)
-router.register(r'departments', DepartmentViewSet)
-router.register(r'department_group', DepartmentGroupViewSet)
-router.register(r'services', ServiceViewSet)
-router.register(r'schedules', ScheduleViewSet)
+
+router.register('doctors', DoctorViewSet)
+router.register('departments', DepartmentViewSet)
+router.register('department_group', DepartmentGroupViewSet)
+router.register('services', ServiceViewSet)
+router.register('schedules', ScheduleViewSet)
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('', include(router.urls))
 ]
+
