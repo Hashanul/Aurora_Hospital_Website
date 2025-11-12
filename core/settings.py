@@ -46,11 +46,14 @@ INSTALLED_APPS = [
     'accounts',
 
     'rest_framework',
+    'rest_framework.authtoken',
     'corsheaders',
+    'djoser',
 
 ]
 
-# AUTH_USER_MODEL = 'accounts.User'
+AUTH_USER_MODEL = 'accounts.User'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -64,6 +67,15 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'core.urls'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+
+    ),
+}
+
 
 TEMPLATES = [
     {
@@ -157,3 +169,21 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://192.168.88.174:3000",
 ]
+
+
+# DJOSER CONFIGURATION
+DJOSER = {
+
+    # 'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
+    # 'USERNAME_RESET_CONFIRM_URL': '#/username/reset/confirm/{uid}/{token}',
+    'LOGIN_FIELD': 'email',
+    'ACTIVATION_URL': '#/activate/{uid}/{token}',
+    'SEND_ACTIVATION_EMAIL': False,
+    'SERIALIZERS': {
+        'user_create': 'accounts.serializers.RegisterSerializer',
+        'user': 'accounts.serializers.RegisterSerializer',
+        'current_user': 'accounts.serializers.RegisterSerializer',
+
+    },
+}
+

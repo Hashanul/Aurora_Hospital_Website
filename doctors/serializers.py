@@ -39,7 +39,7 @@ class DoctorSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'name', 'email', 'phone', 'designation', 'description',
               'image', 'department_id','department', 'department_name', 'department_description',
-            'schedule_id', 'schedule', 'schedule_day', 'schedule_time', 'created_at', 'updated_at'
+            'schedule_id', 'schedule', 'schedule_day', 'schedule_time', 'created_by', 'created_at', 'updated_at'
         ]
 
     def create(self, validated_data):

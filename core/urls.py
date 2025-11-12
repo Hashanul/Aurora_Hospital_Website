@@ -12,6 +12,9 @@ from patients.views import PatientViewSet
 from news.views import NewsCategoryViewSet, NewsViewSet
 from appointment.views import AppointmentViewSet
 from package.views import Health_packageViewSet
+from accounts.views import RegisterViewSet, UserViewSet
+
+
 
 # Create a single central router for all API endpoints
 router = DefaultRouter()
@@ -41,15 +44,23 @@ router.register('appointments', AppointmentViewSet)
 # Package app
 router.register('health_package', Health_packageViewSet)
 
+# Accounts app
+# router.register(r'register', RegisterViewSet, basename='register')
+# router.register(r'users', UserViewSet, basename='users')
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 #     path('api/', include('home.urls')),
 #     path('api/', include('doctors.urls')),
 #     path('api/', include('patients.urls')),
 #     path('api/', include('news.urls')),
-# ]
 
 
     path('api/', include(router.urls)),
+    path('api/', include('accounts.urls')),
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 
+
+
+
+
