@@ -71,10 +71,12 @@ ROOT_URLCONF = 'core.urls'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
 
     ),
 }
+
 
 
 TEMPLATES = [
@@ -172,18 +174,17 @@ CORS_ALLOWED_ORIGINS = [
 
 
 # DJOSER CONFIGURATION
+
 DJOSER = {
-
-    # 'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
-    # 'USERNAME_RESET_CONFIRM_URL': '#/username/reset/confirm/{uid}/{token}',
-    'LOGIN_FIELD': 'email',
-    'ACTIVATION_URL': '#/activate/{uid}/{token}',
-    'SEND_ACTIVATION_EMAIL': False,
-    'SERIALIZERS': {
-        'user_create': 'accounts.serializers.RegisterSerializer',
-        'user': 'accounts.serializers.RegisterSerializer',
-        'current_user': 'accounts.serializers.RegisterSerializer',
-
-    },
+    "USER_ID_FIELD": "id",
+    "LOGIN_FIELD": "username",
+    "SERIALIZERS": {
+        "user_create": "accounts.serializers.UserCreateSerializer",
+        "user": "accounts.serializers.UserSerializer",
+    }
 }
+
+# SIMPLE_JWT = {
+#     "AUTH_HEADER_TYPES": ("JWT",),
+# }
 
