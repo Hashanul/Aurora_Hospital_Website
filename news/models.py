@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from PIL import Image
 
 
 class NewsCategories(models.Model):
@@ -22,6 +23,15 @@ class News(models.Model):
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        img = Image.open(self.image.path)
+
+        if img.height > 800 or img.width > 500:
+            output_size = (800,500)
+            img.thumbnail(output_size)
+            img.save(self.image.path)
 
     def __str__(self):
         return self.title
