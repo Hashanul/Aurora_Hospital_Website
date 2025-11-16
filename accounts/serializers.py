@@ -22,9 +22,20 @@ class UserSerializer(serializers.ModelSerializer):
 
 class UserCreateSerializer(UserSerializer):
     """Used by Djoser for registration"""
+    
 
     def create(self, validated_data):
         password = validated_data.pop("password")
+
+        # Check if role is provided
+        role = validated_data.pop("role", None)
+
+        # If role is None, set default role "patient"
+        if role is None:
+            from .models import Role
+            role = Role.objects.filter(name="patients").first()  # get patient role
+            validated_data["role"] = role
+
         user = User.objects.create(**validated_data)
         user.set_password(password)
         user.save()

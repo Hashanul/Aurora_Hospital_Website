@@ -2,6 +2,7 @@ from rest_framework.permissions import BasePermission, SAFE_METHODS
 
 
 
+
 class RolePermission(BasePermission):
     allowed_roles = ["admin"]
 

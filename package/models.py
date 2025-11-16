@@ -21,3 +21,4 @@ class Health_package(models.Model):
 
     def __str__(self):
         return f"Health Package: {self.title} - {self.gender}"
+  
