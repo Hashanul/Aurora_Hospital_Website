@@ -2,12 +2,16 @@ from rest_framework import serializers
 from .models import NewsCategories, News
 
 class NewsCategoriesSerializer(serializers.ModelSerializer):
+    created_by = serializers.StringRelatedField(read_only=True)
+
     class Meta:
         model = NewsCategories
         fields = '__all__'
 
 
 class NewsSerializer(serializers.ModelSerializer):
+    created_by = serializers.StringRelatedField(read_only=True)
+
     category_name = serializers.CharField(write_only = True, required=False, allow_blank=True)
     category_description = serializers.CharField(write_only = True, required=False, allow_blank=True)
     category = serializers.StringRelatedField(read_only=True)
