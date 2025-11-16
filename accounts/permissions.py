@@ -26,7 +26,7 @@ class RolePermission(BasePermission):
 
 
 
-class NewsPermission(BasePermission):
+class AdminPermission(BasePermission):
     """
     - GET (list/retrieve) → Everyone (Anonymous + Authenticated)
     - POST/PUT/PATCH/DELETE → Only admin, staff, superuser

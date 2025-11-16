@@ -2,12 +2,12 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from .models import NewsCategories, News
 from .serializers import NewsCategoriesSerializer, NewsSerializer
-from accounts.permissions import NewsPermission
+from accounts.permissions import AdminPermission
 
 class NewsCategoryViewSet(viewsets.ModelViewSet):
     queryset = NewsCategories.objects.all()
     serializer_class = NewsCategoriesSerializer
-    permission_classes = [NewsPermission]
+    permission_classes = [AdminPermission]
 
     
     def perform_create(self, serializer):
@@ -21,7 +21,7 @@ class NewsCategoryViewSet(viewsets.ModelViewSet):
 class NewsViewSet(viewsets.ModelViewSet):
     queryset = News.objects.all()
     serializer_class = NewsSerializer
-    permission_classes = [NewsPermission]
+    permission_classes = [AdminPermission]
 
     
     def perform_create(self, serializer):

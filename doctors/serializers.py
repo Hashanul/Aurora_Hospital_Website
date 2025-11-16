@@ -2,17 +2,23 @@ from rest_framework import serializers
 from .models import Doctor, Department, Schedule, Service, DepartmentGroup
 
 class DepartmentSerializer(serializers.ModelSerializer):
+    created_by = serializers.StringRelatedField(read_only=True)
+
     class Meta:
         model = Department
         fields = '__all__'
 
 class ScheduleSerializer(serializers.ModelSerializer):
+    created_by = serializers.StringRelatedField(read_only=True)
+
     class Meta:
         model = Schedule
         fields = '__all__'
 
 
 class DoctorSerializer(serializers.ModelSerializer):
+    created_by = serializers.StringRelatedField(read_only=True)
+
     department_name = serializers.CharField(write_only=True, required=False, allow_blank=True)
     department_description = serializers.CharField(write_only=True, required=False, allow_blank=True)
     department = serializers.StringRelatedField(read_only=True)
@@ -104,6 +110,7 @@ class DoctorSerializer(serializers.ModelSerializer):
     
 
 class ServiceSerializer(serializers.ModelSerializer):
+    created_by = serializers.StringRelatedField(read_only=True)
    
     class Meta:
         model = Service
@@ -111,6 +118,7 @@ class ServiceSerializer(serializers.ModelSerializer):
 
 
 class DepartmentGroupSerializer(serializers.ModelSerializer):
+    created_by = serializers.StringRelatedField(read_only=True)
 
     departments = DepartmentSerializer(many=True, read_only=True)
 

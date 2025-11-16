@@ -2,11 +2,13 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from .models import Hero, Banner, Contact
 from .serializers import HeroSerializer, BannerSerializer, ContactSerializer
+from accounts.permissions import AdminPermission
 
 
 class HeroViewSet(viewsets.ModelViewSet):
     queryset = Hero.objects.all()
     serializer_class = HeroSerializer
+    permission_classes = [AdminPermission]
 
     def perform_create(self, serializer):
         user = self.request.user
@@ -20,6 +22,7 @@ class HeroViewSet(viewsets.ModelViewSet):
 class BannerViewSet(viewsets.ModelViewSet):
     queryset = Banner.objects.all()
     serializer_class = BannerSerializer
+    permission_classes = [AdminPermission]
     
     def perform_create(self, serializer):
         user = self.request.user
@@ -29,7 +32,7 @@ class BannerViewSet(viewsets.ModelViewSet):
         else:
             serializer.save(created_by=None)
 
-            
+
 class ContactViewSet(viewsets.ModelViewSet):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer

@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-
+from PIL import Image
 
  
 
@@ -14,6 +14,20 @@ class Hero(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if not self.image:
+            return
+        
+        img = Image.open(self.image.path)
+
+        if img.height > 300 or img.width > 300:
+            output_size = (300,300)
+            img.thumbnail(output_size)
+            img.save(self.image.path)
+
     def __str__(self):
         return f"Hero Section: {self.title}"
 
@@ -26,6 +40,19 @@ class Banner(models.Model):
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if not self.image:
+            return
+        
+        img = Image.open(self.image.path)
+
+        if img.height > 300 or img.width > 300:
+            output_size = (300,300)
+            img.thumbnail(output_size)
+            img.save(self.image.path)
 
     def __str__(self):
         return f"Banner Section: {self.title}"
