@@ -6,13 +6,14 @@ from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
 
 # Import all ViewSets from apps
-from home.views import HeroViewSet, BannerViewSet, ContactViewSet
+from home.views import HeroViewSet, BadgeViewSet, BannerViewSet, ContactViewSet
 from doctors.views import DoctorViewSet, DepartmentViewSet, ServiceViewSet, ScheduleViewSet, DepartmentGroupViewSet
 from patients.views import PatientViewSet
 from news.views import NewsCategoryViewSet, NewsViewSet
 from appointment.views import AppointmentViewSet
 from package.views import Health_packageViewSet
 from accounts.views import RoleViewSet
+from award.views import AwardViewSet
 
 
 
@@ -21,6 +22,7 @@ router = DefaultRouter()
 
 # Home app
 router.register('hero', HeroViewSet)
+router.register('badge', BadgeViewSet)
 router.register('banners', BannerViewSet)
 router.register('contacts', ContactViewSet)
 
@@ -47,6 +49,9 @@ router.register('health_package', Health_packageViewSet)
 # Accounts app
 router.register('role', RoleViewSet)
 
+# Award app
+router.register('awards', AwardViewSet)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -54,6 +59,7 @@ urlpatterns = [
 #     path('api/', include('doctors.urls')),
 #     path('api/', include('patients.urls')),
 #     path('api/', include('news.urls')),
+    # path('api/', include('award.urls')), 
 
 
     path('api/', include(router.urls)),

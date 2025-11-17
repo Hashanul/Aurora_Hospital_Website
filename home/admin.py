@@ -4,7 +4,7 @@ from .models import Hero, Banner, Contact
 
 @admin.register(Hero)
 class HeroAdmin(admin.ModelAdmin):
-    list_display = ['title', 'sub_title', 'image', 'is_active', 'created_at']
+    list_display = ['title', 'sub_title', 'is_active', 'created_at']
     list_filter = ['is_active']
     search_fields = ['title']
     ordering = ['created_at']

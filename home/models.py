@@ -7,29 +7,43 @@ from PIL import Image
 class Hero(models.Model):
     title = models.CharField(max_length=255, null=True, blank=True)
     sub_title = models.CharField(max_length=255, null=True, blank=True)
-    image = models.ImageField(upload_to='media/hero/', null=True, blank=True)
+    pc_image = models.ImageField(upload_to='media/hero/', null=True, blank=True)
+    tab_image = models.ImageField(upload_to='media/hero/', null=True, blank=True)
+    mobile_image = models.ImageField(upload_to='media/hero/', null=True, blank=True)
     is_active = models.BooleanField(default=True)
     
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    
-
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        if not self.image:
-            return
+    # def save(self, *args, **kwargs):
+    #     super().save(*args, **kwargs)
+    #     if not self.image:
+    #         return
         
-        img = Image.open(self.image.path)
+    #     img = Image.open(self.image.path)
 
-        if img.height > 300 or img.width > 300:
-            output_size = (300,300)
-            img.thumbnail(output_size)
-            img.save(self.image.path)
+    #     if img.height > 300 or img.width > 300:
+    #         output_size = (300,300)
+    #         img.thumbnail(output_size)
+    #         img.save(self.image.path)
 
     def __str__(self):
         return f"Hero Section: {self.title}"
+
+
+
+class Badge(models.Model):
+    total_appointment = models.PositiveIntegerField(default=0)
+    specialists = models.PositiveIntegerField(default=0)
+    happy_patients = models.PositiveIntegerField(default=0)
+    winning_awards = models.PositiveIntegerField(default=0)
+
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "Site Badge"
+
 
 class Banner(models.Model):
     title = models.CharField(max_length=255)
