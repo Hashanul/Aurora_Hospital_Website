@@ -44,7 +44,6 @@ class Badge(models.Model):
     def __str__(self):
         return "Site Badge"
     
-from django.db import models
 
 class Facilities(models.Model):
     title = models.CharField(max_length=255)
@@ -55,7 +54,7 @@ class Facilities(models.Model):
     
     image = models.ImageField(upload_to='media/facilities', blank=True, null=True)
     open_hour = models.TextField(null=True, blank=True, help_text="Write hours separated by comma, e.g., Saturday 6:00 am - 10:00 pm, Sunday 6:00 am - 10:00 pm")
-    
+
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
