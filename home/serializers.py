@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Hero, Badge, Banner, Contact
+from .models import Hero, Badge, Facilities, Banner, Contact
 
 
 class HeroSerializer(serializers.ModelSerializer):
@@ -13,6 +13,27 @@ class BadgeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Badge
         fields = '__all__'
+
+
+class FacilitiesSerializer(serializers.ModelSerializer):
+    created_by = serializers.StringRelatedField(read_only=True)
+
+    points_list = serializers.SerializerMethodField()
+    open_hour_list = serializers.SerializerMethodField()
+
+
+
+    class Meta:
+        model = Facilities
+        fields = ['id','title', 'description', 'image', 'points_list', 'open_hour_list', 'created_by']
+
+    def get_points_list(self, obj):
+        return obj.get_points_list()
+
+    def get_open_hour_list(self, obj):
+        return obj.get_open_hours_list()
+
+
 
 class BannerSerializer(serializers.ModelSerializer):
     created_by = serializers.StringRelatedField(read_only=True)
