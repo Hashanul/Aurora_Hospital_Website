@@ -114,7 +114,7 @@ class ServiceSerializer(serializers.ModelSerializer):
    
     class Meta:
         model = Service
-        fields = ['id', 'service_title', 'service_category', 'service_description', 'is_active']
+        fields = ['id', 'service_title', 'service_category', 'service_description', 'is_active', 'created_by']
 
 
 class DepartmentGroupSerializer(serializers.ModelSerializer):

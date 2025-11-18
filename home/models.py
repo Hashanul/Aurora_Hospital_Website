@@ -19,10 +19,8 @@ class Hero(models.Model):
     # def save(self, *args, **kwargs):
     #     super().save(*args, **kwargs)
     #     if not self.image:
-    #         return
-        
+    #         return    
     #     img = Image.open(self.image.path)
-
     #     if img.height > 300 or img.width > 300:
     #         output_size = (300,300)
     #         img.thumbnail(output_size)
@@ -31,6 +29,18 @@ class Hero(models.Model):
     def __str__(self):
         return f"Hero Section: {self.title}"
 
+class About_us(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.TextField(null=True, blank=True)
+    our_mission_title = models.CharField(max_length=255, blank=True, null=True)
+    our_mission_description = models.TextField(blank=True, null=True)
+    our_vision_title = models.CharField(max_length=255, blank=True, null=True)
+    our_vision_description = models.TextField(blank=True, null=True)
+    image = models.ImageField(upload_to='media/about', blank=True, null=True)
+
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
 class Badge(models.Model):

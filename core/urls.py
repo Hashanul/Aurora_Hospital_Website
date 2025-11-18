@@ -6,7 +6,7 @@ from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
 
 # Import all ViewSets from apps
-from home.views import HeroViewSet, BadgeViewSet, FacilitiesViewSet, BannerViewSet, ContactViewSet
+from home.views import HeroViewSet, AboutViewSet, BadgeViewSet, FacilitiesViewSet, BannerViewSet, ContactViewSet
 from doctors.views import DoctorViewSet, DepartmentViewSet, ServiceViewSet, ScheduleViewSet, DepartmentGroupViewSet
 from patients.views import PatientViewSet
 from news.views import NewsCategoryViewSet, NewsViewSet
@@ -22,6 +22,7 @@ router = DefaultRouter()
 
 # Home app
 router.register('hero', HeroViewSet)
+router.register('about', AboutViewSet)
 router.register('badge', BadgeViewSet)
 router.register('facilities', FacilitiesViewSet)
 router.register('banners', BannerViewSet)
