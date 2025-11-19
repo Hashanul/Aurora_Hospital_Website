@@ -5,9 +5,9 @@ from .models import Appointment
 
 @admin.register(Appointment)
 class AppointmentAdmin(admin.ModelAdmin):
-    list_display = ['patient_name', 'department_name', 'doctor_name', 'schedule']
-    list_filter = ['department_name', 'doctor_name', 'schedule']
-    search_fields = ['patient_name', 'department_name', 'doctor_name']
+    list_display = ['patient_name', 'department_name', 'doctor_name', 'date', 'slot']
+    list_filter = ['department_name', 'doctor_name', 'date', 'slot']
+    search_fields = ['patient_name', 'department_name', 'doctor_name', 'date']
 
 
 

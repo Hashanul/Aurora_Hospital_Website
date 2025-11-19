@@ -1,8 +1,9 @@
 from django.db import models
 from django.conf import settings
 from PIL import Image
+from django.core.exceptions import ValidationError
 
- 
+  
 
 class Hero(models.Model):
     title = models.CharField(max_length=255, null=True, blank=True)
@@ -28,6 +29,30 @@ class Hero(models.Model):
 
     def __str__(self):
         return f"Hero Section: {self.title}"
+
+
+
+
+
+def validate_image_file(value):
+    valid_extensions = ['.jpg', '.jpeg', '.png', '.svg']
+    import os
+    ext = os.path.splitext(value.name)[1].lower()
+    if ext not in valid_extensions:
+        raise ValidationError(f'Unsupported file extension. Allowed: {valid_extensions}')
+class HeroBadge(models.Model):
+    title = models.CharField(max_length=255, null=True)
+    image = models.FileField(
+        upload_to='media/HeroBadge',
+        blank=True,
+        null=True,
+        validators=[validate_image_file])
+    url = models.CharField(max_length=255, null=True, blank=True)
+
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
 
 class About_us(models.Model):
     title = models.CharField(max_length=255)
