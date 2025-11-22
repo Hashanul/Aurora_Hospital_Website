@@ -5,72 +5,64 @@ from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
 
-# Import all ViewSets from apps
-from home.views import HeroViewSet, HeroBadgeViewSet, AboutViewSet, BadgeViewSet, FacilitiesViewSet, BannerViewSet, ContactViewSet
-from doctors.views import DoctorViewSet, DepartmentViewSet, ServiceViewSet, ScheduleViewSet, DepartmentGroupViewSet
-from patients.views import PatientViewSet
-from news.views import NewsCategoryViewSet, NewsViewSet
-from appointment.views import AppointmentViewSet
-from package.views import Health_packageViewSet
-from accounts.views import RoleViewSet
-from award.views import AwardViewSet
-
+from home.urls import router as supporter_router
+from doctors.urls import router as supporter_router_doctor
+from patients.urls import router as supporter_router_patients
+from news.urls import router as supporter_router_news
+from appointment.urls import router as supporter_router_appointment
+from package.urls import router as supporter_router_package
+from accounts.urls import router as supporter_router_accounts
+from award.urls import router as supporter_router_award
 
 
 # Create a single central router for all API endpoints
 router = DefaultRouter()
-
-# Home app
-router.register('hero', HeroViewSet)
-router.register('hero_badge', HeroBadgeViewSet)
-router.register('about', AboutViewSet)
-router.register('badge', BadgeViewSet)
-router.register('facilities', FacilitiesViewSet)
-router.register('banners', BannerViewSet)
-router.register('contacts', ContactViewSet)
-
-
-# Doctors app
-router.register('doctors', DoctorViewSet)
-router.register('departments', DepartmentViewSet)
-router.register('department_group', DepartmentGroupViewSet)
-router.register('services', ServiceViewSet)
-router.register('schedules', ScheduleViewSet)
-
-# Patients app
-router.register('patients', PatientViewSet)
-
-# News app
-router.register('news_categories', NewsCategoryViewSet)
-router.register('news', NewsViewSet)
-
-# Appointment app
-router.register('appointments', AppointmentViewSet)
-
-# Package app
-router.register('health_package', Health_packageViewSet)
-
-# Accounts app
-router.register('role', RoleViewSet)
-
-# Award app
-router.register('awards', AwardViewSet)
+router.registry.extend(supporter_router.registry)
+router.registry.extend(supporter_router_doctor.registry)
+router.registry.extend(supporter_router_patients.registry)
+router.registry.extend(supporter_router_news.registry)
+router.registry.extend(supporter_router_appointment.registry)
+router.registry.extend(supporter_router_package.registry)
+router.registry.extend(supporter_router_accounts.registry)
+router.registry.extend(supporter_router_award.registry)
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-#     path('api/', include('home.urls')),
-#     path('api/', include('doctors.urls')),
-#     path('api/', include('patients.urls')),
-#     path('api/', include('news.urls')),
-    # path('api/', include('award.urls')), 
-
-
     path('api/', include(router.urls)),
     path('api/', include('accounts.urls')),
-    
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 
 
 
 
 
+# from django.contrib import admin
+# from django.urls import path, include
+# from django.conf import settings
+# from django.conf.urls.static import static
+# from rest_framework.routers import DefaultRouter
+# from support_a_children.urls import router as supporter_router
+
+# main_router = DefaultRouter()
+# main_router.registry.extend(supporter_router.registry)
+
+# urlpatterns = [
+#     path('admin/', admin.site.urls),
+#     path('api/', include(main_router.urls)),
+#     # Urls for user management APIs
+#     path('api-auth/', include('rest_framework.urls')),
+#     path('auth/', include('djoser.urls')),
+#     path('auth/', include('djoser.urls.jwt')), # JWT based
+#     path('auth/', include('djoser.urls.authtoken')), #AuthToken based
+
+#     # Urls for core APIs
+#     path('api/', include('authentication.urls')),
+#     path('api/', include('child_information.urls')),
+#     path('api/', include('settings.urls')),
+#     path('api/', include('child_info_history.urls')),
+#     path('api/', include('lrp.urls')),
+#     path('api/', include('archive.urls')),
+#     path('api/', include('support_a_children.urls')),
+#     path('api/', include('local_child.urls')),
+# ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # static urls for media files
