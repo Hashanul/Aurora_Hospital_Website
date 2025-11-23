@@ -42,6 +42,37 @@ class UserCreateSerializer(UserSerializer):
         return user
 
 
-class CustomLoginSerializer(serializers.Serializer):
-    username = serializers.CharField()
-    password = serializers.CharField(write_only=True)
+# class CustomLoginSerializer(serializers.Serializer):
+#     username = serializers.CharField()
+#     password = serializers.CharField(write_only=True)
+
+
+# permissions/serializers.py
+from rest_framework import serializers
+from django.contrib.auth.models import Permission
+
+class PermissionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Permission
+        fields = ['id', 'name', 'codename', 'content_type']
+
+from rest_framework import serializers
+from django.contrib.auth.models import User, Permission
+
+class UserPermissionAssignSerializer(serializers.Serializer):
+    user_id = serializers.IntegerField()
+    permission_ids = serializers.ListField(child=serializers.IntegerField())
+
+    def validate_user_id(self, value):
+        if not User.objects.filter(id=value).exists():
+            raise serializers.ValidationError("User not found")
+        return value
+
+    def save(self):
+        user = User.objects.get(id=self.validated_data['user_id'])
+        permissions = Permission.objects.filter(id__in=self.validated_data['permission_ids'])
+        
+        user.user_permissions.set(permissions)  # overwrite
+        # user.user_permissions.add(*permissions)  -> to append instead
+        
+        return user

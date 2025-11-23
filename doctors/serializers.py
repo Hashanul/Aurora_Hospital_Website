@@ -131,7 +131,7 @@ class DepartmentGroupSerializer(serializers.ModelSerializer):
 
     class Meta: 
         model = DepartmentGroup
-        fields = ['id', 'group_name', 'departments', 'department_ids']
+        fields = ['id', 'group_name', 'departments', 'department_ids', 'created_by']
 
     def create(self, validated_data):
         department_ids = validated_data.pop('department_ids', [])
