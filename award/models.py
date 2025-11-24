@@ -1,5 +1,8 @@
 from django.db import models
-from django.conf import settings
+from accounts.models import User
+
+
+
 
 class Award(models.Model):
     title = models.CharField(max_length=255)
@@ -10,7 +13,7 @@ class Award(models.Model):
     tab_image = models.ImageField(upload_to='award/', null=True, blank=True)
     mobile_image = models.ImageField(upload_to='award/', null=True, blank=True)
 
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

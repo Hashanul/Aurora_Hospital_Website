@@ -11,6 +11,6 @@ class NewsCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(News)
 class NewsAdmin(admin.ModelAdmin):
-    list_display = ['title', 'content', 'image', 'category']
+    list_display = ['title', 'richtext', 'category']
     list_filter = ['category']
-    search_fields = ['title', 'content']
+    search_fields = ['title', 'richtext']

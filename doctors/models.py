@@ -1,12 +1,12 @@
 from django.db import models
-from django.conf import settings
 from PIL import Image
+from accounts.models import User
 
 class Department(models.Model):
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField(blank=True, null=True)
-    image = models.ImageField(upload_to='Media/department/', blank=True, null=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True)
+    image = models.ImageField(upload_to='department/', blank=True, null=True)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     
     
     def save(self, *args, **kwargs):
@@ -28,7 +28,7 @@ class Department(models.Model):
 class Schedule(models.Model):
     day = models.CharField(max_length=100)
     time = models.CharField(max_length=100)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         return f"Day: {self.day}, Time: {self.time}"
@@ -38,7 +38,7 @@ class Doctor(models.Model):
     name = models.CharField(max_length=255)
     designation = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    image = models.ImageField(upload_to='Media/doctor/', blank=True, null=True)
+    image = models.FileField(upload_to='doctor/', blank=True, null=True)
 
     # Foreign keys
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True, related_name='doctors')
@@ -47,25 +47,25 @@ class Doctor(models.Model):
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=15)
 
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        if not self.image:
-            return
+    # def save(self, *args, **kwargs):
+    #     super().save(*args, **kwargs)
+    #     if not self.image:
+    #         return
         
-        img = Image.open(self.image.path)
+    #     img = Image.open(self.image.path)
 
-        if img.height > 300 or img.width > 300:
-            output_size = (300,300)
-            img.thumbnail(output_size)
-            img.save(self.image.path)
+    #     if img.height > 300 or img.width > 300:
+    #         output_size = (300,300)
+    #         img.thumbnail(output_size)
+    #         img.save(self.image.path)
 
     def __str__(self):
-        return f"Dr. {self.name} - ({self.department})"
+        return f"Dr. {self.name} - ({self.department if self.department else self.id })"
     
 
 class Service(models.Model):
@@ -74,7 +74,7 @@ class Service(models.Model):
     service_description = models.TextField(blank=True, null=True)
 
     is_active = models.BooleanField(default=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -86,11 +86,11 @@ class DepartmentGroup(models.Model):
     group_name = models.CharField(max_length=250, null=True, blank=True)
     departments = models.ManyToManyField(Department, blank=True, related_name='groups')
     
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
     def __str__(self):
-        return f"{self.group_name} - {self.departments}" 
+        return f"{self.group_name if self.group_name else self.id } - {self.departments if self.departments else self.id }" 
     
 

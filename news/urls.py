@@ -8,7 +8,8 @@ router.register(r'news_categories', NewsCategoryViewSet)
 router.register(r'news', NewsViewSet)
 
 urlpatterns = [
-    path('', include(router.urls))
+    path('', include(router.urls)),
+    path("ckeditor5/", include('django_ckeditor_5.urls')),
 ]
 
 

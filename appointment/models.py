@@ -18,6 +18,6 @@ class Appointment(models.Model):
     slot = models.CharField(max_length=10, choices=SLOT_CHOICES, null=True, blank=True)
 
     def __str__(self):
-        return f"Appointment Information: {self.patient_name} - {self.department_name}"
+        return f"Appointment Information: {self.patient_name} - {self.department_name if self.department_name else self.id }"
 
 

@@ -31,6 +31,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('api/', include('accounts.urls')),
+    path('api/', include('news.urls')),
+    # CKEditor upload endpoints (make available at project root)
+    path('ckeditor5/', include('django_ckeditor_5.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 
 

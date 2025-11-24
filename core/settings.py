@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -51,6 +52,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'djoser',
+    'django_ckeditor_5',
 
 ]
 
@@ -147,10 +149,136 @@ USE_TZ = True
 #settings.py
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-# STATICFILES_DIRS = [BASE_DIR / 'static']
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 # URL used to access the media
 MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+CKEDITOR_5_UPLOAD_PATH = "news/"
+CKEDITOR_5_IMAGE_BACKEND = "pillow"
+CKEDITOR_5_FILE_STORAGE = "core.storage.NewsStorage"
+
+CKEDITOR_5_ALLOW_ALL_FILE_TYPES = True
+CKEDITOR_5_UPLOAD_FILE_TYPES = ["jpeg", "jpg", "png", "gif", "webp", "svg", "avif"]
+CKEDITOR_5_CONFIGS = {
+  'default': {
+      'toolbar': ['heading', '|', 'bold', 'italic', 'link',
+                  'bulletedList', 'numberedList', 'blockQuote', 'imageUpload', 'fileUpload' ],
+      'language': 'de',
+  },
+}
+
+customColorPalette = [
+        {
+            'color': 'hsl(4, 90%, 58%)',
+            'label': 'Red'
+        },
+        {
+            'color': 'hsl(340, 82%, 52%)',
+            'label': 'Pink'
+        },
+        {
+            'color': 'hsl(291, 64%, 42%)',
+            'label': 'Purple'
+        },
+        {
+            'color': 'hsl(262, 52%, 47%)',
+            'label': 'Deep Purple'
+        },
+        {
+            'color': 'hsl(231, 48%, 48%)',
+            'label': 'Indigo'
+        },
+        {
+            'color': 'hsl(207, 90%, 54%)',
+            'label': 'Blue'
+        },
+    ]
+
+
+CKEDITOR_5_CONFIGS = {
+    "default": {
+        "toolbar": {
+            "items": [
+                # Headings
+                "heading", "|",
+
+                # Basic formatting  
+                "bold", "italic", "underline", "strikethrough", "|",
+
+                # Font & Color controls
+                "fontSize", "fontFamily", "fontColor", "fontBackgroundColor", "|",
+
+                # Lists
+                "bulletedList", "numberedList", "todoList", "|",
+
+                # Alignment & Indent
+                "outdent", "indent", "|",
+
+                # Insert elements
+                "link", "blockQuote", "mediaEmbed", "insertTable", "|",
+
+                # Images
+                "imageUpload", "|",
+
+                # Code & Source
+                "code", "codeBlock", "|",
+
+                # Undo/Redo
+                "undo", "redo",
+            ],
+            "shouldNotGroupWhenFull": True,
+        },
+
+        # Image configuration
+        "image": {
+            "toolbar": [
+                "imageTextAlternative",
+                "imageStyle:alignLeft",
+                "imageStyle:alignCenter",
+                "imageStyle:alignRight",
+                "imageStyle:side",
+            ],
+        },
+
+        # Table configuration
+        "table": {
+            "contentToolbar": [
+                "tableColumn",
+                "tableRow",
+                "mergeTableCells",
+                "tableProperties",
+                "tableCellProperties",
+            ]
+        },
+
+        # Headings configuration
+        "heading": {
+            "options": [
+                {"model": "paragraph", "title": "Paragraph", "class": "ck-heading_paragraph"},
+                {"model": "heading1", "view": "h1", "title": "Heading 1"},
+                {"model": "heading2", "view": "h2", "title": "Heading 2"},
+                {"model": "heading3", "view": "h3", "title": "Heading 3"},
+            ]
+        },
+
+        # Enable list properties
+        "list": {
+            "properties": {
+                "styles": True,
+                "startIndex": True,
+                "reversed": True,
+            }
+        },
+
+        # Extension: allow custom file types (optional)
+        "upload": {
+            "types": ["jpeg", "png", "gif", "webp", "avif", "svg"]
+        },
+    }
+}
+
 
 
 # Default primary key field type

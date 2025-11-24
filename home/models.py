@@ -1,19 +1,18 @@
 from django.db import models
-from django.conf import settings
+from accounts.models import User 
 from PIL import Image
 from django.core.exceptions import ValidationError
-
-  
+from accounts.models import User
 
 class Hero(models.Model):
     title = models.CharField(max_length=255, null=True, blank=True)
     sub_title = models.CharField(max_length=255, null=True, blank=True)
-    pc_image = models.ImageField(upload_to='media/hero/', null=True, blank=True)
-    tab_image = models.ImageField(upload_to='media/hero/', null=True, blank=True)
-    mobile_image = models.ImageField(upload_to='media/hero/', null=True, blank=True)
+    pc_image = models.ImageField(upload_to='hero/', null=True, blank=True)
+    tab_image = models.ImageField(upload_to='hero/', null=True, blank=True)
+    mobile_image = models.ImageField(upload_to='hero/', null=True, blank=True)
     is_active = models.BooleanField(default=True)
     
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -28,9 +27,7 @@ class Hero(models.Model):
     #         img.save(self.image.path)
 
     def __str__(self):
-        return f"Hero Section: {self.title}"
-
-
+        return f"Hero Section: {self.title if self.title else self.id}"
 
 
 
@@ -40,18 +37,23 @@ def validate_image_file(value):
     ext = os.path.splitext(value.name)[1].lower()
     if ext not in valid_extensions:
         raise ValidationError(f'Unsupported file extension. Allowed: {valid_extensions}')
+    
 class HeroBadge(models.Model):
-    title = models.CharField(max_length=255, null=True)
+    title = models.CharField(max_length=255, blank=True, null=True)
     image = models.FileField(
-        upload_to='media/HeroBadge',
+        upload_to='HeroBadge/',
         blank=True,
         null=True,
         validators=[validate_image_file])
     url = models.CharField(max_length=255, null=True, blank=True)
 
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title if self.title else self.id
+
 
 
 class About_us(models.Model):
@@ -61,11 +63,14 @@ class About_us(models.Model):
     our_mission_description = models.TextField(blank=True, null=True)
     our_vision_title = models.CharField(max_length=255, blank=True, null=True)
     our_vision_description = models.TextField(blank=True, null=True)
-    image = models.ImageField(upload_to='media/about', blank=True, null=True)
+    image = models.ImageField(upload_to='about/', blank=True, null=True)
 
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.title}"
 
 
 class Badge(models.Model):
@@ -87,10 +92,10 @@ class Facilities(models.Model):
     # Points of facility (store multiple lines separated by comma)
     points = models.TextField(null=True, blank=True, help_text="Write each point separated by a comma")
     
-    image = models.ImageField(upload_to='media/facilities', blank=True, null=True)
+    image = models.ImageField(upload_to='facilities', blank=True, null=True)
     open_hour = models.TextField(null=True, blank=True, help_text="Write hours separated by comma, e.g., Saturday 6:00 am - 10:00 pm, Sunday 6:00 am - 10:00 pm")
 
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -115,12 +120,12 @@ class Facilities(models.Model):
 class Banner(models.Model):
     title = models.CharField(max_length=255)
     sub_title = models.CharField(max_length=255, null=True, blank=True)
-    pc_image = models.ImageField(upload_to='media/banner/', null=True, blank=True)
-    tab_image = models.ImageField(upload_to='media/banner/', null=True, blank=True)
-    mobile_image = models.ImageField(upload_to='media/banner/', null=True, blank=True)
+    pc_image = models.ImageField(upload_to='banner/', null=True, blank=True)
+    tab_image = models.ImageField(upload_to='banner/', null=True, blank=True)
+    mobile_image = models.ImageField(upload_to='banner/', null=True, blank=True)
     is_active = models.BooleanField(default=True)
 
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -140,6 +145,7 @@ class Banner(models.Model):
     def __str__(self):
         return f"Banner Section: {self.title}"
     
+
 class Contact(models.Model):
     name = models.CharField(max_length=255)
     email = models.EmailField()
@@ -151,8 +157,6 @@ class Contact(models.Model):
 
     def __str__(self):
         return f"Contact Information: {self.name} - {self.subject}"
-
-
 
 
 
