@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'package',
     'accounts',
     'award',
+    'contact',
 
     'rest_framework',
     'rest_framework.authtoken',

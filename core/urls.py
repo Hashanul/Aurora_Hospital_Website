@@ -13,6 +13,7 @@ from appointment.urls import router as supporter_router_appointment
 from package.urls import router as supporter_router_package
 from accounts.urls import router as supporter_router_accounts
 from award.urls import router as supporter_router_award
+from contact.urls import router as supporter_router_contact
 
 
 # Create a single central router for all API endpoints
@@ -25,6 +26,7 @@ router.registry.extend(supporter_router_appointment.registry)
 router.registry.extend(supporter_router_package.registry)
 router.registry.extend(supporter_router_accounts.registry)
 router.registry.extend(supporter_router_award.registry)
+router.registry.extend(supporter_router_contact.registry)
 
 
 urlpatterns = [
@@ -32,6 +34,8 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('api/', include('accounts.urls')),
     path('api/', include('news.urls')),
+    path('api/', include('doctors.urls')),
+
     # CKEditor upload endpoints (make available at project root)
     path('ckeditor5/', include('django_ckeditor_5.urls')),
 

@@ -1,25 +1,27 @@
 from django.db import models
 from PIL import Image
 from accounts.models import User
+from home.models import validate_image_file
+from PIL import Image
 
 class Department(models.Model):
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField(blank=True, null=True)
-    image = models.ImageField(upload_to='department/', blank=True, null=True)
+    image = models.FileField(upload_to='department/', blank=True, null=True, validators=[validate_image_file])
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     
     
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        if not self.image:
-            return
+    # def save(self, *args, **kwargs):
+    #     super().save(*args, **kwargs)
+    #     if not self.image:
+    #         return
         
-        img = Image.open(self.image.path)
+    #     img = Image.open(self.image.path)
 
-        if img.height > 80 or img.width > 80:
-            output_size = (300,300)
-            img.thumbnail(output_size)
-            img.save(self.image.path)
+    #     if img.height > 80 or img.width > 80:
+    #         output_size = (300,300)
+    #         img.thumbnail(output_size)
+    #         img.save(self.image.path)
 
     def __str__(self):
         return self.name
@@ -29,6 +31,8 @@ class Schedule(models.Model):
     day = models.CharField(max_length=100)
     time = models.CharField(max_length=100)
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"Day: {self.day}, Time: {self.time}"

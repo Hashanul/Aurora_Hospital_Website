@@ -146,7 +146,7 @@ class Banner(models.Model):
         return f"Banner Section: {self.title}"
     
 
-class Contact(models.Model):
+class ContactHome(models.Model):
     name = models.CharField(max_length=255)
     email = models.EmailField()
     phone = models.CharField(max_length=15)

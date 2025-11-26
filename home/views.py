@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .models import Hero, HeroBadge, About_us, Badge, Facilities, Banner, Contact
-from .serializers import HeroSerializer, HeroBadgeSerializer, AboutSerializer, BadgeSerializer, FacilitiesSerializer, BannerSerializer, ContactSerializer
+from .models import Hero, HeroBadge, About_us, Badge, Facilities, Banner, ContactHome
+from .serializers import HeroSerializer, HeroBadgeSerializer, AboutSerializer, BadgeSerializer, FacilitiesSerializer, BannerSerializer, ContactHomeSerializer
 from accounts.permissions import AdminPermission
 
 
@@ -89,7 +89,7 @@ class BannerViewSet(viewsets.ModelViewSet):
             serializer.save(created_by=None)
 
 
-class ContactViewSet(viewsets.ModelViewSet):
-    queryset = Contact.objects.all()
-    serializer_class = ContactSerializer
+class ContactHomeViewSet(viewsets.ModelViewSet):
+    queryset = ContactHome.objects.all()
+    serializer_class = ContactHomeSerializer
  

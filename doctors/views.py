@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from rest_framework import viewsets
+from rest_framework.generics import ListAPIView, RetrieveUpdateAPIView
 from .models import Doctor, Department, Service, Schedule, DepartmentGroup
 from .serializers import DoctorSerializer, DepartmentSerializer, ServiceSerializer, ScheduleSerializer, DepartmentGroupSerializer
 from accounts.permissions import AdminPermission
@@ -69,18 +70,32 @@ class ScheduleViewSet(viewsets.ModelViewSet):
             serializer.save(created_by=None)
 
 
-class DepartmentGroupViewSet(viewsets.ModelViewSet):
+# class DepartmentGroupViewSet(viewsets.ModelViewSet):
+#     queryset = DepartmentGroup.objects.all()
+#     serializer_class = DepartmentGroupSerializer
+#     permission_classes = [AdminPermission]
+
+
+#     def perform_create(self, serializer):
+#         user = self.request.user
+
+#         if user.is_authenticated:
+#             serializer.save(created_by=user)
+#         else:
+#             serializer.save(created_by=None)
+
+
+
+
+
+class DepartmentGroupListAPIView(ListAPIView):
     queryset = DepartmentGroup.objects.all()
     serializer_class = DepartmentGroupSerializer
     permission_classes = [AdminPermission]
 
 
-    def perform_create(self, serializer):
-        user = self.request.user
 
-        if user.is_authenticated:
-            serializer.save(created_by=user)
-        else:
-            serializer.save(created_by=None)
-
-    
+class DepartmentGroupRetrieveUpdateAPIView(RetrieveUpdateAPIView):
+    queryset = DepartmentGroup.objects.all()
+    serializer_class = DepartmentGroupSerializer
+    permission_classes = [AdminPermission]
