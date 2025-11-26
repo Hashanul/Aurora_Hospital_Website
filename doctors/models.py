@@ -71,11 +71,37 @@ class Doctor(models.Model):
     def __str__(self):
         return f"Dr. {self.name} - ({self.department if self.department else self.id })"
     
+class BestDoctor(models.Model):
+    doctor_name = models.ForeignKey(Doctor, on_delete=models.SET_NULL, blank=True, null=True, related_name='bestdoctor_name_set')
+    best_in_field = models.CharField(max_length=255, null=True, blank=True)
+    doctor_image = models.FileField(upload_to='best_doctors/', blank=True, null=True)
+    doctor_about = models.TextField(blank=True, null=True)
+    doctor_skills = models.TextField( blank=True, null=True,  help_text="Write skills separated by comma")
+    doctor_experiance = models.PositiveIntegerField( blank=True, null=True)
+
+    award_title = models.CharField(max_length=255, blank=True, null=True)
+    award_description = models.TextField(null=True, blank=True)
+    award_image = models.FileField(upload_to='best_doctors_award/', blank=True, null=True)
+
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def get_doctor_skills_list(self):
+        """Return list of doctor skills (split by comma)."""
+        if self.doctor_skills:
+            return [h.strip() for h in self.doctor_skills.split(',')]
+        return []
+    
+    def __str__(self):
+        return f"Best Doctor :{self.doctor_name if self.doctor_name else self.id}"
+    
 
 class Service(models.Model):
     service_title = models.CharField(max_length=255)
     service_category = models.ForeignKey(Department, on_delete=models.SET_NULL, blank=True, null=True)
     service_description = models.TextField(blank=True, null=True)
+    service_image = models.FileField(null=True, blank=True)
 
     is_active = models.BooleanField(default=True)
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)

@@ -43,7 +43,11 @@ class FacilitiesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Facilities
-        fields = ['id','title', 'description', 'image', 'points_list', 'open_hour_list', 'created_by']
+        fields = ['id','title', 'description', 'image', 'points', 'points_list', 'open_hour', 'open_hour_list', 'created_by']
+        extra_kwargs ={
+            'points' : {'write_only': True},
+            'open_hour' : {'write_only': True},
+        }
 
     def get_points_list(self, obj):
         return obj.get_points_list()

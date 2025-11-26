@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.generics import ListAPIView, RetrieveUpdateAPIView
-from .models import Doctor, Department, Service, Schedule, DepartmentGroup
-from .serializers import DoctorSerializer, DepartmentSerializer, ServiceSerializer, ScheduleSerializer, DepartmentGroupSerializer
+from .models import Doctor, BestDoctor, Department, Service, Schedule, DepartmentGroup
+from .serializers import DoctorSerializer, BestDoctorSerializer, DepartmentSerializer, ServiceSerializer, ScheduleSerializer, DepartmentGroupSerializer
 from accounts.permissions import AdminPermission
 
 
@@ -39,6 +39,19 @@ class DoctorViewSet(viewsets.ModelViewSet):
         if department_id:
             queryset = queryset.filter(department_id=department_id)
         return queryset
+    
+class BestDoctorViewSet(viewsets.ModelViewSet):
+    queryset = BestDoctor.objects.all()
+    serializer_class = BestDoctorSerializer
+
+    def perform_create(self, serializer):
+        user = self.request.user
+
+        if user.is_authenticated:
+            serializer.save(created_by=user)
+        else:
+            serializer.save(created_by=None)
+
 
 class ServiceViewSet(viewsets.ModelViewSet):
     queryset = Service.objects.all()

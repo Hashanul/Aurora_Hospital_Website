@@ -1,10 +1,11 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import DoctorViewSet, DepartmentViewSet, ServiceViewSet, ScheduleViewSet, DepartmentGroupListAPIView, DepartmentGroupRetrieveUpdateAPIView
+from .views import DoctorViewSet, BestDoctorViewSet, DepartmentViewSet, ServiceViewSet, ScheduleViewSet, DepartmentGroupListAPIView, DepartmentGroupRetrieveUpdateAPIView
 
 router = DefaultRouter()
 
 router.register('doctors', DoctorViewSet, basename='doctor')
+router.register('best_doctor', BestDoctorViewSet, basename='best_doctor')
 router.register('departments', DepartmentViewSet)
 # router.register('department_group', DepartmentGroupViewSet)
 router.register('services', ServiceViewSet)

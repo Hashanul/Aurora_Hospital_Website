@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Doctor, Department, Schedule, Service, DepartmentGroup
+from .models import Doctor, BestDoctor, Department, Schedule, Service, DepartmentGroup
 
 class DepartmentSerializer(serializers.ModelSerializer):
     created_by = serializers.StringRelatedField(read_only=True)
@@ -109,12 +109,30 @@ class DoctorSerializer(serializers.ModelSerializer):
         return instance
     
 
+class BestDoctorSerializer(serializers.ModelSerializer):
+    created_by = serializers.StringRelatedField(read_only=True)
+
+    doctor_name = serializers.StringRelatedField()
+
+    doctor_skills_list = serializers.SerializerMethodField()
+
+    class Meta:
+        model = BestDoctor
+        fields = ['id', 'doctor_name', 'best_in_field', 'doctor_image', 'doctor_about', 'doctor_skills', 'doctor_skills_list', 'doctor_experiance', 'award_title', 'award_description', 'award_image', 'created_by']
+        extra_kwargs = {
+            'doctor_skills': {'write_only': True}
+        }
+
+    def get_doctor_skills_list(self, obj):
+        return obj.get_doctor_skills_list()
+
+
 class ServiceSerializer(serializers.ModelSerializer):
     created_by = serializers.StringRelatedField(read_only=True)
    
     class Meta:
         model = Service
-        fields = ['id', 'service_title', 'service_category', 'service_description', 'is_active', 'created_by']
+        fields = ['id', 'service_title', 'service_category', 'service_description', 'service_image', 'is_active', 'created_by']
 
 
 class DepartmentGroupSerializer(serializers.ModelSerializer):
