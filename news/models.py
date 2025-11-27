@@ -16,6 +16,7 @@ class NewsCategories(models.Model):
     
 class News(models.Model):
     title = models.CharField(max_length=255)
+    image = models.FileField(upload_to='news_title_image/', null=True, blank=True)
     richtext = CKEditor5Field('Content', config_name='default', blank=True, null=True)
     category = models.ForeignKey(NewsCategories, on_delete=models.SET_NULL, null=True, blank=True, related_name='news')
 

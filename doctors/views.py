@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.generics import ListAPIView, RetrieveUpdateAPIView
-from .models import Doctor, BestDoctor, Department, Service, Schedule, DepartmentGroup
-from .serializers import DoctorSerializer, BestDoctorSerializer, DepartmentSerializer, ServiceSerializer, ScheduleSerializer, DepartmentGroupSerializer
+from django_filters.rest_framework import DjangoFilterBackend
+from .models import Doctor, BestDoctor, Department, Service, ChamberTime, DepartmentGroup
+from .serializers import DoctorSerializer, BestDoctorSerializer, DepartmentSerializer, ServiceSerializer, ChamberTimeSerializer, DepartmentGroupSerializer
 from accounts.permissions import AdminPermission
+from .filters import ChamberTimeFilter
 
 
 
@@ -39,7 +41,27 @@ class DoctorViewSet(viewsets.ModelViewSet):
         if department_id:
             queryset = queryset.filter(department_id=department_id)
         return queryset
+
+
+
+class ChamberTimeViewSet(viewsets.ModelViewSet):
+    queryset = ChamberTime.objects.all()
+    serializer_class = ChamberTimeSerializer
+    permission_classes = [AdminPermission]
+
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = ChamberTimeFilter
+
+    def perform_create(self, serializer):
+        user = self.request.user
+
+        if user.is_authenticated:
+            serializer.save(created_by=user)
+        else:
+            serializer.save(created_by=None)
     
+
+
 class BestDoctorViewSet(viewsets.ModelViewSet):
     queryset = BestDoctor.objects.all()
     serializer_class = BestDoctorSerializer
@@ -67,20 +89,6 @@ class ServiceViewSet(viewsets.ModelViewSet):
         else:
             serializer.save(created_by=None)
             
-
-class ScheduleViewSet(viewsets.ModelViewSet):
-    queryset = Schedule.objects.all()
-    serializer_class = ScheduleSerializer
-    permission_classes = [AdminPermission]
-
-
-    def perform_create(self, serializer):
-        user = self.request.user
-
-        if user.is_authenticated:
-            serializer.save(created_by=user)
-        else:
-            serializer.save(created_by=None)
 
 
 # class DepartmentGroupViewSet(viewsets.ModelViewSet):

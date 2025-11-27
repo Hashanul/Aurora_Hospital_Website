@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import DoctorViewSet, BestDoctorViewSet, DepartmentViewSet, ServiceViewSet, ScheduleViewSet, DepartmentGroupListAPIView, DepartmentGroupRetrieveUpdateAPIView
+from .views import DoctorViewSet, BestDoctorViewSet, DepartmentViewSet, ServiceViewSet, ChamberTimeViewSet, DepartmentGroupListAPIView, DepartmentGroupRetrieveUpdateAPIView
 
 router = DefaultRouter()
 
@@ -9,7 +9,7 @@ router.register('best_doctor', BestDoctorViewSet, basename='best_doctor')
 router.register('departments', DepartmentViewSet)
 # router.register('department_group', DepartmentGroupViewSet)
 router.register('services', ServiceViewSet)
-router.register('schedules', ScheduleViewSet)
+router.register('chamber_time', ChamberTimeViewSet)
 # router.register('department_group', DepartmentGroupListAPIView)
 # router.register('department_group/<int:pk>', DepartmentGroupRetrieveUpdateAPIView)
 

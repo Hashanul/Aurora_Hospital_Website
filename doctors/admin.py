@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Department, Doctor, Service, DepartmentGroup, Schedule
+from .models import Department, Doctor, Service, DepartmentGroup
 
 @admin.register(Department)
 class DepartmentAdmin(admin.ModelAdmin):
@@ -9,9 +9,9 @@ class DepartmentAdmin(admin.ModelAdmin):
 
 @admin.register(Doctor)
 class DoctorAdmin(admin.ModelAdmin):
-    list_display = ['name', 'designation', 'department']
+    list_display = ['drName', 'designation', 'department', 'drCode']
     list_filter = ['designation', 'department']
-    search_fields = ['name', 'designation']
+    search_fields = ['drName', 'designation']
 
 
 @admin.register(Service)
@@ -27,7 +27,7 @@ class DepartmentGroupAdmin(admin.ModelAdmin):
     search_fields = ['group_name']
 
 
-@admin.register(Schedule)
-class ScheduleAdmin(admin.ModelAdmin):
-    list_display = ['day', 'time']
+# @admin.register(Schedule)
+# class ScheduleAdmin(admin.ModelAdmin):
+#     list_display = ['day', 'time']
 

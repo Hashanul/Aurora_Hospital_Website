@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'djoser',
     'django_ckeditor_5',
+    'django_filters',
 
 ]
 
@@ -137,7 +138,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Dhaka'
 
 USE_I18N = True
 

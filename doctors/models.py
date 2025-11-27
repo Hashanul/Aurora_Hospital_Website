@@ -5,50 +5,31 @@ from home.models import validate_image_file
 from PIL import Image
 
 class Department(models.Model):
-    name = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=200, unique=True)
     description = models.TextField(blank=True, null=True)
     image = models.FileField(upload_to='department/', blank=True, null=True, validators=[validate_image_file])
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
-    
-    
-    # def save(self, *args, **kwargs):
-    #     super().save(*args, **kwargs)
-    #     if not self.image:
-    #         return
-        
-    #     img = Image.open(self.image.path)
 
-    #     if img.height > 80 or img.width > 80:
-    #         output_size = (300,300)
-    #         img.thumbnail(output_size)
-    #         img.save(self.image.path)
+    @property
+    def total_doctors(self):
+        return self.doctors.count()   # related_name='doctors'
 
     def __str__(self):
         return self.name
 
 
-class Schedule(models.Model):
-    day = models.CharField(max_length=100)
-    time = models.CharField(max_length=100)
-    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return f"Day: {self.day}, Time: {self.time}"
-
 
 class Doctor(models.Model):
-    name = models.CharField(max_length=255)
+    drName = models.CharField(max_length=255)
     designation = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     image = models.FileField(upload_to='doctor/', blank=True, null=True)
+    drCode = models.CharField(max_length=20, null=True, blank=True)
 
     # Foreign keys
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True, related_name='doctors')
-    schedule = models.ForeignKey(Schedule, on_delete=models.SET_NULL, null=True, blank=True, related_name='doctors')
     
-    email = models.EmailField(unique=True)
+    email = models.EmailField(unique=True, null=True, blank=True)
     phone = models.CharField(max_length=15)
 
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
@@ -60,17 +41,32 @@ class Doctor(models.Model):
     #     super().save(*args, **kwargs)
     #     if not self.image:
     #         return
-        
     #     img = Image.open(self.image.path)
-
     #     if img.height > 300 or img.width > 300:
     #         output_size = (300,300)
     #         img.thumbnail(output_size)
     #         img.save(self.image.path)
 
     def __str__(self):
-        return f"Dr. {self.name} - ({self.department if self.department else self.id })"
-    
+        return f"Dr. {self.drName} - ({self.department if self.department else self.id })"
+
+
+class ChamberTime(models.Model):
+    drCode = models.ForeignKey(Doctor, on_delete=models.SET_NULL, blank=True, null=True)
+    dayName = models.CharField(max_length=100)
+    visitType = models.CharField(max_length=100)
+    startTime = models.CharField(max_length=100)
+    finishTime = models.CharField(max_length=100)
+
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Doctor: {self.drCode.drName}, Day Name: {self.dayName}"
+
+
+
 class BestDoctor(models.Model):
     doctor_name = models.ForeignKey(Doctor, on_delete=models.SET_NULL, blank=True, null=True, related_name='bestdoctor_name_set')
     best_in_field = models.CharField(max_length=255, null=True, blank=True)

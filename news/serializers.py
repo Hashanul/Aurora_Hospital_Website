@@ -25,8 +25,8 @@ class NewsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = News
-        fields = ['id', 'title', 'richtext', 'created_by',
-                'category', 'category_id', 'category_name', 'category_description' ]
+        fields = ['id', 'title', 'richtext', 'image', 'created_by',
+                'category', 'category_id', 'category_name', 'category_description', 'created_at' ]
 
 
     def create(self, validated_data):

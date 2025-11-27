@@ -1,19 +1,14 @@
 from rest_framework import serializers
-from .models import Doctor, BestDoctor, Department, Schedule, Service, DepartmentGroup
+from .models import Doctor, BestDoctor, Department, ChamberTime, Service, DepartmentGroup
 
 class DepartmentSerializer(serializers.ModelSerializer):
+    total_doctors = serializers.IntegerField(read_only=True)
     created_by = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = Department
         fields = '__all__'
 
-class ScheduleSerializer(serializers.ModelSerializer):
-    created_by = serializers.StringRelatedField(read_only=True)
-
-    class Meta:
-        model = Schedule
-        fields = '__all__'
 
 
 class DoctorSerializer(serializers.ModelSerializer):
@@ -30,30 +25,26 @@ class DoctorSerializer(serializers.ModelSerializer):
         allow_null=True
     )
 
-    schedule_day = serializers.CharField(write_only=True, required=False, allow_blank=True)
-    schedule_time = serializers.CharField(write_only=True, required=False, allow_blank=True)
-    schedule = serializers.StringRelatedField(read_only=True)
-    schedule_id = serializers.PrimaryKeyRelatedField(
-        queryset=Schedule.objects.all(), 
-        source='schedule', 
-        write_only=True, 
-        required=False, 
-        allow_null=True
-    )
+    # chamber_time = serializers.StringRelatedField(read_only=True)
+    # chamber_time_id = serializers.PrimaryKeyRelatedField(
+    #     queryset=ChamberTime.objects.all(), 
+    #     source='chamber_time', 
+    #     write_only=True, 
+    #     required=False, 
+    #     allow_null=True
+    # )
     class Meta:
         model = Doctor
         fields = [
-            'id', 'name', 'email', 'phone', 'designation', 'description',
+            'id', 'drName', 'email', 'phone', 'designation', 'description', 'drCode',
               'image', 'department_id','department', 'department_name', 'department_description',
-            'schedule_id', 'schedule', 'schedule_day', 'schedule_time', 'created_by', 'created_at', 'updated_at'
+             'created_by', 'created_at', 'updated_at'
         ]
 
     def create(self, validated_data):
         # Extract and remove department_name so it doesn't go to Doctor.objects.create
         department_name = validated_data.pop('department_name', None)
         department_description = validated_data.pop('department_description', None)
-        schedule_day = validated_data.pop('schedule_day', None)
-        schedule_time = validated_data.pop('schedule_time', None)
 
         if department_name:
             # Get or create department
@@ -63,13 +54,6 @@ class DoctorSerializer(serializers.ModelSerializer):
                 department.save()
             validated_data['department'] = department
 
-        if schedule_day:
-            schedule, created = Schedule.objects.get_or_create(day=schedule_day)
-            if schedule_time and schedule_day:
-                schedule.time = schedule_time
-                schedule.save()
-            validated_data['schedule'] = schedule
-
         # Now safe to create Doctor without extra fields
         doctor = Doctor.objects.create(**validated_data)
         return doctor
@@ -78,8 +62,6 @@ class DoctorSerializer(serializers.ModelSerializer):
         # Extract custom fields
         department_name = validated_data.pop('department_name', None)
         department_description = validated_data.pop('department_description', None)
-        schedule_day = validated_data.pop('schedule_day', None)
-        schedule_time = validated_data.pop('schedule_time', None)
 
         # Update Department
         if department_name:
@@ -90,23 +72,30 @@ class DoctorSerializer(serializers.ModelSerializer):
             instance.department = department
         elif 'department_id' in validated_data:
             instance.department = validated_data.pop('department_id')
-
-        # Update Schedule
-        if schedule_day:
-            schedule, created = Schedule.objects.get_or_create(day=schedule_day)
-            if schedule_time:
-                schedule.time = schedule_time
-                schedule.save()
-            instance.schedule = schedule
-        elif 'schedule_id' in validated_data:
-            instance.schedule = validated_data.pop('schedule_id')
-
-        # Update other fields
+        
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
 
         instance.save()
         return instance
+    
+class ChamberTimeSerializer(serializers.ModelSerializer):
+    created_by = serializers.StringRelatedField(read_only=True)
+
+    drCode = serializers.CharField(source='drCode.drCode', read_only=True)  
+    drName = serializers.CharField(source='drCode.drName', read_only=True)  
+    drCode_id = serializers.PrimaryKeyRelatedField(
+        queryset=Doctor.objects.all(),
+        source='drCode',
+        write_only=True
+    )
+
+    class Meta:
+        model = ChamberTime
+        fields = [
+            'id','drCode_id','drCode', 'drName','dayName','visitType',
+            'startTime','finishTime','created_by','created_at','updated_at'
+        ]
     
 
 class BestDoctorSerializer(serializers.ModelSerializer):
