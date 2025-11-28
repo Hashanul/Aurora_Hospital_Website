@@ -35,7 +35,7 @@ class MenuContent(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.to:
-            self.to = "/" + slugify(self.title)
+            self.to = "departments/" + slugify(self.title)
         super().save(*args, **kwargs)
 
     def __str__(self):

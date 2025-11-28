@@ -1,6 +1,14 @@
 from django.contrib import admin
-from .models import Hero, Badge, Facilities, Banner, ContactHome
+from .models import Hero, Badge, Facilities, Banner, ContactHome, MenuItem, MenuContent
 
+
+@admin.register(MenuItem)
+class MenuItemAdmin(admin.ModelAdmin):
+    list_display = ['id', 'title', 'to', 'classChange']
+
+@admin.register(MenuContent)
+class MenuContentAdmin(admin.ModelAdmin):
+    list_display = ['id', 'title', 'to']
 
 @admin.register(Hero)
 class HeroAdmin(admin.ModelAdmin):

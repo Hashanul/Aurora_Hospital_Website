@@ -8,7 +8,6 @@ from accounts.permissions import AdminPermission
 from .filters import ChamberTimeFilter
 
 
-
 class DepartmentViewSet(viewsets.ModelViewSet):
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
@@ -37,11 +36,21 @@ class DoctorViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = super().get_queryset()
+
+        department_name = self.request.query_params.get('department_name')
+        if department_name:
+            queryset = queryset.filter(department__slug=department_name)
+
         department_id = self.request.query_params.get('department_id')
         if department_id:
             queryset = queryset.filter(department_id=department_id)
-        return queryset
 
+
+        doctor_name = self.request.query_params.get('doctor_name')
+        if doctor_name:
+            queryset = queryset.filter(drName__icontains=doctor_name)
+
+        return queryset
 
 
 class ChamberTimeViewSet(viewsets.ModelViewSet):
@@ -59,7 +68,6 @@ class ChamberTimeViewSet(viewsets.ModelViewSet):
             serializer.save(created_by=user)
         else:
             serializer.save(created_by=None)
-    
 
 
 class BestDoctorViewSet(viewsets.ModelViewSet):
@@ -80,7 +88,6 @@ class ServiceViewSet(viewsets.ModelViewSet):
     serializer_class = ServiceSerializer
     permission_classes = [AdminPermission]
 
-
     def perform_create(self, serializer):
         user = self.request.user
 
@@ -88,7 +95,6 @@ class ServiceViewSet(viewsets.ModelViewSet):
             serializer.save(created_by=user)
         else:
             serializer.save(created_by=None)
-            
 
 
 # class DepartmentGroupViewSet(viewsets.ModelViewSet):
@@ -106,14 +112,10 @@ class ServiceViewSet(viewsets.ModelViewSet):
 #             serializer.save(created_by=None)
 
 
-
-
-
 class DepartmentGroupListAPIView(ListAPIView):
     queryset = DepartmentGroup.objects.all()
     serializer_class = DepartmentGroupSerializer
     permission_classes = [AdminPermission]
-
 
 
 class DepartmentGroupRetrieveUpdateAPIView(RetrieveUpdateAPIView):
