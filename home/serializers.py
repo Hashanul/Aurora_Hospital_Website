@@ -1,6 +1,26 @@
 from rest_framework import serializers
-from .models import Hero, HeroBadge, About_us, Badge, Facilities, Banner, ContactHome
+from .models import Hero, HeroBadge, About_us, Badge, Facilities, Banner, ContactHome, MenuItem, MenuContent
 
+from .models import MenuItem, MenuContent
+
+
+class MenuContentSerializer(serializers.ModelSerializer):
+    # menu = serializers.StringRelatedField()
+    class Meta:
+        model = MenuContent
+        fields = ["id", "menu", "title", "to"]
+        extra_kwargs ={
+            'menu' : {'write_only': True},
+        }
+
+
+
+class MenuItemSerializer(serializers.ModelSerializer):
+    content = MenuContentSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = MenuItem
+        fields = ["id", "title", "to", "classChange", "content"]
 
 
 class HeroSerializer(serializers.ModelSerializer):

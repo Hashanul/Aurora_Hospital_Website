@@ -4,6 +4,46 @@ from PIL import Image
 from django.core.exceptions import ValidationError
 from accounts.models import User
 
+from django.utils.text import slugify
+
+
+class MenuItem(models.Model):
+    title = models.CharField(max_length=255)
+    to = models.CharField(max_length=255, blank=True, null=True)
+    classChange = models.CharField(max_length=100, blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        if not self.to:
+            self.to = "/" + slugify(self.title)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
+
+
+class MenuContent(models.Model):
+    menu = models.ForeignKey(
+        MenuItem,
+        related_name="content",
+        on_delete=models.CASCADE
+    )
+
+    # these appear INSIDE content[] array
+    title = models.CharField(max_length=255)
+    to = models.CharField(max_length=255, blank=True, null=True)
+
+
+    def save(self, *args, **kwargs):
+        if not self.to:
+            self.to = "/" + slugify(self.title)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Content: {self.title} → Menu:{self.menu.title}"
+
+
+
+
 class Hero(models.Model):
     title = models.CharField(max_length=255, null=True, blank=True)
     sub_title = models.CharField(max_length=255, null=True, blank=True)

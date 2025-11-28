@@ -3,6 +3,20 @@ from rest_framework import viewsets
 from .models import Hero, HeroBadge, About_us, Badge, Facilities, Banner, ContactHome
 from .serializers import HeroSerializer, HeroBadgeSerializer, AboutSerializer, BadgeSerializer, FacilitiesSerializer, BannerSerializer, ContactHomeSerializer
 from accounts.permissions import AdminPermission
+# from .serializers import MenuSerializer
+
+
+from .models import MenuItem,MenuContent
+from .serializers import MenuItemSerializer, MenuContentSerializer
+
+class MenuItemViewSet(viewsets.ModelViewSet):
+    queryset = MenuItem.objects.all()
+    serializer_class = MenuItemSerializer
+
+
+class MenuContentViewSet(viewsets.ModelViewSet):
+    queryset = MenuContent.objects.all()
+    serializer_class = MenuContentSerializer
 
 
 class HeroViewSet(viewsets.ModelViewSet):
