@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 import os
 from pathlib import Path
+from datetime import timedelta
+
+ENVIRONMENT = os.environ.get('DJANGO_ENVIRONMENT', 'development')
+IS_PRODUCTION = ENVIRONMENT == 'production'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,8 +30,36 @@ SECRET_KEY = 'django-insecure-27_+riy-8*v7454h%2z59q$ec&8%i5dl2ur-pnxjfk2+!&=(-+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+if IS_PRODUCTION:
+    ALLOWED_HOSTS = ['*',]
+    # SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    # SESSION_COOKIE_SECURE = True
+    # CSRF_COOKIE_SECURE = True
+    # SECURE_SSL_REDIRECT = True
+    SECURE_PROXY_SSL_HEADER = None
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+    SECURE_SSL_REDIRECT = False
+else:
+    ALLOWED_HOSTS = ['*',]
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+    SECURE_SSL_REDIRECT = False
 
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+SITE_ID = 1
+
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000",           # For local development
+    "http://192.168.0.15:3000",        # For frontend running from another PC using your backend IP
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://192.168.0.15:3000",
+]
 
 # Application definition
 
@@ -79,16 +111,18 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-
     ),
 }
 
-
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=7),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=15),
+}
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -152,10 +186,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+STATICFILES_DIRS = [BASE_DIR / 'static']
 
 # URL used to access the media
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = BASE_DIR / 'media'
 
 CKEDITOR_5_UPLOAD_PATH = "news/"
 CKEDITOR_5_IMAGE_BACKEND = "pillow"
@@ -289,25 +324,15 @@ CKEDITOR_5_CONFIGS = {
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# CORS_ALLOW_ALL_ORIGINS = True
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = True
-SITE_ID = 1
-
-CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:3000",           # For local development
-    "http://192.168.88.174:3000",        # For frontend running from another PC using your backend IP
-]
-
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://192.168.88.174:3000",
-]
-
 
 # DJOSER CONFIGURATION
+DOMAIN = ''
+SITE_NAME = ''
+FRONTEND_URL=''
+
 
 DJOSER = {
+    "DOMAIN": DOMAIN,
     "USER_ID_FIELD": "id",
     "LOGIN_FIELD": "username",
     "SERIALIZERS": {
@@ -315,8 +340,4 @@ DJOSER = {
         "user": "accounts.serializers.UserSerializer",
     }
 }
-
-# SIMPLE_JWT = {
-#     "AUTH_HEADER_TYPES": ("JWT",),
-# }
 
