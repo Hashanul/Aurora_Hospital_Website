@@ -21,3 +21,10 @@ class Health_package(models.Model):
     def __str__(self):
         return f"Health Package: {self.title} - {self.gender}"
   
+
+class Health_Service(models.Model):
+    title = models.CharField(max_length=255)
+    image = models.FileField(upload_to="health_service/", null=True, blank=True)
+
+    def __str__(self):
+        return f"Health_Service :{self.title}"

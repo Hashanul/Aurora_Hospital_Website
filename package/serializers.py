@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Health_package
+from .models import Health_package, Health_Service
 
 
 class Health_packageSerializer(serializers.ModelSerializer):
@@ -9,4 +9,8 @@ class Health_packageSerializer(serializers.ModelSerializer):
         model = Health_package
         fields = '__all__'
 
-        
+class Health_ServiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Health_Service
+        fields = '__all__'
+
