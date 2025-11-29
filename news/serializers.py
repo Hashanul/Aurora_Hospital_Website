@@ -1,5 +1,15 @@
 from rest_framework import serializers
-from .models import NewsCategories, News
+from .models import NewsCategories, News, NewsHero
+
+
+
+class NewsHeroSerializer(serializers.ModelSerializer):
+    created_by = serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        model = NewsHero
+        fields = '__all__'
+
 
 class NewsCategoriesSerializer(serializers.ModelSerializer):
     created_by = serializers.StringRelatedField(read_only=True)

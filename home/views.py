@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .models import Hero, HeroBadge, About_us, Badge, Facilities, Banner, ContactHome
+from .models import Hero, HeroBadge, About, Badge, Facilities, Banner, ContactHome
 from .serializers import HeroSerializer, HeroBadgeSerializer, AboutSerializer, BadgeSerializer, FacilitiesSerializer, BannerSerializer, ContactHomeSerializer
 from accounts.permissions import AdminPermission
 # from .serializers import MenuSerializer
@@ -48,7 +48,7 @@ class HeroBadgeViewSet(viewsets.ModelViewSet):
 
 
 class AboutViewSet(viewsets.ModelViewSet):
-    queryset = About_us.objects.all()
+    queryset = About.objects.all()
     serializer_class = AboutSerializer
     permission_classes = [AdminPermission]
 

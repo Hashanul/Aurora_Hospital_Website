@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Hero, HeroBadge, About_us, Badge, Facilities, Banner, ContactHome, MenuItem, MenuContent
+from .models import Hero, HeroBadge, About, Badge, Facilities, Banner, ContactHome, MenuItem, MenuContent
 
 from .models import MenuItem, MenuContent
 
@@ -44,7 +44,7 @@ class AboutSerializer(serializers.ModelSerializer):
     created_by = serializers.StringRelatedField(read_only=True)
     
     class Meta:
-        model = About_us
+        model = About
         fields = '__all__'
 
 class BadgeSerializer(serializers.ModelSerializer):

@@ -1,5 +1,14 @@
 from rest_framework import serializers
-from .models import ContactPage, ContactUs
+from .models import ContactPage, ContactUs, Contact_data, ContactBanner
+
+
+class ContactBannerSerializer(serializers.ModelSerializer):
+    created_by = serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        model =ContactBanner
+        fields = "__all__"
+
 
 
 class ContactPageSerializer(serializers.ModelSerializer):
@@ -35,4 +44,10 @@ class ContactUsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ContactUs
+        fields = '__all__'
+
+
+class Contact_dataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contact_data
         fields = '__all__'

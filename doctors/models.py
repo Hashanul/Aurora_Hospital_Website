@@ -4,7 +4,7 @@ from accounts.models import User
 from home.models import validate_image_file
 from django.utils.text import slugify
 from PIL import Image
-
+ 
 
 class Department(models.Model):
     name = models.CharField(max_length=200, unique=True)

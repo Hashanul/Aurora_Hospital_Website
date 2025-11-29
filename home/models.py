@@ -22,25 +22,36 @@ class MenuItem(models.Model):
 
 
 class MenuContent(models.Model):
+    # TYPE_CHOICE = [
+    #     ('department', 'department'),
+    #     ('doctor', 'doctor'),
+    #     ('service', 'service'),
+    #     ('about_us', 'about_us'),
+    #     ('news', 'News'),
+    #     ('Visitors_Patient', 'visitors_patient'),
+    # ]
+
     menu = models.ForeignKey(
         MenuItem,
         related_name="content",
         on_delete=models.CASCADE
-    )
+    ) 
 
     # these appear INSIDE content[] array
     title = models.CharField(max_length=255)
     to = models.CharField(max_length=255, blank=True, null=True)
+    # type = models.CharField(max_length=255, choices=TYPE_CHOICE, null=True, blank=True)
 
 
     def save(self, *args, **kwargs):
         if not self.to:
-            self.to = "departments/" + slugify(self.title)
+            # Example output: "Main-Menu/about-us"
+            self.to = f"{slugify(self.menu.title)}/{slugify(self.title)}"
         super().save(*args, **kwargs)
+
 
     def __str__(self):
         return f"Content: {self.title} → Menu:{self.menu.title}"
-
 
 
 
@@ -96,7 +107,7 @@ class HeroBadge(models.Model):
 
 
 
-class About_us(models.Model):
+class About(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField(null=True, blank=True)
     our_mission_title = models.CharField(max_length=255, blank=True, null=True)

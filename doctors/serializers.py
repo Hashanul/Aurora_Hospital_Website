@@ -87,7 +87,7 @@ class ChamberTimeSerializer(serializers.ModelSerializer):
     drCode_id = serializers.PrimaryKeyRelatedField(
         queryset=Doctor.objects.all(),
         source='drCode',
-        write_only=True
+        write_only=True 
     )
 
     class Meta:

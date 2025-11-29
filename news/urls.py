@@ -1,9 +1,10 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import NewsCategoryViewSet, NewsViewSet
+from .views import NewsCategoryViewSet, NewsViewSet, NewsHeroViewSet
 
 router = DefaultRouter()
 
+router.register(r'news_hero', NewsHeroViewSet)
 router.register(r'news_categories', NewsCategoryViewSet)
 router.register(r'news', NewsViewSet)
 

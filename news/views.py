@@ -1,9 +1,27 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .models import NewsCategories, News
-from .serializers import NewsCategoriesSerializer, NewsSerializer
+from .models import NewsCategories, News, NewsHero
+from .serializers import NewsCategoriesSerializer, NewsSerializer, NewsHeroSerializer
 from accounts.permissions import AdminPermission
 
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter
+
+
+
+class NewsHeroViewSet(viewsets.ModelViewSet):
+    queryset = NewsHero.objects.all()
+    serializer_class = NewsHeroSerializer
+    permission_classes = [AdminPermission]
+
+    def perform_create(self, serializer):
+        user = self.request.user
+
+        if user.is_authenticated:
+            serializer.save(created_by=user)
+        else:
+            serializer.save(created_by=None)
+            
 class NewsCategoryViewSet(viewsets.ModelViewSet):
     queryset = NewsCategories.objects.all()
     serializer_class = NewsCategoriesSerializer
@@ -23,6 +41,16 @@ class NewsViewSet(viewsets.ModelViewSet):
     serializer_class = NewsSerializer
     permission_classes = [AdminPermission]
 
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+
+    # Filter by related model field
+    filterset_fields = {
+        'category__name': ['exact', 'icontains'], 
+    }
+
+    # Search in title, richtext
+    search_fields = ['title', 'richtext', 'category__name']
+
     
     def perform_create(self, serializer):
         user = self.request.user
@@ -31,3 +59,4 @@ class NewsViewSet(viewsets.ModelViewSet):
             serializer.save(created_by=user)
         else:
             serializer.save(created_by=None)
+
