@@ -1,6 +1,6 @@
 from django.db import models
 from accounts.models import User
-
+from django_ckeditor_5.fields import CKEditor5Field
 
 
 
@@ -9,8 +9,24 @@ class RoomRent(models.Model):
     bed_name = models.CharField(max_length=200)
     charges = models.DecimalField(max_digits=10, decimal_places=2)
 
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     def __str__(self):
         return self.bed_name
+
+
+class Equipment(models.Model):
+    title = models.CharField(max_length=255)
+    richtext = CKEditor5Field( blank=True, null=True)
+
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return self.title
 
 
 class FeedbackBanner(models.Model):
@@ -53,5 +69,10 @@ class Feedback(models.Model):
     FoodQuality = models.CharField(max_length=50, choices=CHOICES, null=True, blank=True)
     comments = models.TextField(null=True, blank=True)
 
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return f"Feedback : {self.patient_name}"
 

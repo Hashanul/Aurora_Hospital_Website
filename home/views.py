@@ -4,10 +4,22 @@ from .models import Hero, HeroBadge, About, Badge, Facilities, Banner, ContactHo
 from .serializers import HeroSerializer, HeroBadgeSerializer, AboutSerializer, BadgeSerializer, FacilitiesSerializer, BannerSerializer, ContactHomeSerializer
 from accounts.permissions import AdminPermission
 # from .serializers import MenuSerializer
+from .models import MenuItem,MenuContent, PopUp
+from .serializers import MenuItemSerializer, MenuContentSerializer, PopUpSerializer
 
+class PopUpViewSet(viewsets.ModelViewSet):
+    queryset = PopUp.objects.all()
+    serializer_class = PopUpSerializer
+    permission_classes = [AdminPermission]
 
-from .models import MenuItem,MenuContent
-from .serializers import MenuItemSerializer, MenuContentSerializer
+    def perform_create(self, serializer):
+        user = self.request.user
+
+        if user.is_authenticated:
+            serializer.save(created_by=user)
+        else:
+            serializer.save(created_by=None)
+
 
 class MenuItemViewSet(viewsets.ModelViewSet):
     queryset = MenuItem.objects.all()

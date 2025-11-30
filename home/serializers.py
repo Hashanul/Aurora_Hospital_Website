@@ -1,8 +1,16 @@
 from rest_framework import serializers
-from .models import Hero, HeroBadge, About, Badge, Facilities, Banner, ContactHome, MenuItem, MenuContent
+from .models import Hero, HeroBadge, About, Badge, Facilities, Banner, ContactHome, MenuItem, MenuContent, PopUp
 
 from .models import MenuItem, MenuContent
 
+
+
+class PopUpSerializer(serializers.ModelSerializer):
+    created_by = serializers.StringRelatedField(read_only=True)
+    
+    class Meta:
+        model = PopUp
+        fields = '__all__'
 
 class MenuContentSerializer(serializers.ModelSerializer):
     # menu = serializers.StringRelatedField()
@@ -12,7 +20,6 @@ class MenuContentSerializer(serializers.ModelSerializer):
         extra_kwargs ={
             'menu' : {'write_only': True},
         }
-
 
 
 class MenuItemSerializer(serializers.ModelSerializer):

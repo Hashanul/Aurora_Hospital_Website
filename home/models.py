@@ -7,6 +7,18 @@ from accounts.models import User
 from django.utils.text import slugify
 
 
+class PopUp(models.Model):
+    title = models.CharField(max_length=255)
+    image = models.FileField(upload_to='popup_image/', blank=True, null=True)
+
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True) 
+
+    def __str__(self):
+        return self.title
+
+
 class MenuItem(models.Model):
     title = models.CharField(max_length=255)
     to = models.CharField(max_length=255, blank=True, null=True)
