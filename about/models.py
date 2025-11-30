@@ -14,7 +14,7 @@ class AboutBanner(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"News Hero : {self.title}"
+        return f"About Banner : {self.title}"
 
 
 class BOD(models.Model):

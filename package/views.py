@@ -1,9 +1,21 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .models import Health_package, Health_Service
-from .serializers import Health_packageSerializer, Health_ServiceSerializer
+from .models import Health_package, Health_Service, PackageBanner
+from .serializers import Health_packageSerializer, Health_ServiceSerializer, PackageBannerSerializer
 from accounts.permissions import AdminPermission
 
+
+class PackageBannerViewSet(viewsets.ModelViewSet):
+    queryset = PackageBanner.objects.all()
+    serializer_class = PackageBannerSerializer
+
+    def perform_create(self, serializer):
+        user = self.request.user
+
+        if user.is_authenticated:
+            serializer.save(created_by=user)
+        else:
+            serializer.save(created_by=None)
 
 class Health_packageViewSet(viewsets.ModelViewSet):
     queryset = Health_package.objects.all()

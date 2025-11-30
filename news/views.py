@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .models import NewsCategories, News, NewsHero
-from .serializers import NewsCategoriesSerializer, NewsSerializer, NewsHeroSerializer
+from .models import NewsCategories, News, NewsBanner
+from .serializers import NewsCategoriesSerializer, NewsSerializer, NewsBannerSerializer
 from accounts.permissions import AdminPermission
 
 from django_filters.rest_framework import DjangoFilterBackend
@@ -9,9 +9,9 @@ from rest_framework.filters import SearchFilter
 
 
 
-class NewsHeroViewSet(viewsets.ModelViewSet):
-    queryset = NewsHero.objects.all()
-    serializer_class = NewsHeroSerializer
+class NewsBannerViewSet(viewsets.ModelViewSet):
+    queryset = NewsBanner.objects.all()
+    serializer_class = NewsBannerSerializer
     permission_classes = [AdminPermission]
 
     def perform_create(self, serializer):

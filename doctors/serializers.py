@@ -1,5 +1,22 @@
 from rest_framework import serializers
-from .models import Doctor, BestDoctor, Department, ChamberTime, Service, DepartmentGroup
+from .models import Doctor, BestDoctor, Department, ChamberTime, Service, DepartmentGroup, DoctorBanner, DepartmentBanner
+
+
+class DepartmentBannerSerializer(serializers.ModelSerializer):
+    created_by = serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        model = DepartmentBanner
+        fields = '__all__'
+
+
+class DoctorBannerSerializer(serializers.ModelSerializer):
+    created_by = serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        model = DoctorBanner
+        fields = '__all__'
+
 
 class DepartmentSerializer(serializers.ModelSerializer):
     total_doctors = serializers.IntegerField(read_only=True)
@@ -8,7 +25,6 @@ class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Department
         fields = '__all__'
-
 
 
 class DoctorSerializer(serializers.ModelSerializer):

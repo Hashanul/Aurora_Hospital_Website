@@ -46,7 +46,7 @@ class MenuContent(models.Model):
     def save(self, *args, **kwargs):
         if not self.to:
             # Example output: "Main-Menu/about-us"
-            self.to = f"{slugify(self.menu.title)}/{slugify(self.title)}"
+            self.to = f"/{slugify(self.menu.title)}/{slugify(self.title)}"
         super().save(*args, **kwargs)
 
 

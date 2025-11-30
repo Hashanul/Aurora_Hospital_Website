@@ -15,6 +15,7 @@ from accounts.urls import router as supporter_router_accounts
 from award.urls import router as supporter_router_award
 from contact.urls import router as supporter_router_contact
 from about.urls import router as supporter_router_about
+from visitors.urls import router as supporter_router_visitors
 
 
 # Create a single central router for all API endpoints
@@ -29,6 +30,7 @@ router.registry.extend(supporter_router_accounts.registry)
 router.registry.extend(supporter_router_award.registry)
 router.registry.extend(supporter_router_contact.registry)
 router.registry.extend(supporter_router_about.registry)
+router.registry.extend(supporter_router_visitors.registry)
 
 
 urlpatterns = [

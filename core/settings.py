@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     'award',
     'contact',
     'about',
+    'visitors',
 
     'rest_framework',
     'rest_framework.authtoken',

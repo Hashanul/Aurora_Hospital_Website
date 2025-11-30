@@ -4,15 +4,15 @@ from PIL import Image
 from django_ckeditor_5.fields import CKEditor5Field
 
 
-class NewsHero(models.Model):
+class NewsBanner(models.Model):
     title = models.CharField(max_length=255, null=True, blank=True)
-    image = models.FileField(upload_to='newsHero/', blank=True, null=True)
+    image = models.FileField(upload_to='news_banner/', blank=True, null=True)
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"News Hero : {self.title}"
+        return f"News Banner : {self.title}"
 
 class NewsCategories(models.Model):
     name = models.CharField(max_length=255, unique=True)

@@ -2,10 +2,38 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.generics import ListAPIView, RetrieveUpdateAPIView
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import Doctor, BestDoctor, Department, Service, ChamberTime, DepartmentGroup
-from .serializers import DoctorSerializer, BestDoctorSerializer, DepartmentSerializer, ServiceSerializer, ChamberTimeSerializer, DepartmentGroupSerializer
+from .models import Doctor, BestDoctor, Department, Service, ChamberTime, DepartmentGroup, DepartmentBanner, DoctorBanner
+from .serializers import DoctorSerializer, BestDoctorSerializer, DepartmentSerializer, ServiceSerializer, ChamberTimeSerializer, DepartmentGroupSerializer, DepartmentBannerSerializer, DoctorBannerSerializer
 from accounts.permissions import AdminPermission
 from .filters import ChamberTimeFilter
+
+
+class DoctorBannerViewSet(viewsets.ModelViewSet):
+    queryset = DoctorBanner.objects.all()
+    serializer_class = DoctorBannerSerializer
+    permission_classes = [AdminPermission]
+
+    def perform_create(self, serializer):
+        user = self.request.user
+
+        if user.is_authenticated:
+            serializer.save(created_by=user)
+        else:
+            serializer.save(created_by=None)
+
+
+class DepartmentBannerViewSet(viewsets.ModelViewSet):
+    queryset = DepartmentBanner.objects.all()
+    serializer_class = DepartmentBannerSerializer
+    permission_classes = [AdminPermission]
+
+    def perform_create(self, serializer):
+        user = self.request.user
+
+        if user.is_authenticated:
+            serializer.save(created_by=user)
+        else:
+            serializer.save(created_by=None)
 
 
 class DepartmentViewSet(viewsets.ModelViewSet):

@@ -6,6 +6,31 @@ from django.utils.text import slugify
 from PIL import Image
  
 
+
+class DepartmentBanner(models.Model):
+    title = models.CharField(max_length=255)
+    image = models.FileField(upload_to='department_banner/', blank=True, null=True)
+
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Department Banner : {self.title}"
+    
+    
+class DoctorBanner(models.Model):
+    title = models.CharField(max_length=255)
+    image = models.FileField(upload_to='doctor_banner/', blank=True, null=True)
+
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Doctor Banner : {self.title}"
+    
+
 class Department(models.Model):
     name = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=200, unique=True, null=True, blank=True)
@@ -54,16 +79,6 @@ class Doctor(models.Model):
         User, on_delete=models.SET_NULL, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-    # def save(self, *args, **kwargs):
-    #     super().save(*args, **kwargs)
-    #     if not self.image:
-    #         return
-    #     img = Image.open(self.image.path)
-    #     if img.height > 300 or img.width > 300:
-    #         output_size = (300,300)
-    #         img.thumbnail(output_size)
-    #         img.save(self.image.path)
 
     def __str__(self):
         return f"Dr. {self.drName} - ({self.department if self.department else self.id})"
