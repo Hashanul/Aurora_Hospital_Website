@@ -1,10 +1,25 @@
 
 from rest_framework import viewsets, status
 from rest_framework.response import Response
-from .models import Appointment
-from .serializers import AppointmentSerializer
+from .models import Appointment, AppointmentBanner
+from .serializers import AppointmentSerializer, AppointmentBannerSerializer
 from rest_framework.exceptions import ValidationError
+from accounts.permissions import AdminPermission
 
+
+
+class AppointmentBannerViewSet(viewsets.ModelViewSet):
+    queryset = AppointmentBanner.objects.all()
+    serializer_class = AppointmentBannerSerializer
+    permission_classes = [AdminPermission]
+
+    def perform_create(self, serializer):
+        user = self.request.user
+
+        if user.is_authenticated:
+            serializer.save(created_by=user)
+        else:
+            serializer.save(created_by=None)
 
 class AppointmentViewSet(viewsets.ModelViewSet):
     queryset = Appointment.objects.all()

@@ -11,4 +11,4 @@ router.register('contact_data', Contact_dataViewSet)
 
 urlpatterns = [
     path('', include(router.urls))
-]
+] 

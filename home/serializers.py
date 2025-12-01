@@ -1,7 +1,5 @@
 from rest_framework import serializers
-from .models import Hero, HeroBadge, About, Badge, Facilities, Banner, ContactHome, MenuItem, MenuContent, PopUp
-
-from .models import MenuItem, MenuContent
+from .models import Hero, HeroBadge, About, Badge, Facilities, Banner, MenuItem, MenuContent, PopUp
 
 
 
@@ -91,8 +89,5 @@ class BannerSerializer(serializers.ModelSerializer):
         model = Banner
         fields = '__all__'
 
-class ContactHomeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ContactHome
-        fields = '__all__'
+
 

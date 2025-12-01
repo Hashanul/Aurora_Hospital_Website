@@ -1,7 +1,17 @@
 from django.contrib import admin
-from .models import RoomRent, Equipment, FeedbackBanner, Feedback
+from .models import VisitorPackage, PackageDetail, RoomRent, Equipment, FeedbackBanner, Feedback
 
 
+@admin.register(VisitorPackage)
+class VisitorPackageAdmin(admin.ModelAdmin):
+    list_display = ['title', 'image', 'urls']
+    search_fields = ['title', 'urls']
+
+@admin.register(PackageDetail)
+class PackageDetailAdmin(admin.ModelAdmin):
+    list_display = ['package_title', 'procedure_name', 'package_duration', 'bed_category', 'package_rate', 'remarks']
+    list_filter = ['package_title', 'package_duration', 'bed_category', 'package_rate', 'remarks']
+    search_fields = ['package_title', 'procedure_name', 'bed_category']
 
 @admin.register(RoomRent)
 class RoomRentAdmin(admin.ModelAdmin):

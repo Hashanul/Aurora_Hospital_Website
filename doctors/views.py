@@ -53,6 +53,9 @@ class DepartmentViewSet(viewsets.ModelViewSet):
 class DoctorViewSet(viewsets.ModelViewSet):
     queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
+        
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['department__name']
 
     def perform_create(self, serializer):
         user = self.request.user

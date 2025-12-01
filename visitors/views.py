@@ -1,8 +1,41 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .models import RoomRent, Equipment, FeedbackBanner, Feedback
-from .serializers import RoomRentSerializer, EquipmentSerializer, FeedbackBannerSerializer, FeedbackSerializer
+from .models import VisitorPackage, PackageDetail, RoomRent, Equipment, FeedbackBanner, Feedback
+from .serializers import VisitorPackageSerializer, PackageDetailSerializer, RoomRentSerializer, EquipmentSerializer, FeedbackBannerSerializer, FeedbackSerializer
 from accounts.permissions import AdminPermission
+from django_filters.rest_framework import DjangoFilterBackend
+
+
+
+class VisitorPackageViewSet(viewsets.ModelViewSet):
+    queryset = VisitorPackage.objects.all()
+    serializer_class = VisitorPackageSerializer
+    permission_classes = [AdminPermission]
+
+    def perform_create(self, serializer):
+        user = self.request.user
+
+        if user.is_authenticated:
+            serializer.save(created_by = user)
+        else:
+            serializer.save(created_by=None)
+
+
+class PackageDetailViewSet(viewsets.ModelViewSet):
+    queryset = PackageDetail.objects.all()
+    serializer_class = PackageDetailSerializer
+    permission_classes = [AdminPermission]
+
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['package_title']
+
+    def perform_create(self, serializer):
+        user = self.request.user
+
+        if user.is_authenticated:
+            serializer.save(created_by = user)
+        else:
+            serializer.save(created_by=None)
 
 
 class RoomRentViewSet(viewsets.ModelViewSet):

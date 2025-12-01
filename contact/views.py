@@ -36,13 +36,13 @@ class ContactUsViewSet(viewsets.ModelViewSet):
     serializer_class = ContactUsSerializer
 
 
-    def perform_create(self, serializer):
-        user = self.request.user
+    # def perform_create(self, serializer):
+    #     user = self.request.user
 
-        if user.is_authenticated:
-            serializer.save(created_by=user)
-        else:
-            serializer.save(created_by=None)
+    #     if user.is_authenticated:
+    #         serializer.save(created_by=user)
+    #     else:
+    #         serializer.save(created_by=None)
 
 
 class Contact_dataViewSet(viewsets.ModelViewSet):

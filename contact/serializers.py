@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import ContactPage, ContactUs, Contact_data, ContactBanner
+from doctors.models import Doctor
 
 
 class ContactBannerSerializer(serializers.ModelSerializer):
@@ -10,15 +11,11 @@ class ContactBannerSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-
 class ContactPageSerializer(serializers.ModelSerializer):
     created_by = serializers.StringRelatedField(read_only=True)
 
-    total_doctor = serializers.IntegerField(read_only=True)
-    doctor_images = serializers.ListField(
-        child=serializers.CharField(),
-        read_only=True
-    )
+    total_doctor = serializers.SerializerMethodField()
+    doctor_images = serializers.SerializerMethodField()
 
     class Meta:
         model = ContactPage
@@ -26,9 +23,6 @@ class ContactPageSerializer(serializers.ModelSerializer):
             'id',
             'title',
             'sub_title',
-            'banner_image_pc',
-            'banner_image_tab',
-            'banner_image_mob',
             'total_doctor',
             'doctor_images',
             'is_active',
@@ -37,10 +31,20 @@ class ContactPageSerializer(serializers.ModelSerializer):
             'updated_at',
         ]
 
+    # Return total number of doctors
+    def get_total_doctor(self, obj):
+        return Doctor.objects.count()
+
+    # Return list of doctor image URLs
+    def get_doctor_images(self, obj):
+        doctors = Doctor.objects.exclude(image='')
+        return [doctor.image.url for doctor in doctors if doctor.image]
+
+
+
 
 
 class ContactUsSerializer(serializers.ModelSerializer):
-    created_by = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = ContactUs
