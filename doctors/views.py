@@ -153,3 +153,4 @@ class DepartmentGroupRetrieveUpdateAPIView(RetrieveUpdateAPIView):
     queryset = DepartmentGroup.objects.all()
     serializer_class = DepartmentGroupSerializer
     permission_classes = [AdminPermission]
+ 

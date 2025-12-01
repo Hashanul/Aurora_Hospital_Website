@@ -39,6 +39,7 @@ urlpatterns = [
     path('api/', include('accounts.urls')),
     path('api/', include('news.urls')),
     path('api/', include('doctors.urls')),
+    path('api/', include('contact.urls')),
 
     # CKEditor upload endpoints (make available at project root)
     path('ckeditor5/', include('django_ckeditor_5.urls')),

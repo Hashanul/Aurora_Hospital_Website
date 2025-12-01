@@ -4,6 +4,7 @@ from accounts.models import User
 from home.models import validate_image_file
 from django.utils.text import slugify
 from PIL import Image
+from django_ckeditor_5.fields import CKEditor5Field
  
 
 
@@ -65,6 +66,7 @@ class Doctor(models.Model):
     drName = models.CharField(max_length=255)
     designation = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
+    richtext = CKEditor5Field(blank=True, null=True)
     image = models.FileField(upload_to='doctor/', blank=True, null=True)
     drCode = models.CharField(max_length=20, null=True, blank=True)
 
