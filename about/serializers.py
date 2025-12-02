@@ -24,6 +24,7 @@ class ChairmanMessageSerializer(serializers.ModelSerializer):
 
 class MDMessageSerializer(serializers.ModelSerializer):
     created_by = serializers.StringRelatedField(read_only=True)
+    
     class Meta:
         model = MDMessage
         fields = "__all__"

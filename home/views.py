@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .models import Hero, HeroBadge, About, Badge, Facilities, Banner, ContactHome
-from .serializers import HeroSerializer, HeroBadgeSerializer, AboutSerializer, BadgeSerializer, FacilitiesSerializer, BannerSerializer, ContactHomeSerializer
+from .models import Hero, HeroBadge, About, Badge, Facilities, Banner
+from .serializers import HeroSerializer, HeroBadgeSerializer, AboutSerializer, BadgeSerializer, FacilitiesSerializer, BannerSerializer
 from accounts.permissions import AdminPermission
 # from .serializers import MenuSerializer
 from .models import MenuItem,MenuContent, PopUp
@@ -30,7 +30,7 @@ class MenuContentViewSet(viewsets.ModelViewSet):
     queryset = MenuContent.objects.all()
     serializer_class = MenuContentSerializer
 
-
+ 
 class HeroViewSet(viewsets.ModelViewSet):
     queryset = Hero.objects.all()
     serializer_class = HeroSerializer
@@ -115,7 +115,7 @@ class BannerViewSet(viewsets.ModelViewSet):
             serializer.save(created_by=None)
 
 
-class ContactHomeViewSet(viewsets.ModelViewSet):
-    queryset = ContactHome.objects.all()
-    serializer_class = ContactHomeSerializer
+# class ContactHomeViewSet(viewsets.ModelViewSet):
+#     queryset = ContactHome.objects.all()
+#     serializer_class = ContactHomeSerializer
  

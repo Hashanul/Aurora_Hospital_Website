@@ -19,24 +19,21 @@ class ContactBanner(models.Model):
 
 class ContactPage(models.Model):
     title = models.CharField(max_length=255)
-    sub_title = models.CharField(max_length=255, null=True, blank=True)
-    banner_image_pc = models.ImageField(upload_to='contact_banner/', null=True, blank=True)
-    banner_image_tab = models.ImageField(upload_to='contact_banner/', null=True, blank=True)
-    banner_image_mob = models.ImageField(upload_to='contact_banner/', null=True, blank=True)
+    sub_title = models.TextField( null=True, blank=True)
     is_active = models.BooleanField(default=True)
 
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    @property
-    def total_doctor(self):
-        return Doctor.objects.count()
+    # @property
+    # def total_doctor(self):
+    #     return Doctor.objects.count()
 
-    @property
-    def doctor_images(self):
-        return Doctor.objects.values_list('image', flat=True)
-
+    # @property
+    # def doctor_images(self):
+    #     return Doctor.objects.values_list('image', flat=True)
+ 
 
 
 class ContactUs(models.Model):

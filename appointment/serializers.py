@@ -1,8 +1,17 @@
 from requests import Response
 from rest_framework import serializers
-from .models import Appointment
+from .models import Appointment, AppointmentBanner
 from doctors.models import Doctor
 from datetime import date
+
+
+class AppointmentBannerSerializer(serializers.ModelSerializer):
+    created_by = serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        model = AppointmentBanner
+        fields = '__all__'
+
 
 class AppointmentSerializer(serializers.ModelSerializer):
 

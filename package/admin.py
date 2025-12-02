@@ -1,5 +1,11 @@
 from django.contrib import admin
-from .models import Health_package, Health_Service
+from .models import PackageBanner, Health_package, Health_Service
+
+
+
+@admin.register(PackageBanner)
+class PackageBannerAdmin(admin.ModelAdmin):
+    list_display = ['title', 'image', 'created_by']
 
 
 @admin.register(Health_package)

@@ -48,6 +48,10 @@ class MDMessage(models.Model):
     title = models.CharField(max_length=255)
     richtext = CKEditor5Field(blank=True, null=True)
     image = models.FileField(upload_to='managing_director/', blank=True, null=True)
+    
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"Message of Managing Director : {self.title}"
