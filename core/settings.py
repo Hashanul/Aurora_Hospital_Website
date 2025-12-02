@@ -20,7 +20,7 @@ SECRET_KEY = 'django-insecure-27_+riy-8*v7454h%2z59q$ec&8%i5dl2ur-pnxjfk2+!&=(-+
 DEBUG = True
 
 if IS_PRODUCTION:
-    ALLOWED_HOSTS = ['*',]
+    ALLOWED_HOSTS = ['*', 'auroraapi.raktch.com', 'www.auroraapi.raktch.com']
     # SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     # SESSION_COOKIE_SECURE = True
     # CSRF_COOKIE_SECURE = True
@@ -30,7 +30,7 @@ if IS_PRODUCTION:
     CSRF_COOKIE_SECURE = False
     SECURE_SSL_REDIRECT = False
 else:
-    ALLOWED_HOSTS = ['*',]
+    ALLOWED_HOSTS = ['*', "192.168.0.101", "192.168.0.15:8000"]
     SESSION_COOKIE_SECURE = False
     CSRF_COOKIE_SECURE = False
     SECURE_SSL_REDIRECT = False
