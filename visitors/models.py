@@ -15,7 +15,9 @@ class ServiceBanner(models.Model):
     def __str__(self):
         return f"Service Banner : {self.title}"
     
-# class Service()
+class VisitorService(models.Model):
+    title = models.CharField(max_length=255)
+    
     
 
 

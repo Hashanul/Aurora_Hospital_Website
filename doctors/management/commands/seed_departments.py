@@ -230,8 +230,17 @@ class Command(BaseCommand):
                 "Cancer Surgery",
             ],
             "Female_Lower_Abdomen": [
+                "General Surgery",
+                "Urology",
+                "Nephrology",
+                "Cancer Surgery",
                 "Gynecology & Obstetrics",
                 "Gynecology, Obstetrics & Infertility",
+            ],
+            "Orthopaedics": [
+                "Orthopedic",
+                "Dermatology & Venereology",
+                "Physical Medicine & Rehabilitation",
             ],
         }
 
