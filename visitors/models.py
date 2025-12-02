@@ -10,7 +10,7 @@ class RoomRent(models.Model):
     charges = models.DecimalField(max_digits=10, decimal_places=2)
 
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
@@ -22,7 +22,7 @@ class Equipment(models.Model):
     richtext = CKEditor5Field( blank=True, null=True)
 
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
@@ -34,7 +34,7 @@ class FeedbackBanner(models.Model):
     image = models.FileField(upload_to='feedback/', null=True, blank=True)
 
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
@@ -70,7 +70,7 @@ class Feedback(models.Model):
     comments = models.TextField(null=True, blank=True)
 
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):

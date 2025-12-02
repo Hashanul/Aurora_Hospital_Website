@@ -48,7 +48,7 @@ class FeedbackBannerViewSet(viewsets.ModelViewSet):
 class FeedbackViewSet(viewsets.ModelViewSet):
     queryset = Feedback.objects.all()
     serializer_class = FeedbackSerializer
-    permission_classes = [AdminPermission]
+
 
     def perform_create(self, serializer):
         user = self.request.user
