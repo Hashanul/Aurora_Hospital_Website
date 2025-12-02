@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .models import Hero, HeroBadge, About, Badge, Facilities, Banner
-from .serializers import HeroSerializer, HeroBadgeSerializer, AboutSerializer, BadgeSerializer, FacilitiesSerializer, BannerSerializer
+from .models import Hero, HeroBadge, About, Badge, Facilities, AppointmentHomeImage
+from .serializers import HeroSerializer, HeroBadgeSerializer, AboutSerializer, BadgeSerializer, FacilitiesSerializer, AppointmentHomeImageSerializer
 from accounts.permissions import AdminPermission
 # from .serializers import MenuSerializer
 from .models import MenuItem,MenuContent, PopUp
@@ -101,9 +101,9 @@ class FacilitiesViewSet(viewsets.ModelViewSet):
         else:
             serializer.save(created_by=None)
 
-class BannerViewSet(viewsets.ModelViewSet):
-    queryset = Banner.objects.all()
-    serializer_class = BannerSerializer
+class AppointmentHomeImageViewSet(viewsets.ModelViewSet):
+    queryset = AppointmentHomeImage.objects.all()
+    serializer_class = AppointmentHomeImageSerializer
     permission_classes = [AdminPermission]
     
     def perform_create(self, serializer):

@@ -3,6 +3,20 @@ from accounts.models import User
 from django_ckeditor_5.fields import CKEditor5Field
 
 
+
+# class FeedbackBanner(models.Model):
+#     title = models.CharField(max_length=255)
+#     image = models.FileField(upload_to='feedback_banner/', null=True, blank=True)
+
+#     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now=True)
+
+#     def __str__(self):
+#         return f"Feedback Banner : {self.title}"
+    
+
+
 class VisitorPackage(models.Model):
     title = models.CharField(max_length=255)
     image = models.FileField(upload_to='visitor_package/', null=True, blank=True)

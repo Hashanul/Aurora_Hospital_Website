@@ -180,12 +180,9 @@ class Facilities(models.Model):
 
 
 
-class Banner(models.Model):
+class AppointmentHomeImage(models.Model):
     title = models.CharField(max_length=255)
-    sub_title = models.CharField(max_length=255, null=True, blank=True)
-    pc_image = models.ImageField(upload_to='banner/', null=True, blank=True)
-    tab_image = models.ImageField(upload_to='banner/', null=True, blank=True)
-    mobile_image = models.ImageField(upload_to='banner/', null=True, blank=True)
+    pc_image = models.ImageField(upload_to='appointment_Home_image/', null=True, blank=True)
     is_active = models.BooleanField(default=True)
 
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
@@ -193,17 +190,17 @@ class Banner(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        if not self.image:
-            return
+    # def save(self, *args, **kwargs):
+    #     super().save(*args, **kwargs)
+    #     if not self.image:
+    #         return
         
-        img = Image.open(self.image.path)
+    #     img = Image.open(self.image.path)
 
-        if img.height > 300 or img.width > 300:
-            output_size = (300,300)
-            img.thumbnail(output_size)
-            img.save(self.image.path)
+    #     if img.height > 300 or img.width > 300:
+    #         output_size = (300,300)
+    #         img.thumbnail(output_size)
+    #         img.save(self.image.path)
 
     def __str__(self):
         return f"Banner Section: {self.title}"

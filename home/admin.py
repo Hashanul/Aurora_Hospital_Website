@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import PopUp, MenuItem, MenuContent, Hero, HeroBadge, About, Badge, Facilities, Banner
+from .models import PopUp, MenuItem, MenuContent, Hero, HeroBadge, About, Badge, Facilities, AppointmentHomeImage
 
 
 @admin.register(MenuItem)
@@ -36,9 +36,9 @@ class FacilitiesAdmin(admin.ModelAdmin):
     search_fields = ['title', 'description', 'points']
 
 
-@admin.register(Banner)
+@admin.register(AppointmentHomeImage)
 class BannerAdmin(admin.ModelAdmin):
-    list_display = ['title', 'sub_title', 'is_active', 'created_at']
+    list_display = ['title', 'is_active', 'created_at']
     list_filter = ['is_active']
     search_fields = ['title']
     ordering = ['created_at']

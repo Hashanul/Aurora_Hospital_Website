@@ -78,6 +78,7 @@ INSTALLED_APPS = [
     'djoser',
     'django_ckeditor_5',
     'django_filters',
+    'import_export',
 
 ]
 
