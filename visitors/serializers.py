@@ -1,5 +1,15 @@
 from rest_framework import serializers
-from .models import VisitorPackage, PackageDetail, RoomRent, Equipment, FeedbackBanner, Feedback
+from .models import VisitorPackage, PackageDetail, RoomRent, Equipment, FeedbackBanner, Feedback, ServiceBanner
+
+
+
+class ServiceBannerSerializer(serializers.ModelSerializer):
+    created_by = serializers.StringRelatedField(read_only=True)
+    class Meta:
+        model = ServiceBanner
+        fields = '__all__'
+
+
 
 class VisitorPackageSerializer(serializers.ModelSerializer):
     created_by = serializers.StringRelatedField(read_only=True)

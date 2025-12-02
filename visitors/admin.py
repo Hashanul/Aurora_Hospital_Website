@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import VisitorPackage, PackageDetail, RoomRent, Equipment, FeedbackBanner, Feedback
+from .models import VisitorPackage, PackageDetail, RoomRent, Equipment, FeedbackBanner, Feedback, ServiceBanner
 from import_export.admin import ImportExportModelAdmin
 
 @admin.register(VisitorPackage)
@@ -32,6 +32,10 @@ class FeedbackBannerAdmin(admin.ModelAdmin):
     list_display = ['title', 'image', 'created_by']
     search_fields = ['title']
  
+@admin.register(ServiceBanner)
+class ServiceBannerAdmin(admin.ModelAdmin):
+    list_display = ['title', 'image', 'created_by']
+    search_fields = ['title']
 
 @admin.register(Feedback)
 class FeedbackAdmin(admin.ModelAdmin):

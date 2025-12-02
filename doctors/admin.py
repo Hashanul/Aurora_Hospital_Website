@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Department, Doctor, Service, DepartmentGroup
+from .models import Department, Doctor, HomeService, DepartmentGroup
 
 @admin.register(Department)
 class DepartmentAdmin(admin.ModelAdmin):
@@ -14,8 +14,8 @@ class DoctorAdmin(admin.ModelAdmin):
     search_fields = ['drName', 'designation']
 
 
-@admin.register(Service)
-class ServiceAdmin(admin.ModelAdmin):
+@admin.register(HomeService)
+class HomeServiceAdmin(admin.ModelAdmin):
     list_display = ['service_title', 'service_category', 'service_description']
     list_filter = [ 'service_category', 'service_description']
     search_fields = ['service_title']

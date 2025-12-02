@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from rest_framework.generics import ListAPIView, RetrieveUpdateAPIView
+from rest_framework import viewsets, filters
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import Doctor, BestDoctor, Department, Service, ChamberTime, DepartmentGroup, DepartmentBanner, DoctorBanner
-from .serializers import DoctorSerializer, BestDoctorSerializer, DepartmentSerializer, ServiceSerializer, ChamberTimeSerializer, DepartmentGroupSerializer, DepartmentBannerSerializer, DoctorBannerSerializer
+from .models import Doctor, BestDoctor, Department, HomeService, ChamberTime, DepartmentGroup, DepartmentBanner, DoctorBanner
+from .serializers import DoctorSerializer, BestDoctorSerializer, DepartmentSerializer, HomeServiceSerializer, ChamberTimeSerializer, DepartmentGroupSerializer, DepartmentBannerSerializer, DoctorBannerSerializer
 from accounts.permissions import AdminPermission
 from .filters import ChamberTimeFilter
 
@@ -114,9 +114,9 @@ class BestDoctorViewSet(viewsets.ModelViewSet):
             serializer.save(created_by=None)
 
 
-class ServiceViewSet(viewsets.ModelViewSet):
-    queryset = Service.objects.all()
-    serializer_class = ServiceSerializer
+class HomeServiceViewSet(viewsets.ModelViewSet):
+    queryset = HomeService.objects.all()
+    serializer_class = HomeServiceSerializer
     permission_classes = [AdminPermission]
 
     def perform_create(self, serializer):
@@ -128,29 +128,32 @@ class ServiceViewSet(viewsets.ModelViewSet):
             serializer.save(created_by=None)
 
 
-# class DepartmentGroupViewSet(viewsets.ModelViewSet):
+class DepartmentGroupViewSet(viewsets.ModelViewSet):
+    queryset = DepartmentGroup.objects.all()
+    serializer_class = DepartmentGroupSerializer
+    permission_classes = [AdminPermission]
+
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    filterset_fields = ['group_name']   # 👈 THIS ENABLES ?group_name=
+    search_fields = ['group_name']
+
+    def perform_create(self, serializer):
+        user = self.request.user
+
+        if user.is_authenticated:
+            serializer.save(created_by=user)
+        else:
+            serializer.save(created_by=None)
+
+
+# class DepartmentGroupListAPIView(ListAPIView):
 #     queryset = DepartmentGroup.objects.all()
 #     serializer_class = DepartmentGroupSerializer
 #     permission_classes = [AdminPermission]
 
 
-#     def perform_create(self, serializer):
-#         user = self.request.user
-
-#         if user.is_authenticated:
-#             serializer.save(created_by=user)
-#         else:
-#             serializer.save(created_by=None)
-
-
-class DepartmentGroupListAPIView(ListAPIView):
-    queryset = DepartmentGroup.objects.all()
-    serializer_class = DepartmentGroupSerializer
-    permission_classes = [AdminPermission]
-
-
-class DepartmentGroupRetrieveUpdateAPIView(RetrieveUpdateAPIView):
-    queryset = DepartmentGroup.objects.all()
-    serializer_class = DepartmentGroupSerializer
-    permission_classes = [AdminPermission]
+# class DepartmentGroupRetrieveUpdateAPIView(RetrieveUpdateAPIView):
+#     queryset = DepartmentGroup.objects.all()
+#     serializer_class = DepartmentGroupSerializer
+#     permission_classes = [AdminPermission]
  

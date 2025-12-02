@@ -4,16 +4,18 @@ from django_ckeditor_5.fields import CKEditor5Field
 
 
 
-# class FeedbackBanner(models.Model):
-#     title = models.CharField(max_length=255)
-#     image = models.FileField(upload_to='feedback_banner/', null=True, blank=True)
+class ServiceBanner(models.Model):
+    title = models.CharField(max_length=255)
+    image = models.FileField(upload_to='service_banner/', null=True, blank=True)
 
-#     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now=True)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
-#     def __str__(self):
-#         return f"Feedback Banner : {self.title}"
+    def __str__(self):
+        return f"Service Banner : {self.title}"
+    
+# class Service()
     
 
 
@@ -50,7 +52,7 @@ class RoomRent(models.Model):
     charges = models.PositiveIntegerField(null=True, blank=True)
 
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
@@ -62,7 +64,7 @@ class Equipment(models.Model):
     richtext = CKEditor5Field( blank=True, null=True)
 
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
@@ -74,7 +76,7 @@ class FeedbackBanner(models.Model):
     image = models.FileField(upload_to='feedback_banner/', null=True, blank=True)
 
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
@@ -110,7 +112,7 @@ class Feedback(models.Model):
     comments = models.TextField(null=True, blank=True)
 
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):

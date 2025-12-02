@@ -41,3 +41,5 @@ class Health_Service(models.Model):
 
     def __str__(self):
         return f"Health_Service :{self.title}"
+
+

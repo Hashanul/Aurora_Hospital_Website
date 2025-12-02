@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Doctor, BestDoctor, Department, ChamberTime, Service, DepartmentGroup, DoctorBanner, DepartmentBanner
+from .models import Doctor, BestDoctor, Department, ChamberTime, HomeService, DepartmentGroup, DoctorBanner, DepartmentBanner
 
 
 class DepartmentBannerSerializer(serializers.ModelSerializer):
@@ -132,11 +132,11 @@ class BestDoctorSerializer(serializers.ModelSerializer):
         return obj.get_doctor_skills_list()
 
 
-class ServiceSerializer(serializers.ModelSerializer):
+class HomeServiceSerializer(serializers.ModelSerializer):
     created_by = serializers.StringRelatedField(read_only=True)
    
     class Meta:
-        model = Service
+        model = HomeService
         fields = ['id', 'service_title', 'service_category', 'service_description', 'service_image', 'is_active', 'created_by']
 
 
@@ -173,3 +173,4 @@ class DepartmentGroupSerializer(serializers.ModelSerializer):
             setattr(instance, attr, value)
         instance.save()
         return instance
+ 

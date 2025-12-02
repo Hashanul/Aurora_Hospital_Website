@@ -1,9 +1,10 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import RoomRentViewSet, EquipmentViewSet, FeedbackBannerViewSet, FeedbackViewSet, VisitorPackageViewSet, PackageDetailViewSet
+from .views import RoomRentViewSet, EquipmentViewSet, FeedbackBannerViewSet, FeedbackViewSet, VisitorPackageViewSet, PackageDetailViewSet, ServiceBannerViewSet
 
 router = DefaultRouter()
 
+router.register(r'service_banner', ServiceBannerViewSet)
 router.register(r'visitor_package', VisitorPackageViewSet)
 router.register(r'package_detail', PackageDetailViewSet)
 router.register(r'room_rent', RoomRentViewSet)

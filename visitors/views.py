@@ -1,11 +1,32 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .models import VisitorPackage, PackageDetail, RoomRent, Equipment, FeedbackBanner, Feedback
-from .serializers import VisitorPackageSerializer, PackageDetailSerializer, RoomRentSerializer, EquipmentSerializer, FeedbackBannerSerializer, FeedbackSerializer
+from .models import VisitorPackage, PackageDetail, RoomRent, Equipment, FeedbackBanner, Feedback, ServiceBanner
+from .serializers import VisitorPackageSerializer, PackageDetailSerializer, RoomRentSerializer, EquipmentSerializer, FeedbackBannerSerializer, FeedbackSerializer, ServiceBannerSerializer
 from accounts.permissions import AdminPermission
 from django_filters.rest_framework import DjangoFilterBackend
 
 
+class ServiceBannerViewSet(viewsets.ModelViewSet):
+    queryset = ServiceBanner.objects.all()
+    serializer_class = ServiceBannerSerializer
+    permission_classes = [AdminPermission]
+
+    def perform_create(self, serializer):
+        user = self.request.user
+
+        if user.is_authenticated:
+            serializer.save(created_by=user)
+        else:
+            serializer.save(created_by=None)
+
+
+    def perform_create(self, serializer):
+        user = self.request.user
+
+        if user.is_authenticated:
+            serializer.save(created_by=user)
+        else:
+            serializer.save(created_by=None)
 
 class VisitorPackageViewSet(viewsets.ModelViewSet):
     queryset = VisitorPackage.objects.all()
@@ -81,7 +102,7 @@ class FeedbackBannerViewSet(viewsets.ModelViewSet):
 class FeedbackViewSet(viewsets.ModelViewSet):
     queryset = Feedback.objects.all()
     serializer_class = FeedbackSerializer
-    permission_classes = [AdminPermission]
+
 
     def perform_create(self, serializer):
         user = self.request.user

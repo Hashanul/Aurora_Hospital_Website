@@ -134,7 +134,7 @@ class BestDoctor(models.Model):
         return f"Best Doctor :{self.doctor_name if self.doctor_name else self.id}"
 
 
-class Service(models.Model):
+class HomeService(models.Model):
     service_title = models.CharField(max_length=255)
     service_category = models.ForeignKey(
         Department, on_delete=models.SET_NULL, blank=True, null=True)
@@ -162,3 +162,4 @@ class DepartmentGroup(models.Model):
 
     def __str__(self):
         return f"{self.group_name if self.group_name else self.id} - {self.departments if self.departments else self.id}"
+ 

@@ -55,7 +55,7 @@ class Appointment(models.Model):
 
         dob = self.Dob
         visit = self.VisitDate
-
+ 
         # year
         age_year = visit.year - dob.year
 

@@ -3,6 +3,8 @@ from .models import PackageBanner, Health_package, Health_Service
 
 
 
+
+
 @admin.register(PackageBanner)
 class PackageBannerAdmin(admin.ModelAdmin):
     list_display = ['title', 'image', 'created_by']

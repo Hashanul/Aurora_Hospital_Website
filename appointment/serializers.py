@@ -3,6 +3,7 @@ from rest_framework import serializers
 from .models import Appointment, AppointmentBanner
 from doctors.models import Doctor
 from datetime import date
+from datetime import date, timedelta
 
 
 class AppointmentBannerSerializer(serializers.ModelSerializer):
@@ -48,14 +49,18 @@ class AppointmentSerializer(serializers.ModelSerializer):
     # -------------------------
     # VALIDATION RULES
     # -------------------------
+
     def validate(self, data):
 
-        doctor = data.get("DrCode")  # doctor instance (from doctor_id)
+        doctor = data.get("DrCode")
         visit_date = data.get("VisitDate")
         mobile = data.get("MobileNo")
 
-        # Rule 1: Only today's appointment allowed
-        if visit_date != date.today():
+        today = date.today()
+        max_date = today + timedelta(days=7)   # today + 7 days
+
+        # Rule 1: Date range validation (Today → Today+7)
+        if visit_date < today or visit_date > max_date:
             raise serializers.ValidationError({
                 "msg": "You wouldn't make Advance appointment of this Doctor."
             })
