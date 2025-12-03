@@ -1,13 +1,36 @@
 from django.contrib import admin
-from .models import VisitorPackage, PackageDetail, RoomRent, Equipment, FeedbackBanner, Feedback, ServiceBanner
+from .models import VisitorPackage, PackageDetail, VisitorPackageBanner, FacilitiesBanner, EquipmentBanner, RoomRentBanner, RoomRent, VisitorService, Equipment, FeedbackBanner, Feedback, ServiceBanner
 from import_export.admin import ImportExportModelAdmin
+ 
+
+ 
+@admin.register(ServiceBanner)
+class ServiceBannerAdmin(admin.ModelAdmin):
+    list_display = ['title', 'image', 'created_by']
+    search_fields = ['title']
+
+@admin.register(VisitorService)
+class VisitorServiceAdmin(admin.ModelAdmin):
+    list_display = ['title', 'richtext', 'created_by']
+    search_fields = ['title']
+
+
+@admin.register(FacilitiesBanner)
+class FacilitiesBannerAdmin(admin.ModelAdmin):
+    list_display = ['title', 'image', 'created_by']
+    search_fields = ['title']
+
+@admin.register(VisitorPackageBanner)
+class VisitorPackageBannerAdmin(admin.ModelAdmin):
+    list_display = ['title', 'image', 'created_by']
+    search_fields = ['title']
+
 
 @admin.register(VisitorPackage)
 class VisitorPackageAdmin(admin.ModelAdmin):
     list_display = ['title', 'image', 'urls']
-    search_fields = ['title', 'urls']
+    search_fields = ['title', 'urls'] 
 
-# admin.site.register(PackageDetail, ImportExportModelAdmin)
 
 @admin.register(PackageDetail)
 class PackageDetailAdmin(ImportExportModelAdmin):
@@ -15,12 +38,21 @@ class PackageDetailAdmin(ImportExportModelAdmin):
     list_filter = ['package_title', 'package_duration', 'bed_category', 'package_rate', 'remarks']
     search_fields = ['package_title', 'procedure_name', 'bed_category']
 
+
+@admin.register(RoomRentBanner)
+class RoomRentBannerAdmin(admin.ModelAdmin):
+    list_display = ['title', 'image', 'created_by']
+
+
 @admin.register(RoomRent)
-class RoomRentAdmin(admin.ModelAdmin):
+class RoomRentAdmin(ImportExportModelAdmin):
     list_display = ['bed_name', 'charges', 'created_by']
     search_fields = ['bed_name', 'charges']
     list_filter = ['charges']
 
+@admin.register(EquipmentBanner)
+class EquipmentBannerAdmin(admin.ModelAdmin):
+    list_display = ['title', 'image', 'created_by']
 
 @admin.register(Equipment)
 class EquipmentAdmin(admin.ModelAdmin):
@@ -29,11 +61,6 @@ class EquipmentAdmin(admin.ModelAdmin):
 
 @admin.register(FeedbackBanner)
 class FeedbackBannerAdmin(admin.ModelAdmin):
-    list_display = ['title', 'image', 'created_by']
-    search_fields = ['title']
- 
-@admin.register(ServiceBanner)
-class ServiceBannerAdmin(admin.ModelAdmin):
     list_display = ['title', 'image', 'created_by']
     search_fields = ['title']
 

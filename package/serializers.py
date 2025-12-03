@@ -1,12 +1,12 @@
 from rest_framework import serializers
-from .models import Health_package, Health_Service, PackageBanner
+from .models import Health_package, Health_Service, HealthPackageBanner
 
 
-class PackageBannerSerializer(serializers.ModelSerializer):
+class HealthPackageBannerSerializer(serializers.ModelSerializer):
     created_by = serializers.StringRelatedField(read_only=True)
 
     class Meta:
-        model = PackageBanner
+        model = HealthPackageBanner
         fields = '__all__'
 
 

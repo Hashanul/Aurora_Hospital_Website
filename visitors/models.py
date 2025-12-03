@@ -15,11 +15,39 @@ class ServiceBanner(models.Model):
     def __str__(self):
         return f"Service Banner : {self.title}"
     
+
 class VisitorService(models.Model):
     title = models.CharField(max_length=255)
-    
+    richtext = CKEditor5Field( blank=True, null=True)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f" Visitor Service : {self.title}"
     
 
+class FacilitiesBanner(models.Model):
+    title = models.CharField(max_length=255)
+    image = models.FileField(upload_to='facilities_banner/', null=True, blank=True)
+
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Facilities Banner : {self.title}"
+
+
+class VisitorPackageBanner(models.Model):
+    title = models.CharField(max_length=255)
+    image = models.FileField(upload_to='package_banner/', null=True, blank=True)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"VisitorPackageBanner : {self.title}"
 
 class VisitorPackage(models.Model):
     title = models.CharField(max_length=255)
@@ -49,6 +77,19 @@ class PackageDetail(models.Model):
         return f"Package Detail : {self.procedure_name}"
 
 
+class RoomRentBanner(models.Model):
+    title = models.CharField(max_length=255)
+    image = models.FileField(upload_to='room_rent_banner/', null=True, blank=True)
+
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Room Rent Banner : {self.title}"
+
+
+
 class RoomRent(models.Model):
     bed_name = models.CharField(max_length=200)
     charges = models.PositiveIntegerField(null=True, blank=True)
@@ -59,6 +100,18 @@ class RoomRent(models.Model):
 
     def __str__(self):
         return self.bed_name
+
+
+class EquipmentBanner(models.Model):
+    title = models.CharField(max_length=255)
+    image = models.FileField(upload_to='equipment_banner/', null=True, blank=True)
+
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Equipment Banner : {self.title}"
 
 
 class Equipment(models.Model):

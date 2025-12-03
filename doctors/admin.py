@@ -9,7 +9,7 @@ class DepartmentAdmin(admin.ModelAdmin):
 
 @admin.register(Doctor)
 class DoctorAdmin(admin.ModelAdmin):
-    list_display = ['drName', 'designation', 'department', 'drCode']
+    list_display = ['id', 'drName', 'designation', 'department', 'drCode']
     list_filter = ['designation', 'department']
     search_fields = ['drName', 'designation']
 

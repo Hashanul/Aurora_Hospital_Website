@@ -34,15 +34,6 @@ class MenuItem(models.Model):
 
 
 class MenuContent(models.Model):
-    # TYPE_CHOICE = [
-    #     ('department', 'department'),
-    #     ('doctor', 'doctor'),
-    #     ('service', 'service'),
-    #     ('about_us', 'about_us'),
-    #     ('news', 'News'),
-    #     ('Visitors_Patient', 'visitors_patient'),
-    # ]
-
     menu = models.ForeignKey(
         MenuItem,
         related_name="content",
@@ -203,7 +194,7 @@ class AppointmentHomeImage(models.Model):
     #         img.save(self.image.path)
 
     def __str__(self):
-        return f"Banner Section: {self.title}"
+        return f"Appointment Home Image Section: {self.title}"
     
 
 

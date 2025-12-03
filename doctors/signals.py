@@ -8,7 +8,7 @@ from home.models import MenuItem, MenuContent   # adjust import path
 @receiver(post_save, sender=Department)
 def create_menu_content_for_department(sender, instance, created, **kwargs):
     if created:
-        print(instance)
+        print(instance, 'signal trigar')
         department_name = instance.name
         menu = MenuItem.objects.get(title='Our Departments')
         MenuContent.objects.create(

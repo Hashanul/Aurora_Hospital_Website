@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import VisitorPackage, PackageDetail, RoomRent, Equipment, FeedbackBanner, Feedback, ServiceBanner
+from .models import VisitorPackage, VisitorPackageBanner, PackageDetail,RoomRentBanner, RoomRent, EquipmentBanner, Equipment, FeedbackBanner, Feedback, ServiceBanner, VisitorService, FacilitiesBanner
 
 
 
@@ -9,6 +9,26 @@ class ServiceBannerSerializer(serializers.ModelSerializer):
         model = ServiceBanner
         fields = '__all__'
 
+class VisitorServiceSerializer(serializers.ModelSerializer):
+    created_by = serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        model = VisitorService
+        fields = '__all__'
+
+
+class FacilitiesBannerSerializer(serializers.ModelSerializer):
+    created_by = serializers.StringRelatedField(read_only=True)
+    class Meta:
+        model = FacilitiesBanner
+        fields = '__all__'
+
+
+class VisitorPackageBannerSerializer(serializers.ModelSerializer):
+    created_by = serializers.StringRelatedField(read_only=True)
+    class Meta:
+        model = VisitorPackageBanner
+        fields = '__all__'
 
 
 class VisitorPackageSerializer(serializers.ModelSerializer):
@@ -41,11 +61,27 @@ class PackageDetailSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+
+class RoomRentBannerSerializer(serializers.ModelSerializer):
+    created_by = serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        model = RoomRentBanner
+        fields = '__all__'
+
+
 class RoomRentSerializer(serializers.ModelSerializer):
     created_by = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = RoomRent
+        fields = '__all__'
+
+class EquipmentBannerSerializer(serializers.ModelSerializer):
+    created_by = serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        model = EquipmentBanner
         fields = '__all__'
 
 
