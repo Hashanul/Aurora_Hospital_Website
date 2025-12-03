@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .models import VisitorPackage, PackageDetail, RoomRent, Equipment, FeedbackBanner, Feedback, ServiceBanner
-from .serializers import VisitorPackageSerializer, PackageDetailSerializer, RoomRentSerializer, EquipmentSerializer, FeedbackBannerSerializer, FeedbackSerializer, ServiceBannerSerializer
+from .models import VisitorPackage, RoomRentBanner, VisitorPackageBanner, PackageDetail, FacilitiesBanner, RoomRent, EquipmentBanner, Equipment, FeedbackBanner, Feedback, ServiceBanner, VisitorService
+from .serializers import VisitorPackageSerializer, VisitorPackageBannerSerializer, RoomRentBannerSerializer,  PackageDetailSerializer, RoomRentSerializer, EquipmentBannerSerializer, EquipmentSerializer, FeedbackBannerSerializer, FeedbackSerializer, ServiceBannerSerializer, VisitorServiceSerializer, FacilitiesBannerSerializer
 from accounts.permissions import AdminPermission
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -20,6 +20,12 @@ class ServiceBannerViewSet(viewsets.ModelViewSet):
             serializer.save(created_by=None)
 
 
+
+class VisitorServiceViewSet(viewsets.ModelViewSet):
+    queryset = VisitorService.objects.all()
+    serializer_class = VisitorServiceSerializer
+    permission_classes = [AdminPermission]
+
     def perform_create(self, serializer):
         user = self.request.user
 
@@ -27,6 +33,35 @@ class ServiceBannerViewSet(viewsets.ModelViewSet):
             serializer.save(created_by=user)
         else:
             serializer.save(created_by=None)
+
+
+class FacilitiesBannerViewSet(viewsets.ModelViewSet):
+    queryset = FacilitiesBanner.objects.all()
+    serializer_class = FacilitiesBannerSerializer
+    permission_classes = [AdminPermission]
+
+    def perform_create(self, serializer):
+        user = self.request.user
+
+        if user.is_authenticated:
+            serializer.save(created_by=user)
+        else:
+            serializer.save(created_by=None)
+
+
+class VisitorPackageBannerViewSet(viewsets.ModelViewSet):
+    queryset = VisitorPackageBanner.objects.all()
+    serializer_class = VisitorPackageBannerSerializer
+    permission_classes = [AdminPermission]
+
+    def perform_create(self, serializer):
+        user = self.request.user
+
+        if user.is_authenticated:
+            serializer.save(created_by=user)
+        else:
+            serializer.save(created_by=None)
+
 
 class VisitorPackageViewSet(viewsets.ModelViewSet):
     queryset = VisitorPackage.objects.all()
@@ -58,10 +93,36 @@ class PackageDetailViewSet(viewsets.ModelViewSet):
         else:
             serializer.save(created_by=None)
 
+class RoomRentBannerViewSet(viewsets.ModelViewSet):
+    queryset = RoomRentBanner.objects.all()
+    serializer_class = RoomRentBannerSerializer
+    permission_classes = [AdminPermission]
+
+    def perform_create(self, serializer):
+        user = self.request.user
+
+        if user.is_authenticated:
+            serializer.save(created_by=user)
+        else:
+            serializer.save(created_by=None)
+
 
 class RoomRentViewSet(viewsets.ModelViewSet):
     queryset = RoomRent.objects.all()
     serializer_class = RoomRentSerializer
+    permission_classes = [AdminPermission]
+
+    def perform_create(self, serializer):
+        user = self.request.user
+
+        if user.is_authenticated:
+            serializer.save(created_by=user)
+        else:
+            serializer.save(created_by=None)
+
+class EquipmentBannerViewSet(viewsets.ModelViewSet):
+    queryset = EquipmentBanner.objects.all()
+    serializer_class = EquipmentBannerSerializer
     permission_classes = [AdminPermission]
 
     def perform_create(self, serializer):

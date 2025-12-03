@@ -1,5 +1,6 @@
 from django.db import models
 from accounts.models import User
+from doctors.models import Doctor
 from django_ckeditor_5.fields import CKEditor5Field
 
 
@@ -18,10 +19,12 @@ class AboutBanner(models.Model):
 
 
 class BOD(models.Model):
-    bod_name = models.CharField(max_length=255)
-    bod_designation = models.CharField(max_length=255, null=True, blank=True)
+    bod_drName =models.ForeignKey(Doctor, on_delete=models.SET_NULL, blank=True, null=True )
+    bod_name = models.CharField(max_length=255, null=True, blank=True)
+    bod_designation = models.CharField(max_length=255)
     bod_image = models.FileField(upload_to='board_of_directors/', null=True, blank=True)
-    
+    bod_richtext = CKEditor5Field(blank=True, null=True)
+  
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

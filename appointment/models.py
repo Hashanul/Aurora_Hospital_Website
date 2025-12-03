@@ -14,7 +14,7 @@ class AppointmentBanner(models.Model):
 
     def __str__(self):
         return f"Appointment Banner : {self.title}"
-
+ 
 
 class Appointment(models.Model):
 
@@ -38,8 +38,6 @@ class Appointment(models.Model):
     AgeYear = models.PositiveIntegerField(blank=True, null=True)
 
     Sex = models.CharField(max_length=10, choices=GENDER_CHOICES, null=True, blank=True)
-    VisitAmount = models.IntegerField(blank=True, null=True)
-
     VisitAmount = models.CharField(max_length=20, blank=True, null=True)
     VisitType = models.CharField(max_length=50, blank=True, null=True)
 

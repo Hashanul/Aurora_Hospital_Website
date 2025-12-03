@@ -1,13 +1,13 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .models import Health_package, Health_Service, PackageBanner
-from .serializers import Health_packageSerializer, Health_ServiceSerializer, PackageBannerSerializer
+from .models import Health_package, Health_Service, HealthPackageBanner
+from .serializers import Health_packageSerializer, Health_ServiceSerializer, HealthPackageBannerSerializer
 from accounts.permissions import AdminPermission
 
 
-class PackageBannerViewSet(viewsets.ModelViewSet):
-    queryset = PackageBanner.objects.all()
-    serializer_class = PackageBannerSerializer
+class HealthPackageBannerViewSet(viewsets.ModelViewSet):
+    queryset = HealthPackageBanner.objects.all()
+    serializer_class = HealthPackageBannerSerializer
 
     def perform_create(self, serializer):
         user = self.request.user

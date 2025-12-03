@@ -40,7 +40,7 @@ class DoctorSerializer(serializers.ModelSerializer):
         required=False, 
         allow_null=True
     )
-
+ 
     # chamber_time = serializers.StringRelatedField(read_only=True)
     # chamber_time_id = serializers.PrimaryKeyRelatedField(
     #     queryset=ChamberTime.objects.all(), 

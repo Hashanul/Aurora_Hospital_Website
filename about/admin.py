@@ -9,12 +9,11 @@ class AboutBannerAdmin(admin.ModelAdmin):
     search_fields = ['title']
 
 
+
+
 @admin.register(BOD)
 class BODAdmin(admin.ModelAdmin):
-    list_display = ['bod_name', 'bod_designation', 'bod_image', 'created_by']
-    search_fields = ['bod_name', 'bod_designation']
-    list_filter = ['bod_designation']
-
+    list_display = ['id', 'bod_drName', 'bod_name', 'bod_designation']
 
 @admin.register(ChairmanMessage)
 class ChairmanMessageAdmin(admin.ModelAdmin):
