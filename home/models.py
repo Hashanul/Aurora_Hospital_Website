@@ -28,7 +28,7 @@ class MenuItem(models.Model):
         if not self.to:
             self.to = "/" + slugify(self.title)
         super().save(*args, **kwargs)
-
+ 
     def __str__(self):
         return self.title
 
