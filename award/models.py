@@ -18,9 +18,7 @@ class Award(models.Model):
     description = models.TextField(blank=True, null=True)
     year = models.PositiveIntegerField()
 
-    pc_image = models.ImageField(upload_to='award/', null=True, blank=True)
-    tab_image = models.ImageField(upload_to='award/', null=True, blank=True)
-    mobile_image = models.ImageField(upload_to='award/', null=True, blank=True)
+    image = models.ImageField(upload_to='award/', null=True, blank=True)
 
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)

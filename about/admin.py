@@ -15,6 +15,7 @@ class AboutBannerAdmin(admin.ModelAdmin):
 class BODAdmin(admin.ModelAdmin):
     list_display = ['id', 'bod_drName', 'bod_name', 'bod_designation']
 
+
 @admin.register(ChairmanMessage)
 class ChairmanMessageAdmin(admin.ModelAdmin):
     list_display = ['title', 'richtext', 'image', 'created_by']

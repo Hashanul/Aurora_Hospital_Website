@@ -5,6 +5,8 @@ from django.core.exceptions import ValidationError
 from accounts.models import User
 
 from django.utils.text import slugify
+from django_ckeditor_5.fields import CKEditor5Field
+
 
 
 class PopUp(models.Model):
@@ -114,9 +116,9 @@ class About(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField(null=True, blank=True)
     our_mission_title = models.CharField(max_length=255, blank=True, null=True)
-    our_mission_description = models.TextField(blank=True, null=True)
+    our_mission_description = CKEditor5Field(blank=True, null=True)
     our_vision_title = models.CharField(max_length=255, blank=True, null=True)
-    our_vision_description = models.TextField(blank=True, null=True)
+    our_vision_description = CKEditor5Field(blank=True, null=True)
     image = models.ImageField(upload_to='about/', blank=True, null=True)
 
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)

@@ -13,7 +13,7 @@ class AppointmentBannerSerializer(serializers.ModelSerializer):
         model = AppointmentBanner
         fields = '__all__'
 
-
+ 
 class AppointmentSerializer(serializers.ModelSerializer):
 
     # Accept doctor by ID (write only)
@@ -75,17 +75,19 @@ class AppointmentSerializer(serializers.ModelSerializer):
                 "msg": "This Doctor Serial Quota Already Completed. Please Try for Another Day."
             })
 
-        # Rule 3: Same mobile cannot book twice on same date
+        # Rule 3: Same patient can't book same doctor twice on same date
         existing = Appointment.objects.filter(
             MobileNo=mobile,
+            DrCode=doctor,
             VisitDate=visit_date
         ).first()
 
         if existing:
             serial_no = str(existing.id).zfill(3)
             raise serializers.ValidationError({
-                "msg": f"Already appointed With this Mobile No and serial no is {serial_no}"
+                "msg": f"This number already booked an appointment with this Doctor on same date. Serial No: {serial_no}"
             })
+
 
         return data
 

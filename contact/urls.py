@@ -13,4 +13,4 @@ urlpatterns = [
     path('', include(router.urls)),
     path('contact_data/', Contact_dataListAPIView.as_view()),
     path('contact_data/<int:pk>/', Contact_dataRetrieveUpdateAPIView.as_view()),
-] 
+]  

@@ -54,11 +54,3 @@ class Contact_dataRetrieveUpdateAPIView(RetrieveUpdateAPIView):
     queryset = Contact_data.objects.all()
     serializer_class = Contact_dataSerializer
 
-
-    # def perform_create(self, serializer):
-    #     user = self.request.user
-
-    #     if user.is_authenticated:
-    #         serializer.save(created_by=user)
-    #     else:
-    #         serializer.save(created_by=None)

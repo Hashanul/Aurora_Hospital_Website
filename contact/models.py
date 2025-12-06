@@ -60,4 +60,4 @@ class Contact_data(models.Model):
     instra_link = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
-        return f"Hotline {self.hotline}"
+        return f"Hotline {self.hotline}" 

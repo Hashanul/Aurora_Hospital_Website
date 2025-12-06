@@ -6,7 +6,7 @@ from .models import HealthPackageBanner, Health_package, Health_Service
 
 
 @admin.register(HealthPackageBanner)
-class PackageBannerAdmin(admin.ModelAdmin):
+class HealthPackageBannerAdmin(admin.ModelAdmin):
     list_display = ['title', 'image', 'created_by']
 
 

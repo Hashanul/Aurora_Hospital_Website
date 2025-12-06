@@ -44,7 +44,7 @@ class Appointment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-
+ 
 
     def calculate_age(self):
         """Calculate age on VisitDate."""

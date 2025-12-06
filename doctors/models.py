@@ -60,7 +60,7 @@ class Department(models.Model):
 
     def __str__(self):
         return self.name
-
+ 
 
 class Doctor(models.Model):
     drName = models.CharField(max_length=255)
@@ -76,6 +76,7 @@ class Doctor(models.Model):
 
     email = models.EmailField(unique=True, null=True, blank=True)
     phone = models.CharField(max_length=15)
+    is_doctor = models.BooleanField(default=True)
 
     created_by = models.ForeignKey(
         User, on_delete=models.SET_NULL, blank=True, null=True)

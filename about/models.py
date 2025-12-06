@@ -2,7 +2,7 @@ from django.db import models
 from accounts.models import User
 from doctors.models import Doctor
 from django_ckeditor_5.fields import CKEditor5Field
-
+ 
 
 # Create your models here.
 
@@ -24,6 +24,7 @@ class BOD(models.Model):
     bod_designation = models.CharField(max_length=255)
     bod_image = models.FileField(upload_to='board_of_directors/', null=True, blank=True)
     bod_richtext = CKEditor5Field(blank=True, null=True)
+    is_doctor = models.BooleanField(default=False)
   
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)

@@ -19,7 +19,7 @@ class Health_package(models.Model):
         ('Male', 'Male'),
         ('Female', 'Female'),
         ('Other', 'Other'),
-    ]
+    ] 
     
     
     title = models.CharField(max_length=255)
