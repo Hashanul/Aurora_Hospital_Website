@@ -18,9 +18,10 @@ SECRET_KEY = 'django-insecure-27_+riy-8*v7454h%2z59q$ec&8%i5dl2ur-pnxjfk2+!&=(-+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-  
+
 if IS_PRODUCTION:
     ALLOWED_HOSTS = ['*', 'auroraapi.raktch.com', 'www.auroraapi.raktch.com']
+    # ALLOWED_HOSTS = ['*', 'ashadmin.aurora.hospital', 'www.ashadmin.aurora.hospital']
     # SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     # SESSION_COOKIE_SECURE = True
     # CSRF_COOKIE_SECURE = True
