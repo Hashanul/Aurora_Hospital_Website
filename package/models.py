@@ -1,5 +1,6 @@
 from django.db import models
 from accounts.models import User
+from django_ckeditor_5.fields import CKEditor5Field
 
 
 
@@ -18,13 +19,14 @@ class Health_package(models.Model):
     GENDER_CHOICES = [
         ('Male', 'Male'),
         ('Female', 'Female'),
+        ('Male & Female', 'Male & Female'),
         ('Other', 'Other'),
     ] 
     
     
     title = models.CharField(max_length=255)
-    description = models.TextField(blank=True, null=True)
-    gender = models.CharField(max_length=10, choices=GENDER_CHOICES)   
+    description = CKEditor5Field(blank=True, null=True)
+    gender = models.CharField(max_length=20, choices=GENDER_CHOICES)   
     price = models.DecimalField(max_digits=10, decimal_places=2)
     note = models.CharField(max_length=255, blank=True, null=True)
 
