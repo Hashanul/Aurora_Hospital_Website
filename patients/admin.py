@@ -1,6 +1,10 @@
 from django.contrib import admin
-from .models import Patient
+from .models import Patient, PatientBanner
 
+
+@admin.register(PatientBanner)
+class PatientBanner(admin.ModelAdmin):
+    list_display = ['title', 'image']
 
 @admin.register(Patient)
 class PatientAdmin(admin.ModelAdmin):
