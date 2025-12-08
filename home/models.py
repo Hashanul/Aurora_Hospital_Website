@@ -3,7 +3,7 @@ from accounts.models import User
 from PIL import Image
 from django.core.exceptions import ValidationError
 from accounts.models import User
-
+from doctors.models import Department
 from django.utils.text import slugify
 from django_ckeditor_5.fields import CKEditor5Field
 
@@ -201,5 +201,18 @@ class AppointmentHomeImage(models.Model):
 
 
 
+class HomeService(models.Model):
+    service_title = models.CharField(max_length=255)
+    service_category = models.ForeignKey(
+        Department, on_delete=models.SET_NULL, blank=True, null=True)
+    service_description = models.TextField(blank=True, null=True)
+    service_image = models.FileField(null=True, blank=True)
 
-  
+    is_active = models.BooleanField(default=True)
+    created_by = models.ForeignKey(
+        User, on_delete=models.SET_NULL, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Service Title: {self.service_title}"

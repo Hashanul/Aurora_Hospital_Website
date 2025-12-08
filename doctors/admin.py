@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import DepartmentBanner, DoctorBanner, Department, Doctor, ChamberTime, BestDoctor, HomeService, DepartmentGroup
+from .models import DepartmentBanner, DoctorBanner, Department, Doctor, ChamberTime, BestDoctor, DepartmentGroup
 
 
 @admin.register(DepartmentBanner)
@@ -39,11 +39,7 @@ class BestDoctorAdmin(admin.ModelAdmin):
     search_fields = ['doctor_name', 'best_in_field', 'award_title',]
 
 
-@admin.register(HomeService)
-class HomeServiceAdmin(admin.ModelAdmin):
-    list_display = ['service_title', 'service_category', 'service_description']
-    list_filter = [ 'service_category', 'service_description']
-    search_fields = ['service_title']
+
 
 
 @admin.register(DepartmentGroup)

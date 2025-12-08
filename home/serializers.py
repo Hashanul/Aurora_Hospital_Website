@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Hero, HeroBadge, About, Badge, Facilities, AppointmentHomeImage, MenuItem, MenuContent, PopUp
+from .models import Hero, HeroBadge, About, Badge, Facilities, AppointmentHomeImage, MenuItem, MenuContent, PopUp, HomeService
 
 
 
@@ -91,3 +91,9 @@ class AppointmentHomeImageSerializer(serializers.ModelSerializer):
 
 
 
+class HomeServiceSerializer(serializers.ModelSerializer):
+    created_by = serializers.StringRelatedField(read_only=True)
+   
+    class Meta:
+        model = HomeService
+        fields = ['id', 'service_title', 'service_category', 'service_description', 'service_image', 'is_active', 'created_by']

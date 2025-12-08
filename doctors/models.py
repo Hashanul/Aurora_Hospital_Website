@@ -1,7 +1,7 @@
 from django.db import models
 from PIL import Image
 from accounts.models import User
-from home.models import validate_image_file
+# from home.models import validate_image_file
 from django.utils.text import slugify
 from PIL import Image
 from django_ckeditor_5.fields import CKEditor5Field
@@ -37,7 +37,7 @@ class Department(models.Model):
     slug = models.SlugField(max_length=200, unique=True, null=True, blank=True)
     description = models.TextField(blank=True, null=True)
     image = models.FileField(
-        upload_to='department/', blank=True, null=True, validators=[validate_image_file])
+        upload_to='department/', blank=True, null=True )
     created_by = models.ForeignKey(
         User, on_delete=models.SET_NULL, blank=True, null=True)
 
@@ -135,21 +135,7 @@ class BestDoctor(models.Model):
         return f"Best Doctor :{self.doctor_name if self.doctor_name else self.id}"
 
 
-class HomeService(models.Model):
-    service_title = models.CharField(max_length=255)
-    service_category = models.ForeignKey(
-        Department, on_delete=models.SET_NULL, blank=True, null=True)
-    service_description = models.TextField(blank=True, null=True)
-    service_image = models.FileField(null=True, blank=True)
 
-    is_active = models.BooleanField(default=True)
-    created_by = models.ForeignKey(
-        User, on_delete=models.SET_NULL, blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return f"Service Title: {self.service_title}"
 
 
 class DepartmentGroup(models.Model):

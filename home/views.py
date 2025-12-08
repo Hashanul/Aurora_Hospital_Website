@@ -4,8 +4,8 @@ from .models import Hero, HeroBadge, About, Badge, Facilities, AppointmentHomeIm
 from .serializers import HeroSerializer, HeroBadgeSerializer, AboutSerializer, BadgeSerializer, FacilitiesSerializer, AppointmentHomeImageSerializer
 from accounts.permissions import AdminPermission
 # from .serializers import MenuSerializer
-from .models import MenuItem,MenuContent, PopUp
-from .serializers import MenuItemSerializer, MenuContentSerializer, PopUpSerializer
+from .models import MenuItem,MenuContent, PopUp, HomeService
+from .serializers import MenuItemSerializer, MenuContentSerializer, PopUpSerializer, HomeServiceSerializer
 
 class PopUpViewSet(viewsets.ModelViewSet):
     queryset = PopUp.objects.all()
@@ -119,3 +119,19 @@ class AppointmentHomeImageViewSet(viewsets.ModelViewSet):
 #     queryset = ContactHome.objects.all()
 #     serializer_class = ContactHomeSerializer
  
+
+
+
+ 
+class HomeServiceViewSet(viewsets.ModelViewSet):
+    queryset = HomeService.objects.all()
+    serializer_class = HomeServiceSerializer
+    permission_classes = [AdminPermission]
+
+    def perform_create(self, serializer):
+        user = self.request.user
+
+        if user.is_authenticated:
+            serializer.save(created_by=user)
+        else:
+            serializer.save(created_by=None)
