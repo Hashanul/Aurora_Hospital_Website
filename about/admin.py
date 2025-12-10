@@ -13,17 +13,19 @@ class AboutBannerAdmin(admin.ModelAdmin):
 
 @admin.register(BOD)
 class BODAdmin(admin.ModelAdmin):
-    list_display = ['id', 'bod_drName', 'bod_name', 'bod_designation']
+    list_display = ['id', 'bod_drName', 'bod_name', 'bod_designation', 'is_doctor']
+    list_filter = ['bod_designation', 'is_doctor']
+    search_fields = ['bod_drName', 'bod_name', 'bod_designation', 'is_doctor']
 
 
 @admin.register(ChairmanMessage)
 class ChairmanMessageAdmin(admin.ModelAdmin):
     list_display = ['title', 'richtext', 'image', 'created_by']
-    search_fields = ['title', 'richtext']
+    search_fields = ['title']
 
 
 @admin.register(MDMessage)
 class MDMessageAdmin(admin.ModelAdmin):
     list_display = ['title', 'richtext', 'image', 'created_by']
-    search_fields = ['title', 'richtext']
+    search_fields = ['title']
 

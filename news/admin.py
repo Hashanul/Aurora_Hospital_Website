@@ -18,4 +18,4 @@ class NewsCategoryAdmin(admin.ModelAdmin):
 class NewsAdmin(admin.ModelAdmin):
     list_display = ['title', 'richtext', 'category']
     list_filter = ['category']
-    search_fields = ['title', 'richtext']
+    search_fields = ['title', 'category']

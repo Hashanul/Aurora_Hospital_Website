@@ -18,6 +18,8 @@ class Health_packageSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class Health_ServiceSerializer(serializers.ModelSerializer):
+    created_by = serializers.StringRelatedField(read_only=True)
+    
     class Meta:
         model = Health_Service
         fields = '__all__'

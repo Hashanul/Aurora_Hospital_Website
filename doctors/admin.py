@@ -14,10 +14,11 @@ class DoctorBannerAdmin(admin.ModelAdmin):
     search_fields = ['title']
 
 
+
 @admin.register(Department)
 class DepartmentAdmin(admin.ModelAdmin):
     list_display = ['name', 'description']
-    search_fields = ['title']
+    search_fields = ['name', 'slug', 'description'] 
 
 
 @admin.register(Doctor)

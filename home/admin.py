@@ -6,20 +6,23 @@ from import_export.admin import ImportExportModelAdmin
 @admin.register(PopUp)
 class PopUpAdmin(admin.ModelAdmin):
     list_display = ['id', 'title', 'image']
+    search_fields = ['title']
 
 @admin.register(MenuItem)
 class MenuItemAdmin(ImportExportModelAdmin):
     list_display = ['id', 'title', 'to', 'classChange']
+    search_fields = ['title']
 
 @admin.register(MenuContent) 
 class MenuContentAdmin(ImportExportModelAdmin):
     list_display = ['id', 'title', 'to', 'menu']
+    search_fields = ['title']
 
 @admin.register(Hero)
 class HeroAdmin(admin.ModelAdmin):
     list_display = ['title', 'sub_title', 'is_active', 'created_at']
     list_filter = ['is_active']
-    search_fields = ['title']
+    search_fields = ['title', 'sub_title']
     ordering = ['created_at']
 
 
@@ -38,6 +41,7 @@ class AboutAdmin(admin.ModelAdmin):
 @admin.register(Badge)
 class BadgeAdmin(admin.ModelAdmin):
     list_display = ['total_appointment', 'specialists', 'happy_patients', 'winning_awards', 'updated_at']
+    search_fields = ['total_appointment', 'specialists', 'happy_patients', 'winning_awards']
 
 
 @admin.register(Facilities)
@@ -59,4 +63,4 @@ class AppointmentHomeImageAdmin(admin.ModelAdmin):
 class HomeServiceAdmin(admin.ModelAdmin):
     list_display = ['service_title', 'service_category', 'service_description']
     list_filter = [ 'service_category', 'service_description']
-    search_fields = ['service_title']
+    search_fields = ['service_title', 'service_category', 'service_description']

@@ -42,17 +42,19 @@ class PackageDetailAdmin(ImportExportModelAdmin):
 @admin.register(RoomRentBanner)
 class RoomRentBannerAdmin(admin.ModelAdmin):
     list_display = ['title', 'image', 'created_by']
+    search_fields = ['title']
 
 
 @admin.register(RoomRent)
 class RoomRentAdmin(ImportExportModelAdmin):
     list_display = ['bed_name', 'charges', 'created_by']
-    search_fields = ['bed_name', 'charges']
     list_filter = ['charges']
+    search_fields = ['bed_name', 'charges']
 
 @admin.register(EquipmentBanner)
 class EquipmentBannerAdmin(admin.ModelAdmin):
     list_display = ['title', 'image', 'created_by']
+    search_fields = ['title']
 
 @admin.register(Equipment)
 class EquipmentAdmin(admin.ModelAdmin):
@@ -66,6 +68,6 @@ class FeedbackBannerAdmin(admin.ModelAdmin):
 
 @admin.register(Feedback)
 class FeedbackAdmin(admin.ModelAdmin):
-    patient_name = ['title', 'Contact_number', 'hn_number', 'email', 'consultant_name', 'created_by']
-    search_fields = ['title', 'Contact_number', 'hn_number', 'consultant_name']
-    list_filter = ['consultant_name']
+    patient_name = ['patient_name', 'Contact_number', 'hn_number', 'email', 'consultant_name', 'created_by']
+    search_fields = ['patient_name', 'Contact_number', 'hn_number', 'consultant_name']
+    list_filter = ['patient_name', 'consultant_name']

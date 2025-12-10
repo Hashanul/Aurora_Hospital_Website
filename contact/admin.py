@@ -5,7 +5,7 @@ from .models import ContactBanner, ContactPage, ContactUs, Contact_data
 @admin.register(ContactBanner)
 class ContactBannerAdmin(admin.ModelAdmin):
     list_display = ['title', 'image']
-
+    search_fields = ['title']
 
 @admin.register(ContactPage)
 class ContactPageAdmin(admin.ModelAdmin):
@@ -17,7 +17,7 @@ class ContactPageAdmin(admin.ModelAdmin):
 class ContactUsAdmin(admin.ModelAdmin):
     list_display = ['name', 'email', 'phone', 'subject', 'message']
     list_filter = ['email', 'phone', 'subject', 'message']
-    search_fields = ['email', 'phone', 'subject', 'message']
+    search_fields = ['name', 'email', 'phone', 'subject', 'message']
 
 
 @admin.register(Contact_data)
