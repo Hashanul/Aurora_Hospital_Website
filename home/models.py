@@ -34,6 +34,9 @@ class MenuItem(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        app_label = 'nav'
+        db_table = 'home_menuitem'
 
 class MenuContent(models.Model):
     menu = models.ForeignKey(
@@ -58,7 +61,9 @@ class MenuContent(models.Model):
     def __str__(self):
         return f"Content: {self.title} → Menu:{self.menu.title}"
 
-
+    class Meta:
+        app_label = 'nav'
+        db_table = 'home_menucontent'
 
 class Hero(models.Model):
     title = models.CharField(max_length=255, null=True, blank=True)
@@ -85,7 +90,9 @@ class Hero(models.Model):
     def __str__(self):
         return f"Hero Section: {self.title if self.title else self.id}"
 
-
+    class Meta:
+        app_label = 'hero'
+        db_table = 'home_hero'
 
 def validate_image_file(value):
     valid_extensions = ['.jpg', '.jpeg', '.png', '.svg']
@@ -110,6 +117,9 @@ class HeroBadge(models.Model):
     def __str__(self):
         return self.title if self.title else self.id
 
+    class Meta:
+        app_label = 'hero'
+        db_table = 'home_herobadge'
 
 
 class About(models.Model):

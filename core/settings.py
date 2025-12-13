@@ -80,7 +80,8 @@ INSTALLED_APPS = [
     'django_ckeditor_5',
     'django_filters',
     'import_export',
-
+    'nav',
+    'hero',
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
