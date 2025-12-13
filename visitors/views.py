@@ -1,9 +1,32 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .models import VisitorPackage, RoomRentBanner, VisitorPackageBanner, PackageDetail, FacilitiesBanner, RoomRent, EquipmentBanner, Equipment, FeedbackBanner, Feedback, ServiceBanner, VisitorService
-from .serializers import VisitorPackageSerializer, VisitorPackageBannerSerializer, RoomRentBannerSerializer,  PackageDetailSerializer, RoomRentSerializer, EquipmentBannerSerializer, EquipmentSerializer, FeedbackBannerSerializer, FeedbackSerializer, ServiceBannerSerializer, VisitorServiceSerializer, FacilitiesBannerSerializer
+from .models import Health_Check_upBanner, Health_Check_up, ServiceBanner, VisitorService, FacilitiesBanner, VisitorPackageBanner
+from .models import VisitorPackage, PackageDetail, RoomRentBanner, RoomRent, EquipmentBanner, Equipment, FeedbackBanner, Feedback
+from .serializers import Health_Check_upBannerSerializer, Health_Check_upSerializer, VisitorPackageSerializer, VisitorPackageBannerSerializer, RoomRentBannerSerializer,  PackageDetailSerializer, RoomRentSerializer, EquipmentBannerSerializer, EquipmentSerializer, FeedbackBannerSerializer, FeedbackSerializer, ServiceBannerSerializer, VisitorServiceSerializer, FacilitiesBannerSerializer
 from accounts.permissions import AdminPermission
 from django_filters.rest_framework import DjangoFilterBackend
+
+
+
+class Health_Check_upBannerViewSet(viewsets.ModelViewSet):
+    queryset = Health_Check_upBanner.objects.all()
+    serializer_class = Health_Check_upBannerSerializer
+
+    def perform_create(self, serializer):
+        user = self.request.user
+
+        if user.is_authenticated:
+            serializer.save(created_by=user)
+        else:
+            serializer.save(created_by=None)
+
+
+
+class Health_Check_upViewSet(viewsets.ModelViewSet):
+    queryset = Health_Check_up.objects.all()
+    serializer_class = Health_Check_upSerializer
+    permission_classes = [AdminPermission]
+
 
 
 class ServiceBannerViewSet(viewsets.ModelViewSet):

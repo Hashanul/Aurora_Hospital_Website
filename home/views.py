@@ -1,11 +1,10 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .models import Hero, HeroBadge, About, Badge, Facilities, AppointmentHomeImage
-from .serializers import HeroSerializer, HeroBadgeSerializer, AboutSerializer, BadgeSerializer, FacilitiesSerializer, AppointmentHomeImageSerializer
+from .models import MenuItem,MenuContent, PopUp, Hero, HeroBadge, About, Health_package, Badge, Facilities, AppointmentHomeImage, HomeService
+from .serializers import MenuItemSerializer, MenuContentSerializer, PopUpSerializer, HeroSerializer, HeroBadgeSerializer, AboutSerializer, Health_packageSerializer, BadgeSerializer, FacilitiesSerializer, AppointmentHomeImageSerializer, HomeServiceSerializer
 from accounts.permissions import AdminPermission
-# from .serializers import MenuSerializer
-from .models import MenuItem,MenuContent, PopUp, HomeService
-from .serializers import MenuItemSerializer, MenuContentSerializer, PopUpSerializer, HomeServiceSerializer
+
+
 
 class PopUpViewSet(viewsets.ModelViewSet):
     queryset = PopUp.objects.all()
@@ -71,7 +70,23 @@ class AboutViewSet(viewsets.ModelViewSet):
             serializer.save(created_by=user)
         else:
             serializer.save(created_by=None)
-            
+
+
+class Health_packageViewSet(viewsets.ModelViewSet):
+    queryset = Health_package.objects.all()
+    serializer_class = Health_packageSerializer
+    permission_classes = [AdminPermission]
+
+
+    def perform_create(self, serializer):
+        user = self.request.user
+
+        if user.is_authenticated:
+            serializer.save(created_by=user)
+        else:
+            serializer.save(created_by=None)
+
+
 
 class BadgeViewSet(viewsets.ModelViewSet):
     queryset = Badge.objects.all()

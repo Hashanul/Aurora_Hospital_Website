@@ -1,5 +1,8 @@
 from rest_framework import serializers
-from .models import Hero, HeroBadge, About, Badge, Facilities, AppointmentHomeImage, MenuItem, MenuContent, PopUp, HomeService
+from .models import Hero, HeroBadge, About, Health_package, Badge, Facilities, AppointmentHomeImage, HomeService
+
+
+from .models import MenuItem, MenuContent, PopUp
 
 
 
@@ -27,7 +30,6 @@ class MenuItemSerializer(serializers.ModelSerializer):
         model = MenuItem
         fields = ["id", "title", "to", "classChange", "content"]
 
-
 class HeroSerializer(serializers.ModelSerializer):
     created_by = serializers.StringRelatedField(read_only=True)
 
@@ -43,14 +45,21 @@ class HeroBadgeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-
-
 class AboutSerializer(serializers.ModelSerializer):
     created_by = serializers.StringRelatedField(read_only=True)
     
     class Meta:
         model = About
         fields = '__all__'
+
+
+class Health_packageSerializer(serializers.ModelSerializer):
+    created_by = serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        model = Health_package
+        fields = '__all__'
+
 
 class BadgeSerializer(serializers.ModelSerializer):
     class Meta:
