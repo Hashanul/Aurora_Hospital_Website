@@ -3,6 +3,26 @@ from accounts.models import User
 from django_ckeditor_5.fields import CKEditor5Field
 
 
+class Health_Check_upBanner(models.Model):
+    title = models.CharField(max_length=255, null=True, blank=True)
+    image = models.FileField(upload_to='package_banner/', blank=True, null=True)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Health Package Banner : {self.title}"
+
+class Health_Check_up(models.Model):
+    title = models.CharField(max_length=255)
+    image = models.FileField(upload_to="health_service/", null=True, blank=True)
+
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return f"Health_Check_up :{self.title}"
 
 class ServiceBanner(models.Model):
     title = models.CharField(max_length=255)
@@ -15,7 +35,6 @@ class ServiceBanner(models.Model):
     def __str__(self):
         return f"Service Banner : {self.title}"
     
-
 class VisitorService(models.Model):
     title = models.CharField(max_length=255)
     richtext = CKEditor5Field( blank=True, null=True)
@@ -26,7 +45,6 @@ class VisitorService(models.Model):
     def __str__(self):
         return f" Visitor Service : {self.title}"
     
-
 class FacilitiesBanner(models.Model):
     title = models.CharField(max_length=255)
     image = models.FileField(upload_to='facilities_banner/', null=True, blank=True)
@@ -37,7 +55,6 @@ class FacilitiesBanner(models.Model):
 
     def __str__(self):
         return f"Facilities Banner : {self.title}"
-
 
 class VisitorPackageBanner(models.Model):
     title = models.CharField(max_length=255)
@@ -76,7 +93,6 @@ class PackageDetail(models.Model):
     def __str__(self):
         return f"Package Detail : {self.procedure_name}"
 
-
 class RoomRentBanner(models.Model):
     title = models.CharField(max_length=255)
     image = models.FileField(upload_to='room_rent_banner/', null=True, blank=True)
@@ -87,8 +103,6 @@ class RoomRentBanner(models.Model):
 
     def __str__(self):
         return f"Room Rent Banner : {self.title}"
-
-
 
 class RoomRent(models.Model):
     bed_name = models.CharField(max_length=200)
@@ -101,7 +115,6 @@ class RoomRent(models.Model):
     def __str__(self):
         return self.bed_name
 
-
 class EquipmentBanner(models.Model):
     title = models.CharField(max_length=255)
     image = models.FileField(upload_to='equipment_banner/', null=True, blank=True)
@@ -112,7 +125,6 @@ class EquipmentBanner(models.Model):
 
     def __str__(self):
         return f"Equipment Banner : {self.title}"
-
 
 class Equipment(models.Model):
     title = models.CharField(max_length=255)
@@ -125,7 +137,6 @@ class Equipment(models.Model):
     def __str__(self):
         return self.title
 
-
 class FeedbackBanner(models.Model):
     title = models.CharField(max_length=255)
     image = models.FileField(upload_to='feedback_banner/', null=True, blank=True)
@@ -137,8 +148,6 @@ class FeedbackBanner(models.Model):
     def __str__(self):
         return f"Feedback Banner : {self.title}"
     
-
-
 class Feedback(models.Model):
     CHOICES =[
         ("Poor", "Poor"),

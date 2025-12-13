@@ -1,8 +1,20 @@
 from django.contrib import admin
-from .models import VisitorPackage, PackageDetail, VisitorPackageBanner, FacilitiesBanner, EquipmentBanner, RoomRentBanner, RoomRent, VisitorService, Equipment, FeedbackBanner, Feedback, ServiceBanner
+from .models import Health_Check_upBanner, Health_Check_up, ServiceBanner, VisitorService, FacilitiesBanner, VisitorPackageBanner
+from .models import VisitorPackage, PackageDetail, RoomRentBanner, RoomRent, EquipmentBanner, Equipment, FeedbackBanner, Feedback
 from import_export.admin import ImportExportModelAdmin
- 
 
+
+@admin.register(Health_Check_upBanner)
+class HealthPackageBannerAdmin(admin.ModelAdmin):
+    list_display = ['title', 'image', 'created_by']
+    search_fields = ['title']
+
+
+@admin.register(Health_Check_up)
+class Health_Check_upAdmin(admin.ModelAdmin):
+    list_display = ['title', 'image']
+    search_fields = ['title']
+ 
  
 @admin.register(ServiceBanner)
 class ServiceBannerAdmin(admin.ModelAdmin):

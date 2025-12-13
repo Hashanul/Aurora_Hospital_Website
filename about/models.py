@@ -59,3 +59,4 @@ class MDMessage(models.Model):
 
     def __str__(self):
         return f"Message of Managing Director : {self.title}"
+

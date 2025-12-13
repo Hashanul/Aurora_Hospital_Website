@@ -10,7 +10,6 @@ from doctors.urls import router as supporter_router_doctor
 from patients.urls import router as supporter_router_patients
 from news.urls import router as supporter_router_news
 from appointment.urls import router as supporter_router_appointment
-from package.urls import router as supporter_router_package
 from accounts.urls import router as supporter_router_accounts
 from award.urls import router as supporter_router_award
 from contact.urls import router as supporter_router_contact
@@ -25,7 +24,6 @@ router.registry.extend(supporter_router_doctor.registry)
 router.registry.extend(supporter_router_patients.registry)
 router.registry.extend(supporter_router_news.registry)
 router.registry.extend(supporter_router_appointment.registry)
-router.registry.extend(supporter_router_package.registry)
 router.registry.extend(supporter_router_accounts.registry)
 router.registry.extend(supporter_router_award.registry)
 router.registry.extend(supporter_router_contact.registry)
