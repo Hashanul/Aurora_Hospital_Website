@@ -34,11 +34,11 @@ class BadgeAdmin(admin.ModelAdmin):
     search_fields = ['total_appointment', 'specialists', 'happy_patients', 'winning_awards']
 
 
-@admin.register(Facilities)
-class FacilitiesAdmin(admin.ModelAdmin):
-    list_display = ['title', 'description', 'points', 'image', 'open_hour', 'created_at']
-    list_filter = ['created_at', 'open_hour']
-    search_fields = ['title', 'description', 'points']
+# @admin.register(Facilities)
+# class FacilitiesAdmin(admin.ModelAdmin):
+#     list_display = ['title', 'description', 'points', 'image', 'open_hour', 'created_at']
+#     list_filter = ['created_at', 'open_hour']
+#     search_fields = ['title', 'description', 'points']
 
 
 @admin.register(AppointmentHomeImage)

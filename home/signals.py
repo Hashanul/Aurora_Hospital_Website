@@ -29,19 +29,19 @@ def update_specialists_badge(sender, instance, created, **kwargs):
         badge.save()
 
 
-# When a new Award is created → winning_awards++
-@receiver(post_save, sender=Award)
-def update_awards_badge(sender, instance, created, **kwargs):
-    if created:
-        badge = get_badge()
-        badge.winning_awards += 1
-        badge.save()
+# # When a new Award is created → winning_awards++
+# @receiver(post_save, sender=Award)
+# def update_awards_badge(sender, instance, created, **kwargs):
+#     if created:
+#         badge = get_badge()
+#         badge.winning_awards += 1
+#         badge.save()
 
 
-# When a new Patient is created → happy_patients++
-@receiver(post_save, sender=Patient)
-def update_patients_badge(sender, instance, created, **kwargs):
-    if created:
-        badge = get_badge()
-        badge.happy_patients += 1
-        badge.save()
+# # When a new Patient is created → happy_patients++
+# @receiver(post_save, sender=Patient)
+# def update_patients_badge(sender, instance, created, **kwargs):
+#     if created:
+#         badge = get_badge()
+#         badge.happy_patients += 1
+#         badge.save()

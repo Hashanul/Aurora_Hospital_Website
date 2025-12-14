@@ -179,7 +179,7 @@ class Badge(models.Model):
 
     def __str__(self):
         return "Site Badge"
-     
+      
 
 class Facilities(models.Model):
     title = models.CharField(max_length=255)

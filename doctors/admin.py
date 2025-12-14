@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import DepartmentBanner, DoctorBanner, Department, Doctor, ChamberTime, BestDoctor, DepartmentGroup
+from .models import DepartmentBanner, DoctorBanner, Department, Doctor, DepartmentGroup
 
 
 @admin.register(DepartmentBanner)
@@ -27,17 +27,17 @@ class DoctorAdmin(admin.ModelAdmin):
     list_filter = ['designation', 'department']
     search_fields = ['drName', 'designation']
 
-@admin.register(ChamberTime)
-class ChamberTimeAdmin(admin.ModelAdmin):
-    list_display = ['drCode', 'dayName', 'visitType', 'startTime', 'finishTime', 'created_by']
-    list_filter = ['drCode', 'dayName', 'visitType',]
-    search_fields = ['drCode', 'dayName', 'visitType',]
+# @admin.register(ChamberTime)
+# class ChamberTimeAdmin(admin.ModelAdmin):
+#     list_display = ['drCode', 'dayName', 'visitType', 'startTime', 'finishTime', 'created_by']
+#     list_filter = ['drCode', 'dayName', 'visitType',]
+#     search_fields = ['drCode', 'dayName', 'visitType',]
 
-@admin.register(BestDoctor)
-class BestDoctorAdmin(admin.ModelAdmin):
-    list_display = ['doctor_name', 'best_in_field', 'doctor_image', 'doctor_about', 'doctor_skills', 'doctor_experiance', 'award_title', 'award_description', 'award_image']
-    list_filter = ['best_in_field', 'award_title', 'award_description', 'doctor_experiance',]
-    search_fields = ['doctor_name', 'best_in_field', 'award_title',]
+# @admin.register(BestDoctor)
+# class BestDoctorAdmin(admin.ModelAdmin):
+#     list_display = ['doctor_name', 'best_in_field', 'doctor_image', 'doctor_about', 'doctor_skills', 'doctor_experiance', 'award_title', 'award_description', 'award_image']
+#     list_filter = ['best_in_field', 'award_title', 'award_description', 'doctor_experiance',]
+#     search_fields = ['doctor_name', 'best_in_field', 'award_title',]
 
 
 
@@ -49,7 +49,5 @@ class DepartmentGroupAdmin(admin.ModelAdmin):
     search_fields = ['group_name']
 
 
-# @admin.register(Schedule)
-# class ScheduleAdmin(admin.ModelAdmin):
-#     list_display = ['day', 'time']
+
 

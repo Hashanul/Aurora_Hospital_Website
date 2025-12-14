@@ -65,7 +65,7 @@ class BadgeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Badge
         fields = '__all__'
-
+ 
 
 class FacilitiesSerializer(serializers.ModelSerializer):
     created_by = serializers.StringRelatedField(read_only=True)

@@ -27,10 +27,10 @@ class VisitorServiceAdmin(admin.ModelAdmin):
     search_fields = ['title']
 
 
-@admin.register(FacilitiesBanner)
-class FacilitiesBannerAdmin(admin.ModelAdmin):
-    list_display = ['title', 'image', 'created_by']
-    search_fields = ['title']
+# @admin.register(FacilitiesBanner)
+# class FacilitiesBannerAdmin(admin.ModelAdmin):
+#     list_display = ['title', 'image', 'created_by']
+#     search_fields = ['title']
 
 @admin.register(VisitorPackageBanner)
 class VisitorPackageBannerAdmin(admin.ModelAdmin):
@@ -63,15 +63,15 @@ class RoomRentAdmin(ImportExportModelAdmin):
     list_filter = ['charges']
     search_fields = ['bed_name', 'charges']
 
-@admin.register(EquipmentBanner)
-class EquipmentBannerAdmin(admin.ModelAdmin):
-    list_display = ['title', 'image', 'created_by']
-    search_fields = ['title']
+# @admin.register(EquipmentBanner)
+# class EquipmentBannerAdmin(admin.ModelAdmin):
+#     list_display = ['title', 'image', 'created_by']
+#     search_fields = ['title']
 
-@admin.register(Equipment)
-class EquipmentAdmin(admin.ModelAdmin):
-    list_display = ['title', 'richtext', 'created_by']
-    search_fields = ['title', 'richtext']
+# @admin.register(Equipment)
+# class EquipmentAdmin(admin.ModelAdmin):
+#     list_display = ['title', 'richtext', 'created_by']
+#     search_fields = ['title', 'richtext']
 
 @admin.register(FeedbackBanner)
 class FeedbackBannerAdmin(admin.ModelAdmin):
