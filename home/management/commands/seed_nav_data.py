@@ -33,12 +33,24 @@ NAV_DATA = [
         "to": "/find-doctors",
     },
     {
-        "title": "News",
+        "title": "Visitors & Patient",
         "order": 6,
+        "classChange": "sub-menu-down",
+        "contents": [
+            {"title": "Services", "to": "/services"},
+            {"title": "Health Check Up"},
+            {"title": "Packages"},
+            {"title": "Room rent"},
+            {"title": "Feedback"},
+        ],
+    },
+    {
+        "title": "News",
+        "order": 7,
     },
     {
         "title": "Contact",
-        "order": 7,
+        "order": 8,
         "to": "/contact-us",
     },
 ]
@@ -53,22 +65,28 @@ class Command(BaseCommand):
 
         with transaction.atomic():
             for item in NAV_DATA:
+                # Build defaults only for fields that actually exist on the model
+                # and have non-empty values in the NAV_DATA. The NAV_DATA includes
+                # an `order` key for ordering purposes, but `MenuItem` does not
+                # have an `order` field so we ignore it here.
                 defaults = {}
-                if "classChange" in item:
+                if "classChange" in item and item.get("classChange"):
                     defaults["classChange"] = item.get("classChange")
-                if "to" in item:
+                if "to" in item and item.get("to"):
                     defaults["to"] = item.get("to")
 
+                # Create or get by title. Do not pass unknown fields (like order).
                 menu, menu_created = MenuItem.objects.get_or_create(
-                    title=item["title"], defaults=defaults, order=item["order"]
+                    title=item["title"], defaults=defaults
                 )
 
                 if not menu_created:
                     changed = False
-                    if "classChange" in item and menu.classChange != item.get("classChange"):
+                    # Only update when a non-empty value is provided in NAV_DATA
+                    if "classChange" in item and item.get("classChange") and menu.classChange != item.get("classChange"):
                         menu.classChange = item.get("classChange")
                         changed = True
-                    if "to" in item and menu.to != item.get("to"):
+                    if "to" in item and item.get("to") and menu.to != item.get("to"):
                         menu.to = item.get("to")
                         changed = True
                     if changed:
