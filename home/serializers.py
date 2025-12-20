@@ -28,7 +28,7 @@ class MenuItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MenuItem
-        fields = ["id", "title", "to", "classChange", "content"]
+        fields = ["id", "title", "to", "classChange", "order", "content"]
 
 class HeroSerializer(serializers.ModelSerializer):
     created_by = serializers.StringRelatedField(read_only=True)

@@ -5,7 +5,7 @@ from import_export.admin import ImportExportModelAdmin
 
 @admin.register(MenuItem)
 class MenuItemAdmin(ImportExportModelAdmin):
-    list_display = ["id", "title", "to", "classChange"]
+    list_display = ["id", "title", "to", "classChange", "order"]
     search_fields = ["title"]
 
 
