@@ -9,7 +9,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         # Ensure the MenuItem for 'Our Departments' exists
         menu_item, created = MenuItem.objects.get_or_create(
-            title="Our Departments", defaults={"to": "/our-departments"}
+            title="Our Departments", classChange="sub-menu-down", order=5
         )
         if created:
             self.stdout.write(self.style.SUCCESS("Created MenuItem: Our Departments"))
