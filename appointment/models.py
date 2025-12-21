@@ -97,4 +97,5 @@ class Report(models.Model):
     patient_id = models.CharField(max_length=100)
     report_file = models.FileField(upload_to="report", null=True, blank=True)
 
-    
+    def __str__(self):
+        return self.patient_id

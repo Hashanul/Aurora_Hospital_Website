@@ -97,7 +97,7 @@ class Hero(models.Model):
 
     class Meta:
         app_label = 'hero'
-        db_table = 'home_hero'
+        db_table = 'home_page_hero'
 
 def validate_image_file(value):
     valid_extensions = ['.jpg', '.jpeg', '.png', '.svg']
@@ -124,7 +124,7 @@ class HeroBadge(models.Model):
 
     class Meta:
         app_label = 'hero'
-        db_table = 'home_herobadge'
+        db_table = 'home_page_herobadge'
 
 
 class About(models.Model):
