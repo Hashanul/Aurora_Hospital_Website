@@ -1,8 +1,9 @@
 
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, filters
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
-from .models import Appointment, AppointmentBanner
-from .serializers import AppointmentSerializer, AppointmentBannerSerializer
+from .models import Appointment, AppointmentBanner, Report
+from .serializers import AppointmentSerializer, AppointmentBannerSerializer, ReportSerializer
 from rest_framework.exceptions import ValidationError
 from accounts.permissions import AdminPermission
 
@@ -75,4 +76,18 @@ class AppointmentViewSet(viewsets.ModelViewSet):
                 "Msg": msg,
                 "Returnvalue": {}
             }, status=status.HTTP_400_BAD_REQUEST)
+        
+
+class ReportViewSet(viewsets.ModelViewSet):
+    queryset = Report.objects.all()
+    serializer_class = ReportSerializer
+
+    # Add filter and search backends
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+
+    # Exact filter by patient_id
+    filterset_fields = ['patient_id']
+
+    # Search by patient_id (partial match)
+    search_fields = ['patient_id']
 

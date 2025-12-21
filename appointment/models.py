@@ -1,4 +1,5 @@
 from django.db import models
+
 from doctors.models import Department, Doctor
 from accounts.models import User
 
@@ -44,7 +45,6 @@ class Appointment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
- 
 
     def calculate_age(self):
         """Calculate age on VisitDate."""
@@ -91,3 +91,10 @@ class Appointment(models.Model):
 
     def __str__(self):
         return f"Appointment Information: {self.PatientName} - {self.DrName} ({self.VisitDate})"
+    
+
+class Report(models.Model):
+    patient_id = models.CharField(max_length=100)
+    report_file = models.FileField(upload_to="report", null=True, blank=True)
+
+    

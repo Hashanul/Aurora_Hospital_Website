@@ -1,6 +1,6 @@
 from requests import Response
 from rest_framework import serializers
-from .models import Appointment, AppointmentBanner
+from .models import Appointment, AppointmentBanner, Report
 from doctors.models import Doctor
 from datetime import date
 from datetime import date, timedelta
@@ -55,42 +55,54 @@ class AppointmentSerializer(serializers.ModelSerializer):
         doctor = data.get("DrCode")
         visit_date = data.get("VisitDate")
         mobile = data.get("MobileNo")
+        dob = data.get("Dob")
 
         today = date.today()
         max_date = today + timedelta(days=7)   # today + 7 days
 
-        # Rule 1: Date range validation (Today → Today+7)
-        if visit_date < today or visit_date > max_date:
+        # --- Check 1: Future DOB ---
+        if dob and dob > today:
             raise serializers.ValidationError({
-                "msg": "You wouldn't make Advance appointment of this Doctor."
+                "Dob": "Date of Birth cannot be in the future."
             })
 
-        # Rule 2: Max 100 appointments per doctor per day
+        # --- Check 2: VisitDate range ---
+        if visit_date < today or visit_date > max_date:
+            raise serializers.ValidationError({
+                "VisitDate": "You can only book an appointment within the next 7 days."
+            })
+
+        # --- Check 3: Max 100 appointments per doctor per day ---
         doctor_count = Appointment.objects.filter(
             DrCode=doctor, VisitDate=visit_date
         ).count()
-
         if doctor_count >= 100:
             raise serializers.ValidationError({
-                "msg": "This Doctor Serial Quota Already Completed. Please Try for Another Day."
+                "msg": "This Doctor's Serial Quota Already Completed. Please Try Another Day."
             })
 
-        # Rule 3: Same patient can't book same doctor twice on same date
+        # --- Check 4: Same patient can't book same doctor twice same day ---
         existing = Appointment.objects.filter(
             MobileNo=mobile,
             DrCode=doctor,
             VisitDate=visit_date
         ).first()
-
         if existing:
             serial_no = str(existing.id).zfill(3)
             raise serializers.ValidationError({
                 "msg": f"This number already booked an appointment with this Doctor on same date. Serial No: {serial_no}"
             })
 
+        return data      
 
-        return data
 
     # -------------------------
     def create(self, validated_data):
         return Appointment.objects.create(**validated_data)
+
+
+class ReportSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Report
+        fields = '__all__'
