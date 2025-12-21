@@ -21,7 +21,7 @@ class PopUpViewSet(viewsets.ModelViewSet):
 
 
 class MenuItemViewSet(viewsets.ModelViewSet):
-    queryset = MenuItem.objects.all()
+    queryset = MenuItem.objects.all().order_by('order')
     serializer_class = MenuItemSerializer
 
 

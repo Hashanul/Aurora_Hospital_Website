@@ -5,7 +5,7 @@ from .views import Health_Check_upBannerViewSet, Health_Check_upViewSet, RoomRen
 router = DefaultRouter()
 
 router.register(r'health_package_banner', Health_Check_upBannerViewSet)
-router.register(r'health_package', Health_Check_upViewSet)
+router.register(r'health_check_up_package', Health_Check_upViewSet)
 router.register(r'service_banner', ServiceBannerViewSet)
 router.register(r'visitor_service', VisitorServiceViewSet)
 router.register(r'facilities_banner', FacilitiesBannerViewSet)

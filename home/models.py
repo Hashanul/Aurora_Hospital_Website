@@ -27,6 +27,7 @@ class MenuItem(models.Model):
     title = models.CharField(max_length=255)
     to = models.CharField(max_length=255, blank=True, null=True)
     classChange = models.CharField(max_length=100, blank=True, null=True)
+    order = models.CharField(max_length=5, blank=True, null=True) 
 
     def save(self, *args, **kwargs):
         if not self.to:
@@ -40,6 +41,7 @@ class MenuItem(models.Model):
     class Meta:
         app_label = 'nav'
         db_table = 'home_menuitem'
+        ordering = ['order']
 
 class MenuContent(models.Model):
     menu = models.ForeignKey(
