@@ -90,7 +90,8 @@ class AppointmentSerializer(serializers.ModelSerializer):
         if existing:
             serial_no = str(existing.id).zfill(3)
             raise serializers.ValidationError({
-                "msg": f"This number already booked an appointment with this Doctor on same date. Serial No: {serial_no}"
+                "msg": f"This number already booked an appointment with this Doctor on same date."
+                #  Serial No: {serial_no}
             })
 
         return data      
