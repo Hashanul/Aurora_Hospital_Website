@@ -13,3 +13,4 @@ class MenuItemAdmin(ImportExportModelAdmin):
 class MenuContentAdmin(ImportExportModelAdmin):
     list_display = ["id", "title", "to", "menu"]
     search_fields = ["title"]
+ 

@@ -32,28 +32,27 @@ class DoctorSerializer(serializers.ModelSerializer):
 
     department_name = serializers.CharField(write_only=True, required=False, allow_blank=True)
     department_description = serializers.CharField(write_only=True, required=False, allow_blank=True)
-    department = serializers.StringRelatedField(read_only=True)
-    department_id = serializers.PrimaryKeyRelatedField(
-        queryset=Department.objects.all(), 
-        source='department', 
-        write_only=True, 
-        required=False, 
-        allow_null=True
-    )
- 
-    # chamber_time = serializers.StringRelatedField(read_only=True)
-    # chamber_time_id = serializers.PrimaryKeyRelatedField(
-    #     queryset=ChamberTime.objects.all(), 
-    #     source='chamber_time', 
+    # department = serializers.StringRelatedField(read_only=True)
+    # department_id = serializers.PrimaryKeyRelatedField(
+    #     queryset=Department.objects.all(), 
+    #     source='department', 
     #     write_only=True, 
     #     required=False, 
     #     allow_null=True
     # )
+    department = serializers.SlugRelatedField(
+        queryset=Department.objects.all(),
+        slug_field='name',  # department table এর যে ফিল্ড দিয়ে select করতে চান
+        required=False,
+        allow_null=True
+    )
+ 
+
     class Meta:
         model = Doctor
         fields = [
             'id', 'is_doctor', 'drName', 'email', 'phone', 'designation', 'description', 'drCode', 'richtext',
-              'image', 'department_id','department', 'department_name', 'department_description',
+              'image', 'department', 'department_name', 'department_description',
              'created_by', 'created_at', 'updated_at'
         ]
 
@@ -69,7 +68,7 @@ class DoctorSerializer(serializers.ModelSerializer):
                 department.description = department_description
                 department.save()
             validated_data['department'] = department
-
+                                                                                                                                                                                                  
         # Now safe to create Doctor without extra fields
         doctor = Doctor.objects.create(**validated_data)
         return doctor
@@ -86,8 +85,8 @@ class DoctorSerializer(serializers.ModelSerializer):
                 department.description = department_description
                 department.save()
             instance.department = department
-        elif 'department_id' in validated_data:
-            instance.department = validated_data.pop('department_id')
+        elif 'department' in validated_data:
+            instance.department = validated_data.pop('department')
         
         for attr, value in validated_data.items():
             setattr(instance, attr, value)

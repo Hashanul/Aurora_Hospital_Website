@@ -1,5 +1,7 @@
 from django.contrib import admin
 from .models import DepartmentBanner, DoctorBanner, Department, Doctor, DepartmentGroup
+from import_export.admin import ImportExportModelAdmin
+from .resources import DoctorResource, DepartmentResource
 
 
 @admin.register(DepartmentBanner)
@@ -16,13 +18,15 @@ class DoctorBannerAdmin(admin.ModelAdmin):
 
 
 @admin.register(Department)
-class DepartmentAdmin(admin.ModelAdmin):
-    list_display = ['name', 'description']
+class DepartmentAdmin(ImportExportModelAdmin):
+    resource_class = DepartmentResource
+    list_display = ['id', 'name', 'description']
     search_fields = ['name', 'slug', 'description'] 
 
 
 @admin.register(Doctor)
-class DoctorAdmin(admin.ModelAdmin):
+class DoctorAdmin(ImportExportModelAdmin):
+    resource_class = DoctorResource
     list_display = ['id', 'drName', 'designation', 'department', 'drCode']
     list_filter = ['designation', 'department']
     search_fields = ['drName', 'designation']
@@ -38,8 +42,6 @@ class DoctorAdmin(admin.ModelAdmin):
 #     list_display = ['doctor_name', 'best_in_field', 'doctor_image', 'doctor_about', 'doctor_skills', 'doctor_experiance', 'award_title', 'award_description', 'award_image']
 #     list_filter = ['best_in_field', 'award_title', 'award_description', 'doctor_experiance',]
 #     search_fields = ['doctor_name', 'best_in_field', 'award_title',]
-
-
 
 
 

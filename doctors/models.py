@@ -61,7 +61,7 @@ class Department(models.Model):
     def __str__(self):
         return self.name
  
-
+                                                                              
 class Doctor(models.Model):
     drName = models.CharField(max_length=255)
     designation = models.CharField(max_length=255, blank=True, null=True)
