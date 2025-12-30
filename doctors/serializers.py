@@ -53,6 +53,7 @@ class DoctorSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'is_doctor', 'drName', 'email', 'phone', 'designation', 'description', 'drCode', 'richtext',
               'image', 'department', 'department_name', 'department_description',
+                'drStatus', 'takeCom', 'drType', 'sms',
              'created_by', 'created_at', 'updated_at'
         ]
 

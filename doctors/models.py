@@ -63,7 +63,7 @@ class Department(models.Model):
  
                                                                               
 class Doctor(models.Model):
-    drName = models.CharField(max_length=255)
+    drName = models.CharField(max_length=255, blank=True, null=True)
     designation = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     richtext = CKEditor5Field(blank=True, null=True)
@@ -75,8 +75,15 @@ class Doctor(models.Model):
         Department, on_delete=models.SET_NULL, null=True, blank=True, related_name='doctors')
 
     email = models.EmailField(unique=True, null=True, blank=True)
-    phone = models.CharField(max_length=15)
+    phone = models.CharField(max_length=15, blank=True, null=True)
     is_doctor = models.BooleanField(default=True)
+
+
+    ## additional fields
+    drStatus = models.CharField(max_length=100, blank=True, null=True)
+    takeCom = models.PositiveIntegerField(blank=True, null=True)
+    drType = models.CharField(max_length=100, blank=True, null=True)
+    sms = models.PositiveIntegerField(blank=True, null=True)
 
     created_by = models.ForeignKey(
         User, on_delete=models.SET_NULL, blank=True, null=True)
