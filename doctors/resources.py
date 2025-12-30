@@ -46,6 +46,16 @@ class DoctorResource(resources.ModelResource):
     sms = fields.Field(attribute="sms", column_name="SMS")
     phone = fields.Field(attribute="phone", column_name="CellPhone")
 
+    def import_row(self, row, instance_loader, **kwargs):
+        # Set missing or empty fields to None
+        for field in self.get_import_fields():
+            if field.column_name not in row or row[field.column_name] == "":
+                row[field.column_name] = None
+        # For unique fields like email, don't set to None to avoid unique constraint issues
+        if "email" in row and row["email"] is None:
+            del row["email"]
+        return super().import_row(row, instance_loader, **kwargs)
+
     class Meta:
         model = Doctor
         fields = (
