@@ -1,7 +1,9 @@
 from django.db import models
 
-from doctors.models import Department, Doctor
+from doctors.models import Department, Doctor, ChamberTime
 from accounts.models import User
+from calendar import monthrange
+
 
 
 
@@ -28,7 +30,8 @@ class Appointment(models.Model):
     VisitDate = models.DateField()
     DrCode = models.ForeignKey(Doctor, on_delete=models.SET_NULL, blank=True, null=True, related_name='appointments_by_code')
     DrName = models.ForeignKey(Doctor, on_delete=models.SET_NULL, null=True, blank=True, related_name='appointments_by_name')
-
+    schedule = models.ForeignKey(ChamberTime, on_delete=models.SET_NULL, blank=True, null=True)
+    
     PatientName = models.CharField(max_length=255, )
     MobileNo = models.CharField(max_length=15)
     PatientEmail = models.EmailField(null=True, blank=True)
@@ -46,6 +49,7 @@ class Appointment(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
+
     def calculate_age(self):
         """Calculate age on VisitDate."""
         if not self.Dob or not self.VisitDate:
@@ -53,31 +57,36 @@ class Appointment(models.Model):
 
         dob = self.Dob
         visit = self.VisitDate
- 
-        # year
-        age_year = visit.year - dob.year
 
-        # adjust if birthday not passed
+        # -------- YEAR --------
+        age_year = visit.year - dob.year
         if (visit.month, visit.day) < (dob.month, dob.day):
             age_year -= 1
 
-        # month
+        # -------- MONTH --------
         age_month = visit.month - dob.month
-        if age_month < 0:
-            age_month += 12
         if visit.day < dob.day:
             age_month -= 1
+        if age_month < 0:
+            age_month += 12
 
-        # days
+        # -------- DAY --------
         if visit.day >= dob.day:
             age_day = visit.day - dob.day
         else:
-            # previous month days
-            from calendar import monthrange
-            prev_month_days = monthrange(visit.year, visit.month - 1)[1]
+            # 🔥 FIX HERE (January safe)
+            if visit.month == 1:
+                prev_month = 12
+                prev_year = visit.year - 1
+            else:
+                prev_month = visit.month - 1
+                prev_year = visit.year
+
+            prev_month_days = monthrange(prev_year, prev_month)[1]
             age_day = prev_month_days - (dob.day - visit.day)
 
         return age_year, age_month, age_day
+
 
     def save(self, *args, **kwargs):
         # Auto-calc age before save
