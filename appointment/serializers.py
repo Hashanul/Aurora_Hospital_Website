@@ -1,7 +1,7 @@
 from requests import Response
 from rest_framework import serializers
 from .models import Appointment, AppointmentBanner, Report
-from doctors.models import Doctor
+from doctors.models import Doctor, ChamberTime
 from datetime import date
 from datetime import date, timedelta
 
@@ -31,6 +31,12 @@ class AppointmentSerializer(serializers.ModelSerializer):
     # Return doctor name (read)
     DrName = serializers.CharField(source="DrCode.drName", read_only=True)
 
+    # schedule = serializers.PrimaryKeyRelatedField(
+    #     queryset=ChamberTime.objects.none(),  # 🔥 initially empty
+    #     required=False,
+    #     allow_null=True
+    # )
+
     class Meta:
         model = Appointment
         fields = [
@@ -38,6 +44,7 @@ class AppointmentSerializer(serializers.ModelSerializer):
             "doctor_id",   # write only
             "DrCode",      # read only
             "DrName",      # read only
+            "schedule",      
 
             "PatientName", "MobileNo", "PatientEmail",
             "Dob", "AgeDay", "AgeMonth", "AgeYear",
@@ -46,6 +53,8 @@ class AppointmentSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ["AgeDay", "AgeMonth", "AgeYear"]
 
+
+
     # -------------------------
     # VALIDATION RULES
     # -------------------------
@@ -53,12 +62,13 @@ class AppointmentSerializer(serializers.ModelSerializer):
     def validate(self, data):
 
         doctor = data.get("DrCode")
+        schedule = data.get("schedule")
         visit_date = data.get("VisitDate")
         mobile = data.get("MobileNo")
         dob = data.get("Dob")
 
         today = date.today()
-        max_date = today + timedelta(days=7)   # today + 7 days
+        max_date = today + timedelta(days=30)   # today + 30 days
 
         # --- Check 1: Future DOB ---
         if dob and dob > today:
@@ -69,7 +79,7 @@ class AppointmentSerializer(serializers.ModelSerializer):
         # --- Check 2: VisitDate range ---
         if visit_date < today or visit_date > max_date:
             raise serializers.ValidationError({
-                "VisitDate": "You can only book an appointment within the next 7 days."
+                "VisitDate": "You can only book an appointment within the next 30 days."
             })
 
         # --- Check 3: Max 100 appointments per doctor per day ---
@@ -88,7 +98,7 @@ class AppointmentSerializer(serializers.ModelSerializer):
             VisitDate=visit_date
         ).first()
         if existing:
-            serial_no = str(existing.id).zfill(3)
+            # serial_no = str(existing.id).zfill(3)
             raise serializers.ValidationError({
                 "msg": f"This number already booked an appointment with this Doctor on same date."
                 #  Serial No: {serial_no}
