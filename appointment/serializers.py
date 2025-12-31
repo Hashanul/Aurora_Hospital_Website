@@ -77,10 +77,10 @@ class AppointmentSerializer(serializers.ModelSerializer):
             })
 
         # --- Check 2: VisitDate range ---
-        if visit_date < today or visit_date > max_date:
-            raise serializers.ValidationError({
-                "VisitDate": "You can only book an appointment within the next 30 days."
-            })
+        # if visit_date < today or visit_date > max_date:
+        #     raise serializers.ValidationError({
+        #         "VisitDate": "You can only book an appointment within the next 30 days."
+        #     })
 
         # --- Check 3: Max 100 appointments per doctor per day ---
         doctor_count = Appointment.objects.filter(

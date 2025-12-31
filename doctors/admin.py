@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import DepartmentBanner, DoctorBanner, Department, Doctor, DepartmentGroup
+from .models import DepartmentBanner, DoctorBanner, Department, Doctor, DepartmentGroup, ChamberTime
 from import_export.admin import ImportExportModelAdmin
 from import_export.formats import base_formats
 from .resources import DoctorResource, DepartmentResource
@@ -9,6 +9,13 @@ from .resources import DoctorResource, DepartmentResource
 class DepartmentBannerAdmin(admin.ModelAdmin):
     list_display = ["title", "image", "created_by"]
     search_fields = ["title"]
+
+
+@admin.register(ChamberTime)
+class ChamberTimeAdmin(admin.ModelAdmin):
+    list_display = ["id", "drCode", "dayName",
+                    "visitType", "startTime", "finishTime"]
+    autocomplete_fields = ['drCode']
 
 
 @admin.register(DoctorBanner)
