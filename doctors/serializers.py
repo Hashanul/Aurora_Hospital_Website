@@ -112,6 +112,13 @@ class ChamberTimeSerializer(serializers.ModelSerializer):
             'id','drCode_id','drCode', 'drName','dayName','visitType',
             'startTime','finishTime','created_by','created_at','updated_at'
         ]
+
+    
+    def get_drCode(self, obj):
+        return obj.drCode.drCode if obj.drCode else None
+
+    def get_drName(self, obj):
+        return obj.drCode.drName if obj.drCode else None
     
 
 class BestDoctorSerializer(serializers.ModelSerializer):

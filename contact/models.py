@@ -25,14 +25,6 @@ class ContactPage(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-    # @property
-    # def total_doctor(self):
-    #     return Doctor.objects.count()
-
-    # @property
-    # def doctor_images(self):
-    #     return Doctor.objects.values_list('image', flat=True)
  
 
 

@@ -94,16 +94,16 @@ class Doctor(models.Model):
         ordering = ['-created_at'] 
 
     def __str__(self):
-        return f"Dr. {self.drName} - ({self.department if self.department else self.id})"
+        return f"Dr. {self.drName or self.id}"
 
 
 class ChamberTime(models.Model):
     drCode = models.ForeignKey(
         Doctor, on_delete=models.SET_NULL, blank=True, null=True)
     dayName = models.CharField(max_length=100)
-    visitType = models.CharField(max_length=100)
-    startTime = models.CharField(max_length=100)
-    finishTime = models.CharField(max_length=100)
+    visitType = models.CharField(max_length=100, blank=True, null=True)
+    startTime = models.CharField(max_length=100, blank=True, null=True)
+    finishTime = models.CharField(max_length=100, blank=True, null=True)
 
     created_by = models.ForeignKey(
         User, on_delete=models.SET_NULL, blank=True, null=True)
@@ -149,7 +149,7 @@ class BestDoctor(models.Model):
 
 
 class DepartmentGroup(models.Model):
-    group_name = models.CharField(max_length=250, null=True, blank=True)
+    group_name = models.CharField(max_length=250, blank=True)
     departments = models.ManyToManyField(
         Department, blank=True, related_name='groups')
 
@@ -158,5 +158,5 @@ class DepartmentGroup(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.group_name if self.group_name else self.id} - {self.departments if self.departments else self.id}"
+        return f"{self.group_name if self.group_name else self.id}"
  
