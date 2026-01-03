@@ -6,7 +6,7 @@ from .models import Doctor, BestDoctor, Department, ChamberTime, DepartmentGroup
 from .serializers import DoctorSerializer, BestDoctorSerializer, DepartmentSerializer, ChamberTimeSerializer, DepartmentGroupSerializer, DepartmentBannerSerializer, DoctorBannerSerializer
 from accounts.permissions import AdminPermission
 from .filters import ChamberTimeFilter
-from .pagination import DoctorPagination
+from .pagination import DoctorPagination, CustomPagination
 
 
 class DoctorBannerViewSet(viewsets.ModelViewSet):
@@ -41,6 +41,7 @@ class DepartmentViewSet(viewsets.ModelViewSet):
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
     permission_classes = [AdminPermission]
+    pagination_class = CustomPagination
 
     def perform_create(self, serializer):
         user = self.request.user
