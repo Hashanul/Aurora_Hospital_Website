@@ -5,8 +5,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .models import Doctor, BestDoctor, Department, ChamberTime, DepartmentGroup, DepartmentBanner, DoctorBanner
 from .serializers import DoctorSerializer, BestDoctorSerializer, DepartmentSerializer, ChamberTimeSerializer, DepartmentGroupSerializer, DepartmentBannerSerializer, DoctorBannerSerializer
 from accounts.permissions import AdminPermission
-from .filters import ChamberTimeFilter, DoctorFilter
-from .pagination import DoctorPagination
+from .filters import ChamberTimeFilter
+from .pagination import DoctorPagination, CustomPagination
 
 
 class CreatedByMixin:
@@ -36,15 +36,19 @@ class DepartmentViewSet(CreatedByMixin, viewsets.ModelViewSet):
     queryset = Department.objects.select_related('created_by')
     serializer_class = DepartmentSerializer
     permission_classes = [AdminPermission]
+    pagination_class = CustomPagination
+
+    def perform_create(self, serializer):
+        user = self.request.user
+
+        if user.is_authenticated:
+            serializer.save(created_by=user)
+        else:
+            serializer.save(created_by=None)
 
 
-
-class DoctorViewSet(CreatedByMixin, viewsets.ModelViewSet):
-    queryset = (
-        Doctor.objects
-        .select_related('department', 'created_by')
-        .all()
-    )
+class DoctorViewSet(viewsets.ModelViewSet):
+    queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
     pagination_class = DoctorPagination
         
