@@ -5,8 +5,9 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .models import Doctor, BestDoctor, Department, ChamberTime, DepartmentGroup, DepartmentBanner, DoctorBanner
 from .serializers import DoctorSerializer, BestDoctorSerializer, DepartmentSerializer, ChamberTimeSerializer, DepartmentGroupSerializer, DepartmentBannerSerializer, DoctorBannerSerializer
 from accounts.permissions import AdminPermission
-from .filters import ChamberTimeFilter
+from .filters import ChamberTimeFilter, DoctorFilter
 from .pagination import DoctorPagination, CustomPagination
+
 
 
 class CreatedByMixin:
