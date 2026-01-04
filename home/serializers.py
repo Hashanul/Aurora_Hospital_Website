@@ -50,7 +50,7 @@ class AboutSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = About
-        fields = '__all__'
+        fields = '__all__'  
 
 
 class Health_packageSerializer(serializers.ModelSerializer):

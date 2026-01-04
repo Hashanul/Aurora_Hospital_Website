@@ -5,7 +5,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .models import Doctor, BestDoctor, Department, ChamberTime, DepartmentGroup, DepartmentBanner, DoctorBanner
 from .serializers import DoctorSerializer, BestDoctorSerializer, DepartmentSerializer, ChamberTimeSerializer, DepartmentGroupSerializer, DepartmentBannerSerializer, DoctorBannerSerializer
 from accounts.permissions import AdminPermission
-from .filters import ChamberTimeFilter
+from .filters import ChamberTimeFilter, DoctorFilter
 from .pagination import DoctorPagination
 
 
@@ -40,43 +40,22 @@ class DepartmentViewSet(CreatedByMixin, viewsets.ModelViewSet):
 
 
 class DoctorViewSet(CreatedByMixin, viewsets.ModelViewSet):
+    queryset = (
+        Doctor.objects
+        .select_related('department', 'created_by')
+        .all()
+    )
     serializer_class = DoctorSerializer
     pagination_class = DoctorPagination
         
+
+    # 🔹 filter by department slug
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['department__name']
+    filterset_class = DoctorFilter
 
 
-    def get_queryset(self):
-        """
-        Optimized queryset:
-        - select_related for FK fields
-        - supports multiple query params
-        """
 
-        queryset = (
-            Doctor.objects
-            .select_related('department', 'created_by')
-            .all()
-        )
-
-        # 🔹 filter by department slug
-        department_name = self.request.query_params.get('department_name')
-        if department_name:
-            queryset = queryset.filter(department__slug=department_name)
-
-        # 🔹 filter by department id
-        department_id = self.request.query_params.get('department_id')
-        if department_id:
-            queryset = queryset.filter(department_id=department_id)
-
-        # 🔹 search by doctor name
-        doctor_name = self.request.query_params.get('doctor_name')
-        if doctor_name:
-            queryset = queryset.filter(drName__icontains=doctor_name)
-
-        return queryset
-
+    
 
 class ChamberTimeViewSet(CreatedByMixin, viewsets.ModelViewSet):
     queryset = (

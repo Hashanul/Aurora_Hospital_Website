@@ -3,60 +3,32 @@ from rest_framework import viewsets
 from .models import BOD, ChairmanMessage, MDMessage, AboutBanner
 from .serializers import BODSerializer, ChairmanMessageSerializer, MDMessageSerializer, AboutBannerSerializer
 from accounts.permissions import AdminPermission
+from doctors.views import CreatedByMixin
 
 
-class AboutBannerViewSet(viewsets.ModelViewSet):
-    queryset = AboutBanner.objects.all()
+class AboutBannerViewSet(CreatedByMixin, viewsets.ModelViewSet):
+    queryset = AboutBanner.objects.select_related('created_by') .all()
     serializer_class = AboutBannerSerializer
     permission_classes = [AdminPermission]
 
-    def perform_create(self, serializer):
-        user = self.request.user
 
-        if user.is_authenticated:
-            serializer.save(created_by=user)
-        else:
-            serializer.save(created_by=None)
-
-
-class BODViewSet(viewsets.ModelViewSet):
-    queryset = BOD.objects.all()
+class BODViewSet(CreatedByMixin, viewsets.ModelViewSet):
+    queryset = BOD.objects.select_related('bod_drName', 'created_by') .all()
     serializer_class =  BODSerializer
     permission_classes = [AdminPermission]
 
-    def perform_create(self, serializer):
-        user = self.request.user
-
-        if user.is_authenticated:
-            serializer.save(created_by=user)
-        else:
-            serializer.save(created_by=None)
 
 
-class ChairmanMessageViewSet(viewsets.ModelViewSet):
-    queryset = ChairmanMessage.objects.all()
+class ChairmanMessageViewSet(CreatedByMixin, viewsets.ModelViewSet):
+    queryset = ChairmanMessage.objects.select_related('created_by') .all()
     serializer_class =  ChairmanMessageSerializer
     permission_classes = [AdminPermission]
 
-    def perform_create(self, serializer):
-        user = self.request.user
 
-        if user.is_authenticated:
-            serializer.save(created_by=user)
-        else:
-            serializer.save(created_by=None)
-
-
-class MDMessageViewSet(viewsets.ModelViewSet):
-    queryset = MDMessage.objects.all()
+class MDMessageViewSet(CreatedByMixin, viewsets.ModelViewSet):
+    queryset = MDMessage.objects.select_related('created_by') .all()
     serializer_class =  MDMessageSerializer
     permission_classes = [AdminPermission]
 
-    def perform_create(self, serializer):
-        user = self.request.user
 
-        if user.is_authenticated:
-            serializer.save(created_by=user)
-        else:
-            serializer.save(created_by=None)
 

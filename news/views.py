@@ -3,41 +3,26 @@ from rest_framework import viewsets
 from .models import NewsCategories, News, NewsBanner
 from .serializers import NewsCategoriesSerializer, NewsSerializer, NewsBannerSerializer
 from accounts.permissions import AdminPermission
-
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
+from doctors.views import CreatedByMixin
 
 
-
-class NewsBannerViewSet(viewsets.ModelViewSet):
-    queryset = NewsBanner.objects.all()
+class NewsBannerViewSet(CreatedByMixin, viewsets.ModelViewSet):
+    queryset = NewsBanner.objects.select_related('created_by').all()
     serializer_class = NewsBannerSerializer
     permission_classes = [AdminPermission]
 
-    def perform_create(self, serializer):
-        user = self.request.user
-
-        if user.is_authenticated:
-            serializer.save(created_by=user)
-        else:
-            serializer.save(created_by=None)
             
-class NewsCategoryViewSet(viewsets.ModelViewSet):
-    queryset = NewsCategories.objects.all()
+class NewsCategoryViewSet(CreatedByMixin, viewsets.ModelViewSet):
+    queryset = NewsCategories.objects.select_related('created_by').all()
     serializer_class = NewsCategoriesSerializer
     permission_classes = [AdminPermission]
 
-    
-    def perform_create(self, serializer):
-        user = self.request.user
 
-        if user.is_authenticated:
-            serializer.save(created_by=user)
-        else:
-            serializer.save(created_by=None)
 
-class NewsViewSet(viewsets.ModelViewSet):
-    queryset = News.objects.all()
+class NewsViewSet(CreatedByMixin, viewsets.ModelViewSet):
+    queryset = News.objects.select_related('category', 'created_by').all()
     serializer_class = NewsSerializer
     permission_classes = [AdminPermission]
 
@@ -52,11 +37,4 @@ class NewsViewSet(viewsets.ModelViewSet):
     search_fields = ['title', 'richtext', 'category__name']
 
     
-    def perform_create(self, serializer):
-        user = self.request.user
-
-        if user.is_authenticated:
-            serializer.save(created_by=user)
-        else:
-            serializer.save(created_by=None)
 

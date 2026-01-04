@@ -3,7 +3,7 @@ from accounts.models import User
 from PIL import Image
 from django_ckeditor_5.fields import CKEditor5Field
 
-
+ 
 class NewsBanner(models.Model):
     title = models.CharField(max_length=255, null=True, blank=True)
     image = models.FileField(upload_to='news_banner/', blank=True, null=True)

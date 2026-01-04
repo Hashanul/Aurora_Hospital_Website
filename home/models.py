@@ -82,15 +82,6 @@ class Hero(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    # def save(self, *args, **kwargs):
-    #     super().save(*args, **kwargs)
-    #     if not self.image:
-    #         return    
-    #     img = Image.open(self.image.path)
-    #     if img.height > 300 or img.width > 300:
-    #         output_size = (300,300)
-    #         img.thumbnail(output_size)
-    #         img.save(self.image.path)
 
     def __str__(self):
         return f"Hero Section: {self.title if self.title else self.id}"
@@ -135,7 +126,13 @@ class About(models.Model):
     our_vision_title = models.CharField(max_length=255, blank=True, null=True)
     our_vision_description = CKEditor5Field(blank=True, null=True)
     image = models.ImageField(upload_to='about/', blank=True, null=True)
-
+    # ✅ YouTube video link
+    video_link = models.URLField(
+        max_length=500,
+        blank=True,
+        null=True,
+        help_text="Enter YouTube video URL"
+    )
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -251,6 +248,7 @@ class HomeService(models.Model):
     service_image = models.FileField(null=True, blank=True)
 
     is_active = models.BooleanField(default=True)
+    
     created_by = models.ForeignKey(
         User, on_delete=models.SET_NULL, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)

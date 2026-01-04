@@ -13,7 +13,7 @@ class PopUpAdmin(admin.ModelAdmin):
 
 @admin.register(About)
 class AboutAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title', 'description', 'our_mission_title', 'our_vision_title']
+    list_display = ['id', 'title', 'description', 'our_mission_title', 'our_vision_title', 'video_link']
     list_filter = ['title', 'our_mission_title', 'our_vision_title']
     search_fields = ['title', 'our_mission_title', 'our_vision_title']
 
