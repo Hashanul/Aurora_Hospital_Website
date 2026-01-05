@@ -37,8 +37,18 @@ class ContactPageSerializer(serializers.ModelSerializer):
 
     # Return list of doctor image URLs
     def get_doctor_images(self, obj):
-        doctors = Doctor.objects.exclude(image='')
-        return [doctor.image.url for doctor in doctors if doctor.image]
+        request = self.context.get('request')
+        doctors = Doctor.objects.exclude(image='').exclude(image__isnull=True)
+
+        images = []
+        for doctor in doctors:
+            if doctor.image:
+                image_url = doctor.image.url
+                if request:
+                    image_url = request.build_absolute_uri(image_url)
+                images.append(image_url)
+
+        return images
 
 
 

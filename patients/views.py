@@ -3,20 +3,13 @@ from rest_framework import viewsets
 from .models import Patient, PatientBanner
 from .serializers import PatientSerializer, PatientBannerSerializer
 from accounts.permissions import AdminPermission
+from doctors.views import CreatedByMixin
 
 
-class PatientBannerViewSet(viewsets.ModelViewSet):
-    queryset = PatientBanner.objects.all()
+class PatientBannerViewSet(CreatedByMixin, viewsets.ModelViewSet):
+    queryset = PatientBanner.objects.select_related('created_by').all()
     serializer_class = PatientBannerSerializer
     permission_classes = [AdminPermission]
-
-    def perform_create(self, serializer):
-        user = self.request.user
-
-        if user.is_authenticated:
-            serializer.save(created_by=user)
-        else:
-            serializer.save(created_by=None)
 
 
 class PatientViewSet(viewsets.ModelViewSet):

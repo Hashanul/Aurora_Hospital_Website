@@ -1,7 +1,8 @@
 # doctor/resources.py
 
 from import_export import resources, fields, widgets
-from .models import Doctor, Department
+from .models import Doctor, Department, DepartmentGroup
+
 
 
 class CustomForeignKeyWidget(widgets.ForeignKeyWidget):
@@ -76,3 +77,112 @@ class DoctorResource(resources.ModelResource):
             "sms",
         )
         exclude = ("created_by", "created_at", "updated_at")
+
+
+
+# ===========================
+# Custom ManyToMany Widget
+# ===========================
+class DepartmentManyToManyWidget(widgets.ManyToManyWidget):
+    """
+    Handles ManyToMany import/export for Departments.
+    """
+
+    def __init__(self, model, field="name", separator=","):
+        super().__init__(model, field=field, separator=separator)
+
+    def clean(self, value, row=None, **kwargs):
+        """
+        Import time:
+        "Cardiology, Neurology" -> [Department objects] (only existing ones)
+        """
+        if not value:
+            return []
+
+        department_names = [v.strip() for v in value.split(self.separator)]
+        departments = []
+
+        for name in department_names:
+            try:
+                obj = self.model.objects.get(**{self.field: name})
+                departments.append(obj)
+            except self.model.DoesNotExist:
+                pass  # Skip if department doesn't exist
+
+        return departments
+
+    def render(self, value, obj=None):
+        """
+        Export time:
+        [Department objs] -> "Cardiology, Neurology"
+        """
+        if not value or not value.exists():
+            return ""
+        return self.separator.join(getattr(dept, self.field) for dept in value.all())
+
+
+# ===========================
+# DepartmentGroup Resource
+# ===========================
+class DepartmentGroupResource(resources.ModelResource):
+    group_name = fields.Field(
+        attribute="group_name",
+        column_name="group name",
+    )
+
+    departments = fields.Field(
+        attribute="departments",
+        column_name="departments",
+        widget=DepartmentManyToManyWidget(
+            Department,
+            field="name",     # Department name field
+            separator=","
+        ),
+    )
+
+    class Meta:
+        model = DepartmentGroup
+        fields = ("group_name", "departments")
+        export_order = ("group_name", "departments")
+        exclude = ("id", "created_by", "created_at")
+
+        import_id_fields = ("group_name",)
+        skip_unchanged = True
+        report_skipped = True
+
+    def save_m2m(self, instance, row, **kwargs):
+        """
+        ✔ Existing group → UPDATE
+        ✔ New group → CREATE
+        ✔ departments ADD হবে, old থাকবে
+        """
+        departments = self.fields["departments"].clean(row)
+        if departments:
+            instance.departments.add(*departments)
+
+    # def import_obj(self, obj, data, dry_run):
+    #     """
+    #     Override import_obj to:
+    #     - Check if group_name exists
+    #     - If exists, update departments (add new ones)
+    #     - If not exists, create new group
+    #     """
+    #     group_name = data.get("group name")
+    #     if not group_name:
+    #         return None  # skip empty group name
+
+    #     # Get or create the group
+    #     group, created = DepartmentGroup.objects.get_or_create(group_name=group_name)
+
+    #     # Get departments from the widget (only existing ones)
+    #     departments = self.fields["departments"].clean(data)
+    #     if departments:
+    #         # Add new departments to the group (without removing old ones)
+    #         group.departments.add(*departments)
+
+    #     # Sync obj to the real group
+    #     obj.pk = group.pk
+    #     obj.group_name = group.group_name
+    #     obj.departments.set(group.departments.all())  # optional: keep synced
+    #     return obj
+

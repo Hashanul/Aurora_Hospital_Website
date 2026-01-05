@@ -149,7 +149,7 @@ class BestDoctor(models.Model):
 
 
 class DepartmentGroup(models.Model):
-    group_name = models.CharField(max_length=250, blank=True)
+    group_name = models.CharField(max_length=250, blank=True, unique=True)
     departments = models.ManyToManyField(
         Department, blank=True, related_name='groups')
 

@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import DepartmentBanner, DoctorBanner, Department, Doctor, DepartmentGroup, ChamberTime
 from import_export.admin import ImportExportModelAdmin
 from import_export.formats import base_formats
-from .resources import DoctorResource, DepartmentResource
+from .resources import DoctorResource, DepartmentResource, DepartmentGroupResource
 
 
 @admin.register(DepartmentBanner)
@@ -52,6 +52,7 @@ class DoctorAdmin(ImportExportModelAdmin):
 
 
 @admin.register(DepartmentGroup)
-class DepartmentGroupAdmin(admin.ModelAdmin):
+class DepartmentGroupAdmin(ImportExportModelAdmin):
+    resource_class = DepartmentGroupResource
     list_display = ["group_name"]
     search_fields = ["group_name"]
