@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import DepartmentBanner, DoctorBanner, Department, Doctor, DepartmentGroup, ChamberTime
 from import_export.admin import ImportExportModelAdmin
 from import_export.formats import base_formats
-from .resources import DoctorResource, DepartmentResource, DepartmentGroupResource
+from .resources import DoctorResource, DepartmentResource, DepartmentGroupResource, ChamberTimeResource
 
 
 @admin.register(DepartmentBanner)
@@ -12,10 +12,11 @@ class DepartmentBannerAdmin(admin.ModelAdmin):
 
 
 @admin.register(ChamberTime)
-class ChamberTimeAdmin(admin.ModelAdmin):
+class ChamberTimeAdmin(ImportExportModelAdmin):
+    resource_class = ChamberTimeResource
     list_display = ["id", "drCode", "dayName",
                     "visitType", "startTime", "finishTime"]
-    autocomplete_fields = ['drCode']
+    # autocomplete_fields = ['drCode']
 
 
 @admin.register(DoctorBanner)

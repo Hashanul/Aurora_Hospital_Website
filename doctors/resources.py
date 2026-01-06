@@ -1,7 +1,7 @@
 # doctor/resources.py
 
 from import_export import resources, fields, widgets
-from .models import Doctor, Department, DepartmentGroup
+from .models import Doctor, Department, DepartmentGroup, ChamberTime
 from import_export.results import RowResult
 
 
@@ -199,5 +199,43 @@ class DepartmentGroupResource(resources.ModelResource):
         if departments:
             instance.departments.add(*departments)
 
+#=================================================
+
+# yourapp/resources.py
+from import_export import resources, fields
+from import_export.widgets import ForeignKeyWidget
+from .models import ChamberTime, Doctor
 
 
+class ChamberTimeResource(resources.ModelResource):
+    # drCode দিয়ে ম্যাচ করবে (Doctor মডেলের drCode ফিল্ড unique হতে হবে!)
+    drCode = fields.Field(
+        column_name='drCode',                    
+        attribute='drCode',                      
+        widget=ForeignKeyWidget(Doctor, 'drCode')  
+    )
+
+    class Meta:
+        model = ChamberTime
+ 
+        fields = (
+            'drCode',
+            'dayName',
+            'visitType',
+            'startTime',
+            'finishTime',
+        )
+        
+        export_order = (
+            'drCode',
+            'dayName',
+            'visitType',
+            'startTime',
+            'finishTime',
+        )
+        
+
+        import_id_fields = ('drCode', 'dayName')
+        
+
+    
