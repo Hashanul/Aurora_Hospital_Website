@@ -32,14 +32,7 @@ class DoctorSerializer(serializers.ModelSerializer):
 
     department_name = serializers.CharField(write_only=True, required=False, allow_blank=True)
     department_description = serializers.CharField(write_only=True, required=False, allow_blank=True)
-    # department = serializers.StringRelatedField(read_only=True)
-    # department_id = serializers.PrimaryKeyRelatedField(
-    #     queryset=Department.objects.all(), 
-    #     source='department', 
-    #     write_only=True, 
-    #     required=False, 
-    #     allow_null=True
-    # )
+
     department = serializers.SlugRelatedField(
         queryset=Department.objects.all(),
         slug_field='name',  # department table এর যে ফিল্ড দিয়ে select করতে চান

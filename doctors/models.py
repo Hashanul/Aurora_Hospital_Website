@@ -111,7 +111,7 @@ class ChamberTime(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Doctor: {self.drCode.drName}, Day Name: {self.dayName}"
+        return f"Doctor: {self.drCode if self.drCode else self.id}, Day Name: {self.dayName}"
 
 
 class BestDoctor(models.Model):

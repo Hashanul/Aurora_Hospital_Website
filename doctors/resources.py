@@ -2,6 +2,8 @@
 
 from import_export import resources, fields, widgets
 from .models import Doctor, Department, DepartmentGroup
+from import_export.results import RowResult
+
 
 
 
@@ -31,11 +33,14 @@ class DepartmentResource(resources.ModelResource):
         import_id_fields = ()
 
 
+
 class DoctorResource(resources.ModelResource):
     department = fields.Field(
         attribute="department",
         column_name="Department",
-        widget=CustomForeignKeyWidget(Department, "name", create_if_not_exists=True),
+        widget=CustomForeignKeyWidget(
+            Department, "name", create_if_not_exists=True
+        ),
     )
 
     drName = fields.Field(attribute="drName", column_name="DrName")
@@ -47,18 +52,53 @@ class DoctorResource(resources.ModelResource):
     sms = fields.Field(attribute="sms", column_name="SMS")
     phone = fields.Field(attribute="phone", column_name="CellPhone")
 
+    # 🔹 Import শুরু হওয়ার আগে DB + file duplicate prepare
+    def before_import(self, dataset, **kwargs):
+        self.db_drcodes = set(
+            Doctor.objects.exclude(drCode__isnull=True)
+            .values_list("drCode", flat=True)
+        )
+        self.file_drcodes = set()
+
+    # 🔹 Empty string → None (integer safe)
+    def before_import_row(self, row, **kwargs):
+        for key, value in row.items():
+            if value == "":
+                row[key] = None
+
+    # 🔹 Main duplicate logic
     def import_row(self, row, instance_loader, **kwargs):
-        # Set missing or empty fields to None
-        for field in self.get_import_fields():
-            if field.column_name not in row or row[field.column_name] == "":
-                row[field.column_name] = None
-        # For unique fields like email, don't set to None to avoid unique constraint issues
-        if "email" in row and row["email"] is None:
-            del row["email"]
+        drcode = row.get("DrCode")
+
+        # drCode নাই → skip
+        if not drcode:
+            r = RowResult()
+            r.import_type = RowResult.IMPORT_TYPE_SKIP
+            return r
+
+        # 🔥 DB duplicate → skip (LIVE DB check)
+        if Doctor.objects.filter(drCode=drcode).exists():
+            r = RowResult()
+            r.import_type = RowResult.IMPORT_TYPE_SKIP
+            return r
+
+        # Same file duplicate → skip
+        if drcode in self.file_drcodes:
+            r = RowResult()
+            r.import_type = RowResult.IMPORT_TYPE_SKIP
+            return r
+
+        # First valid drCode
+        self.file_drcodes.add(drcode)
         return super().import_row(row, instance_loader, **kwargs)
 
     class Meta:
         model = Doctor
+
+        # ❌ import_id_fields deliberately removed
+        skip_unchanged = True
+        report_skipped = True
+
         fields = (
             "id",
             "drName",
@@ -77,7 +117,6 @@ class DoctorResource(resources.ModelResource):
             "sms",
         )
         exclude = ("created_by", "created_at", "updated_at")
-
 
 
 # ===========================
@@ -160,29 +199,5 @@ class DepartmentGroupResource(resources.ModelResource):
         if departments:
             instance.departments.add(*departments)
 
-    # def import_obj(self, obj, data, dry_run):
-    #     """
-    #     Override import_obj to:
-    #     - Check if group_name exists
-    #     - If exists, update departments (add new ones)
-    #     - If not exists, create new group
-    #     """
-    #     group_name = data.get("group name")
-    #     if not group_name:
-    #         return None  # skip empty group name
 
-    #     # Get or create the group
-    #     group, created = DepartmentGroup.objects.get_or_create(group_name=group_name)
-
-    #     # Get departments from the widget (only existing ones)
-    #     departments = self.fields["departments"].clean(data)
-    #     if departments:
-    #         # Add new departments to the group (without removing old ones)
-    #         group.departments.add(*departments)
-
-    #     # Sync obj to the real group
-    #     obj.pk = group.pk
-    #     obj.group_name = group.group_name
-    #     obj.departments.set(group.departments.all())  # optional: keep synced
-    #     return obj
 
