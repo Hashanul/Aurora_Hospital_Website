@@ -94,7 +94,7 @@ class Doctor(models.Model):
         ordering = ['-created_at'] 
 
     def __str__(self):
-        return f"Dr. {self.drName or self.id}"
+        return f"{self.drName if self.drName else self.id} - DrCode : {self.drCode} "
 
 
 class ChamberTime(models.Model):

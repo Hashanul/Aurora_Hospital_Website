@@ -16,7 +16,7 @@ class ChamberTimeAdmin(ImportExportModelAdmin):
     resource_class = ChamberTimeResource
     list_display = ["id", "drCode", "dayName",
                     "visitType", "startTime", "finishTime"]
-    # autocomplete_fields = ['drCode']
+    autocomplete_fields = ['drCode']
 
 
 @admin.register(DoctorBanner)
@@ -57,3 +57,5 @@ class DepartmentGroupAdmin(ImportExportModelAdmin):
     resource_class = DepartmentGroupResource
     list_display = ["group_name"]
     search_fields = ["group_name"]
+    autocomplete_fields = ['departments']
+
