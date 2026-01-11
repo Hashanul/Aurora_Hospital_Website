@@ -34,7 +34,8 @@ class ServiceBanner(models.Model):
 
     def __str__(self):
         return f"Service Banner : {self.title}"
-    
+
+# Not Use this model.
 class VisitorService(models.Model):
     title = models.CharField(max_length=255)
     richtext = CKEditor5Field( blank=True, null=True)
@@ -45,6 +46,7 @@ class VisitorService(models.Model):
     def __str__(self):
         return f" Visitor Service : {self.title}"
     
+# Not Use this model.
 class FacilitiesBanner(models.Model):
     title = models.CharField(max_length=255)
     image = models.FileField(upload_to='facilities_banner/', null=True, blank=True)
@@ -114,7 +116,8 @@ class RoomRent(models.Model):
 
     def __str__(self):
         return self.bed_name
-
+    
+# Not Use this model.
 class EquipmentBanner(models.Model):
     title = models.CharField(max_length=255)
     image = models.FileField(upload_to='equipment_banner/', null=True, blank=True)
@@ -126,6 +129,7 @@ class EquipmentBanner(models.Model):
     def __str__(self):
         return f"Equipment Banner : {self.title}"
 
+# Not Use this model.
 class Equipment(models.Model):
     title = models.CharField(max_length=255)
     richtext = CKEditor5Field( blank=True, null=True)
@@ -182,3 +186,4 @@ class Feedback(models.Model):
     def __str__(self):
         return f"Feedback : {self.patient_name}"
 
+  

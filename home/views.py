@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .models import MenuItem,MenuContent, PopUp, Hero, HeroBadge, About, Health_package, Badge, Facilities, AppointmentHomeImage, HomeService
-from .serializers import MenuItemSerializer, MenuContentSerializer, PopUpSerializer, HeroSerializer, HeroBadgeSerializer, AboutSerializer, Health_packageSerializer, BadgeSerializer, FacilitiesSerializer, AppointmentHomeImageSerializer, HomeServiceSerializer
+from .models import MenuItem,MenuContent, PopUp, Hero, HeroBadge, About, Health_package, Badge, AppointmentHomeImage, HomeService
+from .serializers import MenuItemSerializer, MenuContentSerializer, PopUpSerializer, HeroSerializer, HeroBadgeSerializer, AboutSerializer, Health_packageSerializer, BadgeSerializer, AppointmentHomeImageSerializer, HomeServiceSerializer
 from accounts.permissions import AdminPermission
 from doctors.views import CreatedByMixin
 
@@ -55,10 +55,10 @@ class BadgeViewSet(viewsets.ModelViewSet):
     permission_classes = [AdminPermission]
 
 
-class FacilitiesViewSet(CreatedByMixin, viewsets.ModelViewSet):
-    queryset = Facilities.objects.select_related('created_by').all()
-    serializer_class = FacilitiesSerializer
-    permission_classes = [AdminPermission]
+# class FacilitiesViewSet(CreatedByMixin, viewsets.ModelViewSet):
+#     queryset = Facilities.objects.select_related('created_by').all()
+#     serializer_class = FacilitiesSerializer
+#     permission_classes = [AdminPermission]
 
 
 class AppointmentHomeImageViewSet(CreatedByMixin, viewsets.ModelViewSet):
@@ -69,7 +69,7 @@ class AppointmentHomeImageViewSet(CreatedByMixin, viewsets.ModelViewSet):
 
  
 class HomeServiceViewSet(CreatedByMixin, viewsets.ModelViewSet):
-    queryset = HomeService.objects.select_related('service_category', 'created_by').all()
+    queryset = HomeService.objects.select_related('created_by').all()
     serializer_class = HomeServiceSerializer
     permission_classes = [AdminPermission]
 

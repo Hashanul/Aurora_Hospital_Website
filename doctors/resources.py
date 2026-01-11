@@ -51,6 +51,7 @@ class DoctorResource(resources.ModelResource):
     drType = fields.Field(attribute="drType", column_name="DrType")
     sms = fields.Field(attribute="sms", column_name="SMS")
     phone = fields.Field(attribute="phone", column_name="CellPhone")
+    order = fields.Field(attribute="order", column_name="Order")  # PositiveIntegerField, null=True
 
     # 🔹 Import শুরু হওয়ার আগে DB + file duplicate prepare
     def before_import(self, dataset, **kwargs):
@@ -115,6 +116,7 @@ class DoctorResource(resources.ModelResource):
             "takeCom",
             "drType",
             "sms",
+            "order",
         )
         exclude = ("created_by", "created_at", "updated_at")
 

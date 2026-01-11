@@ -11,7 +11,7 @@ class HealthPackageBannerAdmin(admin.ModelAdmin):
 
 
 @admin.register(Health_Check_up)
-class Health_Check_upAdmin(admin.ModelAdmin):
+class Health_Check_upAdmin(ImportExportModelAdmin):
     list_display = ['title', 'image']
     search_fields = ['title']
  
@@ -21,10 +21,10 @@ class ServiceBannerAdmin(admin.ModelAdmin):
     list_display = ['title', 'image', 'created_by']
     search_fields = ['title']
 
-@admin.register(VisitorService)
-class VisitorServiceAdmin(admin.ModelAdmin):
-    list_display = ['title', 'richtext', 'created_by']
-    search_fields = ['title']
+# @admin.register(VisitorService)
+# class VisitorServiceAdmin(admin.ModelAdmin):
+#     list_display = ['title', 'richtext', 'created_by']
+#     search_fields = ['title']
 
 
 # @admin.register(FacilitiesBanner)
@@ -39,7 +39,7 @@ class VisitorPackageBannerAdmin(admin.ModelAdmin):
 
 
 @admin.register(VisitorPackage)
-class VisitorPackageAdmin(admin.ModelAdmin):
+class VisitorPackageAdmin(ImportExportModelAdmin):
     list_display = ['title', 'image', 'urls']
     search_fields = ['title', 'urls'] 
 

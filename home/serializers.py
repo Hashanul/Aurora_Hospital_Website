@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Hero, HeroBadge, About, Health_package, Badge, Facilities, AppointmentHomeImage, HomeService
+from .models import Hero, HeroBadge, About, Health_package, Badge, AppointmentHomeImage, HomeService
 
 
 from .models import MenuItem, MenuContent, PopUp
@@ -67,27 +67,27 @@ class BadgeSerializer(serializers.ModelSerializer):
         fields = '__all__'
  
 
-class FacilitiesSerializer(serializers.ModelSerializer):
-    created_by = serializers.StringRelatedField(read_only=True)
+# class FacilitiesSerializer(serializers.ModelSerializer):
+#     created_by = serializers.StringRelatedField(read_only=True)
 
-    points_list = serializers.SerializerMethodField()
-    open_hour_list = serializers.SerializerMethodField()
+#     points_list = serializers.SerializerMethodField()
+#     open_hour_list = serializers.SerializerMethodField()
 
 
 
-    class Meta:
-        model = Facilities
-        fields = ['id','title', 'description', 'image', 'points', 'points_list', 'open_hour', 'open_hour_list', 'created_by']
-        extra_kwargs ={
-            'points' : {'write_only': True},
-            'open_hour' : {'write_only': True},
-        }
+#     class Meta:
+#         model = Facilities
+#         fields = ['id','title', 'description', 'image', 'points', 'points_list', 'open_hour', 'open_hour_list', 'created_by']
+#         extra_kwargs ={
+#             'points' : {'write_only': True},
+#             'open_hour' : {'write_only': True},
+#         }
 
-    def get_points_list(self, obj):
-        return obj.get_points_list()
+#     def get_points_list(self, obj):
+#         return obj.get_points_list()
 
-    def get_open_hour_list(self, obj):
-        return obj.get_open_hours_list()
+#     def get_open_hour_list(self, obj):
+#         return obj.get_open_hours_list()
 
 
 
@@ -105,4 +105,4 @@ class HomeServiceSerializer(serializers.ModelSerializer):
    
     class Meta:
         model = HomeService
-        fields = ['id', 'service_title', 'service_category', 'service_description', 'service_image', 'is_active', 'created_by']
+        fields = ['id', 'service_title', 'service_description', 'richtext', 'service_image', 'is_active', 'created_by']

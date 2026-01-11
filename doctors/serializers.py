@@ -45,9 +45,9 @@ class DoctorSerializer(serializers.ModelSerializer):
         model = Doctor
         fields = [
             'id', 'is_doctor', 'drName', 'email', 'phone', 'designation', 'description', 'drCode', 'richtext',
-              'image', 'department', 'department_name', 'department_description',
-                'drStatus', 'takeCom', 'drType', 'sms',
-             'created_by', 'created_at', 'updated_at'
+            'image', 'department', 'department_name', 'department_description',
+            'drStatus', 'takeCom', 'drType', 'sms',
+            'order', 'created_by', 'created_at', 'updated_at'
         ]
 
     def create(self, validated_data):

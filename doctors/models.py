@@ -5,6 +5,8 @@ from accounts.models import User
 from django.utils.text import slugify
 from PIL import Image
 from django_ckeditor_5.fields import CKEditor5Field
+from django.db.models import F
+
  
 
 
@@ -85,13 +87,15 @@ class Doctor(models.Model):
     drType = models.CharField(max_length=100, blank=True, null=True)
     sms = models.PositiveIntegerField(blank=True, null=True)
 
-    created_by = models.ForeignKey(
-        User, on_delete=models.SET_NULL, blank=True, null=True)
+    order = models.PositiveIntegerField(null=True, blank=True)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+
     class Meta:
-        ordering = ['-created_at'] 
+        ordering = [F('order').asc(nulls_last=True), '-created_at']
+
 
     def __str__(self):
         return f"{self.drName if self.drName else self.id} - DrCode : {self.drCode} "

@@ -50,6 +50,7 @@ class Contact_data(models.Model):
     youtub = models.CharField(max_length=255, null=True, blank=True)
     x_link = models.CharField(max_length=255, null=True, blank=True)
     instra_link = models.CharField(max_length=255, null=True, blank=True)
+    iso_logo = models.FileField(upload_to='iso_logo', blank=True, null=True)
 
     def __str__(self):
         return f"Hotline {self.hotline}" 

@@ -33,7 +33,7 @@ def send_appointment_to_external_api(sender, instance, **kwargs):
         "VisitAmount": instance.VisitAmount or "",
         "VisitType": instance.VisitType or "",
     }
-    print(payload)
+    # print(payload)
     try:
         response = requests.post(
             "http://123.253.36.113:9020/API/AppointmentApi/Save", json=payload, timeout=10)

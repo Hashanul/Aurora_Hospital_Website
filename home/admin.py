@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import PopUp, MenuItem, MenuContent, Hero, HeroBadge, About, Health_package, Badge, Facilities, AppointmentHomeImage, HomeService
+from .models import PopUp, MenuItem, MenuContent, Hero, HeroBadge, About, Health_package, Badge, AppointmentHomeImage, HomeService
 from import_export.admin import ImportExportModelAdmin
 
 
@@ -51,6 +51,6 @@ class AppointmentHomeImageAdmin(admin.ModelAdmin):
 
 @admin.register(HomeService)
 class HomeServiceAdmin(admin.ModelAdmin):
-    list_display = ['service_title', 'service_category', 'service_description']
-    list_filter = [ 'service_category', 'service_description']
-    search_fields = ['service_title', 'service_category', 'service_description']
+    list_display = ['service_title', 'service_description']
+    list_filter = ['service_title']
+    search_fields = ['service_title', 'service_description']

@@ -41,9 +41,10 @@ class DepartmentAdmin(ImportExportModelAdmin):
 @admin.register(Doctor)
 class DoctorAdmin(ImportExportModelAdmin):
     resource_class = DoctorResource
-    list_display = ["id", "drName", "designation", "department", "drCode"]
+    list_display = ["id", "drName", "designation", "department", "drCode", "order"]
     list_filter = ["designation", "department"]
     search_fields = ["drName", "designation"]
+    ordering = ['order']
 
     def get_import_formats(self):
         return [base_formats.CSV, base_formats.XLS, base_formats.XLSX]

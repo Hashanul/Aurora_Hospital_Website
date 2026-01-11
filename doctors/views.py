@@ -57,6 +57,7 @@ class DoctorViewSet(viewsets.ModelViewSet):
     # 🔹 filter by department slug
     filter_backends = [DjangoFilterBackend]
     filterset_class = DoctorFilter
+    ordering = ['order']
 
 
 

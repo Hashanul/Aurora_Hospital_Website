@@ -180,35 +180,35 @@ class Badge(models.Model):
         return "Site Badge"
       
 
-class Facilities(models.Model):
-    title = models.CharField(max_length=255)
-    description = models.TextField(null=True, blank=True)
+# class Facilities(models.Model):
+#     title = models.CharField(max_length=255)
+#     description = models.TextField(null=True, blank=True)
     
-    # Points of facility (store multiple lines separated by comma)
-    points = models.TextField(null=True, blank=True, help_text="Write each point separated by a comma")
+#     # Points of facility (store multiple lines separated by comma)
+#     points = models.TextField(null=True, blank=True, help_text="Write each point separated by a comma")
     
-    image = models.ImageField(upload_to='facilities', blank=True, null=True)
-    open_hour = models.TextField(null=True, blank=True, help_text="Write hours separated by comma, e.g., Saturday 6:00 am - 10:00 pm, Sunday 6:00 am - 10:00 pm")
+#     image = models.ImageField(upload_to='facilities', blank=True, null=True)
+#     open_hour = models.TextField(null=True, blank=True, help_text="Write hours separated by comma, e.g., Saturday 6:00 am - 10:00 pm, Sunday 6:00 am - 10:00 pm")
 
-    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+#     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now=True)
 
-    def get_points_list(self):
-        """Return list of points (split by comma)."""
-        if self.points:
-            return [p.strip() for p in self.points.split(',')]
-        return []
+#     def get_points_list(self):
+#         """Return list of points (split by comma)."""
+#         if self.points:
+#             return [p.strip() for p in self.points.split(',')]
+#         return []
 
-    def get_open_hours_list(self):
-        """Return list of open hours (split by comma)."""
-        if self.open_hour:
-            return [h.strip() for h in self.open_hour.split(',')]
-        return []
+#     def get_open_hours_list(self):
+#         """Return list of open hours (split by comma)."""
+#         if self.open_hour:
+#             return [h.strip() for h in self.open_hour.split(',')]
+#         return []
 
 
-    def __str__(self):
-        return f"Facilities : {self.title}"
+#     def __str__(self):
+#         return f"Facilities : {self.title}"
 
 
 
@@ -221,18 +221,6 @@ class AppointmentHomeImage(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    
-    # def save(self, *args, **kwargs):
-    #     super().save(*args, **kwargs)
-    #     if not self.image:
-    #         return
-        
-    #     img = Image.open(self.image.path)
-
-    #     if img.height > 300 or img.width > 300:
-    #         output_size = (300,300)
-    #         img.thumbnail(output_size)
-    #         img.save(self.image.path)
 
     def __str__(self):
         return f"Appointment Home Image Section: {self.title}"
@@ -242,11 +230,10 @@ class AppointmentHomeImage(models.Model):
 
 class HomeService(models.Model):
     service_title = models.CharField(max_length=255)
-    service_category = models.ForeignKey(
-        Department, on_delete=models.SET_NULL, blank=True, null=True)
     service_description = models.TextField(blank=True, null=True)
     service_image = models.FileField(null=True, blank=True)
 
+    richtext = CKEditor5Field( blank=True, null=True)
     is_active = models.BooleanField(default=True)
     
     created_by = models.ForeignKey(
