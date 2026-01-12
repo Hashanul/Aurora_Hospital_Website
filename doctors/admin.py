@@ -28,7 +28,7 @@ class DoctorBannerAdmin(admin.ModelAdmin):
 @admin.register(Department)
 class DepartmentAdmin(ImportExportModelAdmin):
     resource_class = DepartmentResource
-    list_display = ["id", "name", "description"]
+    list_display = ["id", "name", "description", "order"]
     search_fields = ["name", "slug", "description"]
 
     def get_import_formats(self):

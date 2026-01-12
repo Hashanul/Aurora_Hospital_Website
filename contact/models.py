@@ -54,3 +54,7 @@ class Contact_data(models.Model):
 
     def __str__(self):
         return f"Hotline {self.hotline}" 
+    
+
+
+    

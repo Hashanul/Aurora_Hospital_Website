@@ -25,12 +25,61 @@ class CustomForeignKeyWidget(widgets.ForeignKeyWidget):
             else:
                 raise
 
+ 
+from import_export.widgets import IntegerWidget
+
+
+class NullableIntegerWidget(IntegerWidget):
+    """
+    Converts empty values to None (NULL in DB)
+    """
+    def clean(self, value, row=None, *args, **kwargs):
+        if value in ("", None):
+            return None
+        return super().clean(value, row, *args, **kwargs)
+
 
 class DepartmentResource(resources.ModelResource):
+    name = fields.Field(
+        column_name='name',
+        attribute='name'
+    )
+
+    description = fields.Field(
+        column_name='description',
+        attribute='description'
+    )
+
+    image = fields.Field(
+        column_name='image',
+        attribute='image'
+    )
+
+    order = fields.Field(
+        column_name='order',
+        attribute='order',
+        widget=NullableIntegerWidget()
+    )
+
     class Meta:
         model = Department
-        exclude = ("id", "slug")  # id auto generate, slug auto generate
-        import_id_fields = ()
+
+        # Excel/CSV columns
+        fields = (
+            'name',
+            'description',
+            'image',
+            'order',
+        )
+
+        # Update by name (unique)
+        import_id_fields = ('name',)
+
+        skip_unchanged = True
+        report_skipped = True
+
+        # These fields are auto/ignored
+        exclude = ('id', 'slug', 'created_by')
 
 
 

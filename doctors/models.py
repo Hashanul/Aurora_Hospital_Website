@@ -40,6 +40,7 @@ class Department(models.Model):
     description = models.TextField(blank=True, null=True)
     image = models.FileField(
         upload_to='department/', blank=True, null=True )
+    order = models.PositiveIntegerField(null=True, blank=True)
     created_by = models.ForeignKey(
         User, on_delete=models.SET_NULL, blank=True, null=True)
 
@@ -59,6 +60,9 @@ class Department(models.Model):
     @property
     def total_doctors(self):
         return self.doctors.count()   # related_name='doctors'
+    
+    class Meta:
+        ordering = [F('order').asc(nulls_last=True)]
 
     def __str__(self):
         return self.name

@@ -10,7 +10,7 @@ def create_menu_content_for_department(sender, instance, created, **kwargs):
     if created:
         print(instance, 'signal trigar')
         department_name = instance.name
-        menu = MenuItem.objects.get(title='Our Departments')
+        menu = MenuItem.objects.get(title='Departments')
         MenuContent.objects.create(
             menu=menu,
             title=department_name,
