@@ -1,5 +1,5 @@
 from django.db import models
-from accounts.models import User 
+from accounts.models import User
 from PIL import Image
 from django.core.exceptions import ValidationError
 from accounts.models import User
@@ -8,16 +8,15 @@ from django.utils.text import slugify
 from django_ckeditor_5.fields import CKEditor5Field
 
 
-
-
 class PopUp(models.Model):
     title = models.CharField(max_length=255)
-    image = models.FileField(upload_to='popup_image/', blank=True, null=True)
+    image = models.FileField(upload_to="popup_image/", blank=True, null=True)
 
-    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    created_by = models.ForeignKey(
+        User, on_delete=models.SET_NULL, blank=True, null=True
+    )
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True) 
-
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title
@@ -27,34 +26,29 @@ class MenuItem(models.Model):
     title = models.CharField(max_length=255)
     to = models.CharField(max_length=255, blank=True, null=True)
     classChange = models.CharField(max_length=100, blank=True, null=True)
-    order = models.CharField(max_length=5, blank=True, null=True) 
+    order = models.CharField(max_length=5, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         if not self.to:
             self.to = "/" + slugify(self.title)
         super().save(*args, **kwargs)
 
- 
     def __str__(self):
         return self.title
 
     class Meta:
-        app_label = 'nav'
-        db_table = 'home_menuitem'
-        ordering = ['order']
+        app_label = "nav"
+        db_table = "home_menuitem"
+        ordering = ["order"]
+
 
 class MenuContent(models.Model):
-    menu = models.ForeignKey(
-        MenuItem,
-        related_name="content",
-        on_delete=models.CASCADE
-    ) 
+    menu = models.ForeignKey(MenuItem, related_name="content", on_delete=models.CASCADE)
 
     # these appear INSIDE content[] array
     title = models.CharField(max_length=255)
     to = models.CharField(max_length=255, blank=True, null=True)
     # type = models.CharField(max_length=255, choices=TYPE_CHOICE, null=True, blank=True)
-
 
     def save(self, *args, **kwargs):
         if not self.to:
@@ -62,51 +56,57 @@ class MenuContent(models.Model):
             self.to = f"/{slugify(self.menu.title)}/{slugify(self.title)}"
         super().save(*args, **kwargs)
 
-
     def __str__(self):
         return f"Content: {self.title} → Menu:{self.menu.title}"
 
     class Meta:
-        app_label = 'nav'
-        db_table = 'home_menucontent'
+        app_label = "nav"
+        db_table = "home_menucontent"
+
 
 class Hero(models.Model):
     title = models.CharField(max_length=255, null=True, blank=True)
     sub_title = models.CharField(max_length=255, null=True, blank=True)
-    pc_image = models.ImageField(upload_to='hero/', null=True, blank=True)
-    tab_image = models.ImageField(upload_to='hero/', null=True, blank=True)
-    mobile_image = models.ImageField(upload_to='hero/', null=True, blank=True)
+    pc_image = models.ImageField(upload_to="hero/", null=True, blank=True)
+    tab_image = models.ImageField(upload_to="hero/", null=True, blank=True)
+    mobile_image = models.ImageField(upload_to="hero/", null=True, blank=True)
     is_active = models.BooleanField(default=True)
-    
-    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+
+    created_by = models.ForeignKey(
+        User, on_delete=models.SET_NULL, blank=True, null=True
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
 
     def __str__(self):
         return f"Hero Section: {self.title if self.title else self.id}"
 
     class Meta:
-        app_label = 'hero'
-        db_table = 'home_page_hero'
+        app_label = "hero"
+        db_table = "home_page_hero"
+
 
 def validate_image_file(value):
-    valid_extensions = ['.jpg', '.jpeg', '.png', '.svg']
+    valid_extensions = [".jpg", ".jpeg", ".png", ".svg"]
     import os
+
     ext = os.path.splitext(value.name)[1].lower()
     if ext not in valid_extensions:
-        raise ValidationError(f'Unsupported file extension. Allowed: {valid_extensions}')
-    
+        raise ValidationError(
+            f"Unsupported file extension. Allowed: {valid_extensions}"
+        )
+
+
 class HeroBadge(models.Model):
     title = models.CharField(max_length=255, blank=True, null=True)
     image = models.FileField(
-        upload_to='HeroBadge/',
-        blank=True,
-        null=True,
-        validators=[validate_image_file])
+        upload_to="HeroBadge/", blank=True, null=True, validators=[validate_image_file]
+    )
     url = models.CharField(max_length=255, null=True, blank=True)
 
-    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    created_by = models.ForeignKey(
+        User, on_delete=models.SET_NULL, blank=True, null=True
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -114,8 +114,8 @@ class HeroBadge(models.Model):
         return self.title if self.title else self.id
 
     class Meta:
-        app_label = 'hero'
-        db_table = 'home_page_herobadge'
+        app_label = "hero"
+        db_table = "home_page_herobadge"
 
 
 class About(models.Model):
@@ -125,15 +125,14 @@ class About(models.Model):
     our_mission_description = CKEditor5Field(blank=True, null=True)
     our_vision_title = models.CharField(max_length=255, blank=True, null=True)
     our_vision_description = CKEditor5Field(blank=True, null=True)
-    image = models.ImageField(upload_to='about/', blank=True, null=True)
+    image = models.ImageField(upload_to="about/", blank=True, null=True)
     # ✅ YouTube video link
     video_link = models.URLField(
-        max_length=500,
-        blank=True,
-        null=True,
-        help_text="Enter YouTube video URL"
+        max_length=500, blank=True, null=True, help_text="Enter YouTube video URL"
     )
-    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    created_by = models.ForeignKey(
+        User, on_delete=models.SET_NULL, blank=True, null=True
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -141,31 +140,28 @@ class About(models.Model):
         return f"{self.title}"
 
 
-
-
 class Health_package(models.Model):
     GENDER_CHOICES = [
-        ('Male', 'Male'),
-        ('Female', 'Female'),
-        ('Male & Female', 'Male & Female'),
-        ('Other', 'Other'),
-    ] 
-     
-    
+        ("Male", "Male"),
+        ("Female", "Female"),
+        ("Male & Female", "Male & Female"),
+        ("Other", "Other"),
+    ]
+
     title = models.CharField(max_length=255)
     description = CKEditor5Field(blank=True, null=True)
-    gender = models.CharField(max_length=20, choices=GENDER_CHOICES)   
+    gender = models.CharField(max_length=20, choices=GENDER_CHOICES)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     note = models.CharField(max_length=255, blank=True, null=True)
 
-    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    created_by = models.ForeignKey(
+        User, on_delete=models.SET_NULL, blank=True, null=True
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"Health Package: {self.title} - {self.gender}"
-  
-
 
 
 class Badge(models.Model):
@@ -178,15 +174,15 @@ class Badge(models.Model):
 
     def __str__(self):
         return "Site Badge"
-      
+
 
 # class Facilities(models.Model):
 #     title = models.CharField(max_length=255)
 #     description = models.TextField(null=True, blank=True)
-    
+
 #     # Points of facility (store multiple lines separated by comma)
 #     points = models.TextField(null=True, blank=True, help_text="Write each point separated by a comma")
-    
+
 #     image = models.ImageField(upload_to='facilities', blank=True, null=True)
 #     open_hour = models.TextField(null=True, blank=True, help_text="Write hours separated by comma, e.g., Saturday 6:00 am - 10:00 pm, Sunday 6:00 am - 10:00 pm")
 
@@ -211,21 +207,21 @@ class Badge(models.Model):
 #         return f"Facilities : {self.title}"
 
 
-
 class AppointmentHomeImage(models.Model):
     title = models.CharField(max_length=255)
-    pc_image = models.ImageField(upload_to='appointment_Home_image/', null=True, blank=True)
+    pc_image = models.ImageField(
+        upload_to="appointment_Home_image/", null=True, blank=True
+    )
     is_active = models.BooleanField(default=True)
 
-    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    created_by = models.ForeignKey(
+        User, on_delete=models.SET_NULL, blank=True, null=True
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-
     def __str__(self):
         return f"Appointment Home Image Section: {self.title}"
-    
-
 
 
 class HomeService(models.Model):
@@ -233,13 +229,28 @@ class HomeService(models.Model):
     service_description = models.TextField(blank=True, null=True)
     service_image = models.FileField(null=True, blank=True)
 
-    richtext = CKEditor5Field( blank=True, null=True)
+    richtext = CKEditor5Field(blank=True, null=True)
     is_active = models.BooleanField(default=True)
-    
+
     created_by = models.ForeignKey(
-        User, on_delete=models.SET_NULL, blank=True, null=True)
+        User, on_delete=models.SET_NULL, blank=True, null=True
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"Service Title: {self.service_title}"
+
+
+class CorporateCarousel(models.Model):
+    image = models.FileField(upload_to="corporate_carousel/", blank=True, null=True)
+    alt = models.CharField(max_length=255, blank=True, null=True)
+
+    created_by = models.ForeignKey(
+        User, on_delete=models.SET_NULL, blank=True, null=True
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.alt if self.alt else str(self.id)

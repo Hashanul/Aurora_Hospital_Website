@@ -1,25 +1,34 @@
 from rest_framework import serializers
-from .models import Hero, HeroBadge, About, Health_package, Badge, AppointmentHomeImage, HomeService
-
-
-from .models import MenuItem, MenuContent, PopUp
-
+from .models import (
+    Hero,
+    HeroBadge,
+    About,
+    Health_package,
+    Badge,
+    AppointmentHomeImage,
+    HomeService,
+    MenuItem,
+    MenuContent,
+    PopUp,
+    CorporateCarousel,
+)
 
 
 class PopUpSerializer(serializers.ModelSerializer):
     created_by = serializers.StringRelatedField(read_only=True)
-    
+
     class Meta:
         model = PopUp
-        fields = '__all__'
+        fields = "__all__"
+
 
 class MenuContentSerializer(serializers.ModelSerializer):
     # menu = serializers.StringRelatedField()
     class Meta:
         model = MenuContent
         fields = ["id", "menu", "title", "to"]
-        extra_kwargs ={
-            'menu' : {'write_only': True},
+        extra_kwargs = {
+            "menu": {"write_only": True},
         }
 
 
@@ -30,27 +39,29 @@ class MenuItemSerializer(serializers.ModelSerializer):
         model = MenuItem
         fields = ["id", "title", "to", "classChange", "order", "content"]
 
+
 class HeroSerializer(serializers.ModelSerializer):
     created_by = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = Hero
-        fields = '__all__'
+        fields = "__all__"
+
 
 class HeroBadgeSerializer(serializers.ModelSerializer):
     created_by = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = HeroBadge
-        fields = '__all__'
+        fields = "__all__"
 
 
 class AboutSerializer(serializers.ModelSerializer):
     created_by = serializers.StringRelatedField(read_only=True)
-    
+
     class Meta:
         model = About
-        fields = '__all__'  
+        fields = "__all__"
 
 
 class Health_packageSerializer(serializers.ModelSerializer):
@@ -58,21 +69,20 @@ class Health_packageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Health_package
-        fields = '__all__'
+        fields = "__all__"
 
 
 class BadgeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Badge
-        fields = '__all__'
- 
+        fields = "__all__"
+
 
 # class FacilitiesSerializer(serializers.ModelSerializer):
 #     created_by = serializers.StringRelatedField(read_only=True)
 
 #     points_list = serializers.SerializerMethodField()
 #     open_hour_list = serializers.SerializerMethodField()
-
 
 
 #     class Meta:
@@ -90,19 +100,33 @@ class BadgeSerializer(serializers.ModelSerializer):
 #         return obj.get_open_hours_list()
 
 
-
 class AppointmentHomeImageSerializer(serializers.ModelSerializer):
     created_by = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = AppointmentHomeImage
-        fields = '__all__'
-
+        fields = "__all__"
 
 
 class HomeServiceSerializer(serializers.ModelSerializer):
     created_by = serializers.StringRelatedField(read_only=True)
-   
+
     class Meta:
         model = HomeService
-        fields = ['id', 'service_title', 'service_description', 'richtext', 'service_image', 'is_active', 'created_by']
+        fields = [
+            "id",
+            "service_title",
+            "service_description",
+            "richtext",
+            "service_image",
+            "is_active",
+            "created_by",
+        ]
+
+
+class CorporateCarouselSerializer(serializers.ModelSerializer):
+    created_by = serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        model = CorporateCarousel
+        fields = "__all__"
