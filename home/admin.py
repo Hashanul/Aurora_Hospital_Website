@@ -10,6 +10,7 @@ from .models import (
     Badge,
     AppointmentHomeImage,
     HomeService,
+    CorporateService,
     CorporateCarousel,
 )
 from import_export.admin import ImportExportModelAdmin
@@ -79,6 +80,11 @@ class HomeServiceAdmin(admin.ModelAdmin):
     list_display = ["service_title", "service_description"]
     list_filter = ["service_title"]
     search_fields = ["service_title", "service_description"]
+
+
+@admin.register(CorporateService)
+class CorporateServiceAdmin(admin.ModelAdmin):
+    list_display = ["id", "title", "description"]
 
 @admin.register(CorporateCarousel)
 class CorporateCarouselAdmin(admin.ModelAdmin):

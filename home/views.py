@@ -11,6 +11,7 @@ from .models import (
     Badge,
     AppointmentHomeImage,
     HomeService,
+    CorporateService,
     CorporateCarousel,
 )
 from .serializers import (
@@ -24,6 +25,7 @@ from .serializers import (
     BadgeSerializer,
     AppointmentHomeImageSerializer,
     HomeServiceSerializer,
+    CorporateServiceSerializer,
     CorporateCarouselSerializer,
 )
 from accounts.permissions import AdminPermission
@@ -94,6 +96,12 @@ class HomeServiceViewSet(CreatedByMixin, viewsets.ModelViewSet):
     permission_classes = [AdminPermission]
 
 
+class CorporateServiceViewSet(CreatedByMixin, viewsets.ModelViewSet):
+    queryset = CorporateService.objects.all()
+    serializer_class = CorporateServiceSerializer
+    permission_classes = [AdminPermission]
+
+
 class CorporateCarouselViewSet(viewsets.ModelViewSet):
     queryset = CorporateCarousel.objects.all()
     serializer_class = CorporateCarouselSerializer
@@ -101,3 +109,4 @@ class CorporateCarouselViewSet(viewsets.ModelViewSet):
     
     def perform_create(self, serializer):
         return serializer.save(created_by=self.request.user)
+    

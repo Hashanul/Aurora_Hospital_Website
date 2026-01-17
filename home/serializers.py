@@ -10,6 +10,7 @@ from .models import (
     MenuItem,
     MenuContent,
     PopUp,
+    CorporateService,
     CorporateCarousel,
 )
 
@@ -124,9 +125,17 @@ class HomeServiceSerializer(serializers.ModelSerializer):
         ]
 
 
+class CorporateServiceSerializer(serializers.ModelSerializer):
+    created_by = serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        model = CorporateService
+        fields = "__all__"
+
+
 class CorporateCarouselSerializer(serializers.ModelSerializer):
     created_by = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = CorporateCarousel
-        fields = "__all__"
+        fields = "__all__" 

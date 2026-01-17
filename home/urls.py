@@ -11,6 +11,7 @@ from .views import (
     BadgeViewSet,
     AppointmentHomeImageViewSet,
     HomeServiceViewSet,
+    CorporateServiceViewSet,
     CorporateCarouselViewSet,
 )
 
@@ -26,6 +27,7 @@ router.register("health_package", Health_packageViewSet)
 router.register("badge", BadgeViewSet)
 router.register("appointment_home_image", AppointmentHomeImageViewSet)
 router.register("home_services", HomeServiceViewSet, basename="home_service")
+router.register("corporate_service", CorporateServiceViewSet)
 router.register(
     "corporate_carousel", CorporateCarouselViewSet, basename="corporate_carousel"
 )
