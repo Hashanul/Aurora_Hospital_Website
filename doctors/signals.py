@@ -1,18 +1,33 @@
-# departments/signals.py
+# doctors/signals.py
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
 from .models import Department
-from home.models import MenuItem, MenuContent   # adjust import path
+from home.models import MenuItem, MenuContent
+
 
 @receiver(post_save, sender=Department)
-def create_menu_content_for_department(sender, instance, created, **kwargs):
+def sync_menu_content_with_department(sender, instance, created, **kwargs):
+    # 🔹 Parent menu
+    menu, _ = MenuItem.objects.get_or_create(
+        title="Departments",
+        defaults={"order": None}
+    )
+
     if created:
-        print(instance, 'signal trigar')
-        department_name = instance.name
-        menu = MenuItem.objects.get(title='Departments')
+        # 🟢 Create MenuContent
         MenuContent.objects.create(
             menu=menu,
-            title=department_name,
+            title=instance.name,
+            order=instance.order
         )
- 
+    else:
+        # 🔵 Update MenuContent
+        MenuContent.objects.filter(
+            menu=menu,
+            title=instance.name
+        ).update(
+            order=instance.order
+        )
+

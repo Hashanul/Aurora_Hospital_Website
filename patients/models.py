@@ -2,6 +2,8 @@ from django.db import models
 from accounts.models import User
 from doctors.models import Doctor, Department
 from django_ckeditor_5.fields import CKEditor5Field
+from django.db.models import F
+
 
 
 class PatientBanner(models.Model):
@@ -55,7 +57,7 @@ class PatientStory(models.Model):
     patient_name = models.CharField(max_length=100)
     city = models.CharField(max_length=180, null=True, blank=True)
     doctor = models.ForeignKey(Doctor, on_delete=models.SET_NULL, null=True, blank=True)
-    departmenmt = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True)
+    department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True)
     video_url = models.URLField(max_length=500, blank=True, null=True, help_text="Enter YouTube video URL")
     thumbnail = models.FileField(upload_to='patient_storie_thumbnail/', blank=True, null=True)
     description =  CKEditor5Field(blank=True, null=True)
@@ -63,6 +65,8 @@ class PatientStory(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True) 
+    order = models.PositiveIntegerField(null=True, blank=True)
+
 
     
     def save(self, *args, **kwargs):
@@ -71,9 +75,9 @@ class PatientStory(models.Model):
         Works for API + Admin + everywhere
         """
         if self.doctor:
-            self.departmenmt = self.doctor.department
+            self.department = self.doctor.department
         else:
-            self.departmenmt = None
+            self.department = None
 
         super().save(*args, **kwargs)
 
@@ -81,4 +85,6 @@ class PatientStory(models.Model):
     def __str__(self):
         return f"{self.title if self.title else self.id} - Patient Name : {self.patient_name if self.patient_name else self.id}"
 
+    class Meta:
+        ordering = [F('order').asc(nulls_last=True)]
 

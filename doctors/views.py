@@ -5,7 +5,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .models import Doctor, BestDoctor, Department, ChamberTime, DepartmentGroup, DepartmentBanner, DoctorBanner
 from .serializers import DoctorSerializer, BestDoctorSerializer, DepartmentSerializer, ChamberTimeSerializer, DepartmentGroupSerializer, DepartmentBannerSerializer, DoctorBannerSerializer
 from accounts.permissions import AdminPermission
-from .filters import ChamberTimeFilter, DoctorFilter
+from .filters import ChamberTimeFilter, DoctorFilter, DepartmentFilter
 from .pagination import DoctorPagination, CustomPagination
 
 
@@ -39,13 +39,10 @@ class DepartmentViewSet(CreatedByMixin, viewsets.ModelViewSet):
     permission_classes = [AdminPermission]
     pagination_class = CustomPagination
 
-    def perform_create(self, serializer):
-        user = self.request.user
+    # 🔹 filter by department 'id', 'name', 'slug'
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = DepartmentFilter
 
-        if user.is_authenticated:
-            serializer.save(created_by=user)
-        else:
-            serializer.save(created_by=None)
 
 
 class DoctorViewSet(viewsets.ModelViewSet):

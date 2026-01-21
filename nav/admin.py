@@ -39,6 +39,8 @@ class MenuItemAdmin(ImportExportModelAdmin):
 @admin.register(MenuContent)
 class MenuContentAdmin(ImportExportModelAdmin):
     resource_class = MenuContentResource
-    list_display = ["id", "title", "to", "menu"]
+    list_display = ["id", "title", "to", "menu", "order"]
     search_fields = ["title"]
+
+    readonly_fields = ['to']
  

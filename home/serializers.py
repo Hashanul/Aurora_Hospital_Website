@@ -27,7 +27,7 @@ class MenuContentSerializer(serializers.ModelSerializer):
     # menu = serializers.StringRelatedField()
     class Meta:
         model = MenuContent
-        fields = ["id", "menu", "title", "to"]
+        fields = ["id", "menu", "title", "to", "order"]
         extra_kwargs = {
             "menu": {"write_only": True},
         }

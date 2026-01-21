@@ -12,7 +12,7 @@ from .models import Patient, PatientBanner, PatientStory, PatientStoryBanner
 #     list_display = ['first_name', 'last_name', 'age', 'gender', 'email', 'phone', 'address']
 #     list_filter = ['age', 'gender']
 #     search_fields = ['first_name', 'last_name', 'email', 'phone', 'address', 'gender']
-
+  
 
 @admin.register(PatientStoryBanner)
 class PatientStoryBannerAdmin(admin.ModelAdmin):
@@ -21,11 +21,11 @@ class PatientStoryBannerAdmin(admin.ModelAdmin):
 
 @admin.register(PatientStory)
 class PatientStorieAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title', 'patient_name', 'city', 'doctor', 'departmenmt', 'video_url', 'thumbnail']
-    list_filter = ['title', 'patient_name', 'city', 'doctor', 'departmenmt']
-    search_fields = ['title', 'patient_name', 'city', 'doctor', 'departmenmt']
+    list_display = ['id', 'title', 'patient_name', 'city', 'doctor', 'department', 'video_url', 'thumbnail']
+    list_filter = ['title', 'patient_name', 'city', 'doctor', 'department']
+    search_fields = ['title', 'patient_name', 'city', 'doctor', 'department']
 
-    readonly_fields = ['departmenmt', 'created_by']
+    readonly_fields = ['department', 'created_by']
 
     autocomplete_fields = ['doctor']
 

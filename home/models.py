@@ -6,6 +6,7 @@ from accounts.models import User
 from doctors.models import Department
 from django.utils.text import slugify
 from django_ckeditor_5.fields import CKEditor5Field
+from django.db.models import F
 
 
 class PopUp(models.Model):
@@ -40,7 +41,7 @@ class MenuItem(models.Model):
         app_label = "nav"
         db_table = "home_menuitem"
         ordering = ["order"]
-
+  
 
 class MenuContent(models.Model):
     menu = models.ForeignKey(MenuItem, related_name="content", on_delete=models.CASCADE)
@@ -48,12 +49,23 @@ class MenuContent(models.Model):
     # these appear INSIDE content[] array
     title = models.CharField(max_length=255)
     to = models.CharField(max_length=255, blank=True, null=True)
-    # type = models.CharField(max_length=255, choices=TYPE_CHOICE, null=True, blank=True)
+    order = models.PositiveIntegerField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
-        if not self.to:
-            # Example output: "Main-Menu/about-us"
+        regenerate = False
+
+        if self.pk:
+            # existing object → check title change
+            old = MenuContent.objects.filter(pk=self.pk).values('title').first()
+            if old and old['title'] != self.title:
+                regenerate = True
+        else:
+            # new object
+            regenerate = True
+
+        if regenerate:
             self.to = f"/{slugify(self.menu.title)}/{slugify(self.title)}"
+
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -62,6 +74,7 @@ class MenuContent(models.Model):
     class Meta:
         app_label = "nav"
         db_table = "home_menucontent"
+        ordering = [F('order').asc(nulls_last=True)]
 
 
 class Hero(models.Model):

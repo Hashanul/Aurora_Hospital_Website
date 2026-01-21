@@ -12,7 +12,7 @@ from django.db.models import F
 
 class DepartmentBanner(models.Model):
     title = models.CharField(max_length=255)
-    image = models.FileField(upload_to='department_banner/', blank=True, null=True)
+    image = models.FileField(upload_to='departments_banner/', blank=True, null=True)
 
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -36,8 +36,10 @@ class DoctorBanner(models.Model):
 
 class Department(models.Model):
     name = models.CharField(max_length=200, unique=True)
+    banner = models.FileField(upload_to='department_banner/', blank=True, null=True)
     slug = models.SlugField(max_length=200, unique=True, null=True, blank=True)
     description = models.TextField(blank=True, null=True)
+    richtext = CKEditor5Field(blank=True, null=True)
     image = models.FileField(
         upload_to='department/', blank=True, null=True )
     order = models.PositiveIntegerField(null=True, blank=True)

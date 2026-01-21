@@ -28,7 +28,7 @@ class PatientStoryBannerSerializer(serializers.ModelSerializer):
 
 class PatientStorySerializer(serializers.ModelSerializer):
     created_by = serializers.StringRelatedField(read_only=True)
-    departmenmt = serializers.StringRelatedField(read_only=True)
+    department = serializers.StringRelatedField(read_only=True)
     doctor = serializers.PrimaryKeyRelatedField(
         queryset=Doctor.objects.all(),
         required=False,
