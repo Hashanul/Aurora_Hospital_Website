@@ -41,6 +41,10 @@ CORS_ALLOW_CREDENTIALS = True
 SITE_ID = 1
 
 
+# settings.py
+BASE_URL = "http://192.168.88.174:8000"
+
+
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",           # For local development
     "http://192.168.88.174:3000",    # For frontend running from another PC using your backend IP
@@ -62,7 +66,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'home.apps.HomeConfig',
     # 'home',
-    'doctors',
+    'doctors.apps.DoctorsConfig',
+    # 'doctors',
     'patients',
     'news',
     'appointment',

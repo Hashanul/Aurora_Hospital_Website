@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework import viewsets, filters
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import Doctor, BestDoctor, Department, ChamberTime, DepartmentGroup, DepartmentBanner, DoctorBanner
-from .serializers import DoctorSerializer, BestDoctorSerializer, DepartmentSerializer, ChamberTimeSerializer, DepartmentGroupSerializer, DepartmentBannerSerializer, DoctorBannerSerializer
+from .models import DoctorImage, Doctor, BestDoctor, Department, ChamberTime, DepartmentGroup, DepartmentBanner, DoctorBanner
+from .serializers import DoctorImageSerializer, DoctorSerializer, BestDoctorSerializer, DepartmentSerializer, ChamberTimeSerializer, DepartmentGroupSerializer, DepartmentBannerSerializer, DoctorBannerSerializer
 from accounts.permissions import AdminPermission
 from .filters import ChamberTimeFilter, DoctorFilter, DepartmentFilter
 from .pagination import DoctorPagination, CustomPagination
@@ -43,6 +43,11 @@ class DepartmentViewSet(CreatedByMixin, viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_class = DepartmentFilter
 
+
+class DoctorImageViewSet(viewsets.ModelViewSet):
+    queryset = DoctorImage.objects.all()
+    serializer_class = DoctorImageSerializer
+    permission_classes = [AdminPermission]
 
 
 class DoctorViewSet(viewsets.ModelViewSet):

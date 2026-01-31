@@ -6,6 +6,7 @@ from django.utils.text import slugify
 from PIL import Image
 from django_ckeditor_5.fields import CKEditor5Field
 from django.db.models import F
+from django.conf import settings
 
  
 
@@ -34,7 +35,9 @@ class DoctorBanner(models.Model):
         return f"Doctor Banner : {self.title}"
     
 
+
 class Department(models.Model):
+    title = models.CharField(max_length=255)
     name = models.CharField(max_length=200, unique=True)
     banner = models.FileField(upload_to='department_banner/', blank=True, null=True)
     slug = models.SlugField(max_length=200, unique=True, null=True, blank=True)
@@ -67,15 +70,49 @@ class Department(models.Model):
         ordering = [F('order').asc(nulls_last=True)]
 
     def __str__(self):
-        return self.name
+        return self.name if self.name else self.id
  
-                                                                              
+
+
+class DoctorImage(models.Model):
+    dr_image = models.FileField(upload_to='doctor/', null=True, blank=True)
+    drCode = models.CharField(max_length=20, null=True, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        if not self.drCode:
+            return
+
+        try:
+            doctor = Doctor.objects.get(drCode=self.drCode)
+        except Doctor.DoesNotExist:
+            return
+
+        # 🔹 If image exists → update Doctor.image
+        if self.dr_image:
+            doctor.image = f"{settings.BASE_URL}{self.dr_image.url}"
+        else:
+            doctor.image = None
+
+        doctor.save(update_fields=['image'])
+
+    def __str__(self):
+        return f"{self.drCode if self.drCode else self.id}"
+    
+
+
 class Doctor(models.Model):
+    title = models.CharField(max_length=255)
     drName = models.CharField(max_length=255, blank=True, null=True)
     designation = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     richtext = CKEditor5Field(blank=True, null=True)
-    image = models.FileField(upload_to='doctor/', blank=True, null=True)
+    image = models.URLField(blank=True, null=True)
     drCode = models.CharField(max_length=20, null=True, blank=True)
 
     # Foreign keys

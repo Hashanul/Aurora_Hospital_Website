@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Doctor, BestDoctor, Department, ChamberTime, DepartmentGroup, DoctorBanner, DepartmentBanner
+from .models import DoctorImage, Doctor, BestDoctor, Department, ChamberTime, DepartmentGroup, DoctorBanner, DepartmentBanner
 
 
 class DepartmentBannerSerializer(serializers.ModelSerializer):
@@ -27,8 +27,15 @@ class DepartmentSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class DoctorImageSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model =DoctorImage
+        fields = '__all__'
+
 class DoctorSerializer(serializers.ModelSerializer):
     created_by = serializers.StringRelatedField(read_only=True)
+
 
     department_name = serializers.CharField(write_only=True, required=False, allow_blank=True)
     department_description = serializers.CharField(write_only=True, required=False, allow_blank=True)
@@ -48,6 +55,12 @@ class DoctorSerializer(serializers.ModelSerializer):
             'image', 'department', 'department_name', 'department_description',
             'drStatus', 'takeCom', 'drType', 'sms',
             'order', 'created_by', 'created_at', 'updated_at'
+        ]
+        read_only_fields = [
+            'image',        # ✅ THIS
+            'created_by',
+            'created_at',
+            'updated_at',
         ]
 
     def create(self, validated_data):
@@ -88,6 +101,7 @@ class DoctorSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
     
+
 class ChamberTimeSerializer(serializers.ModelSerializer):
     created_by = serializers.StringRelatedField(read_only=True)
 
