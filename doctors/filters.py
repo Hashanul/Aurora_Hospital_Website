@@ -1,6 +1,7 @@
 
 import django_filters
 from .models import ChamberTime, Doctor, Department
+from home.models import Health_package
 
 class ChamberTimeFilter(django_filters.FilterSet):
     dayName = django_filters.CharFilter(field_name='dayName', lookup_expr='icontains')
@@ -57,3 +58,26 @@ class DepartmentFilter(django_filters.FilterSet):
     class Meta:
         model = Department
         fields = ['id', 'name', 'slug']
+
+
+class Health_packageFilter(django_filters.FilterSet):
+    # title filter (partial search)
+    title = django_filters.CharFilter(
+        field_name='title',
+        lookup_expr='icontains'
+    )
+
+    # slug filter
+    slug = django_filters.CharFilter(
+        field_name='slug',
+        lookup_expr='iexact'
+    )
+
+    # id filter
+    id = django_filters.NumberFilter(
+        field_name='id'
+    )
+
+    class Meta:
+        model = Health_package
+        fields = ['id', 'title', 'slug']

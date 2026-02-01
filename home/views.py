@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from rest_framework import viewsets
+from django_filters.rest_framework import DjangoFilterBackend
 from .models import (
     MenuItem,
     MenuContent,
@@ -7,6 +8,7 @@ from .models import (
     Hero,
     HeroBadge,
     About,
+    PackageServiceHeader,
     Health_package,
     Badge,
     AppointmentHomeImage,
@@ -21,6 +23,7 @@ from .serializers import (
     HeroSerializer,
     HeroBadgeSerializer,
     AboutSerializer,
+    PackageServiceHeaderSerializer,
     Health_packageSerializer,
     BadgeSerializer,
     AppointmentHomeImageSerializer,
@@ -30,6 +33,7 @@ from .serializers import (
 )
 from accounts.permissions import AdminPermission
 from doctors.views import CreatedByMixin
+from doctors.filters import Health_packageFilter
 
 
 class PopUpViewSet(CreatedByMixin, viewsets.ModelViewSet):
@@ -66,10 +70,22 @@ class AboutViewSet(CreatedByMixin, viewsets.ModelViewSet):
     permission_classes = [AdminPermission]
 
 
+class PackageServiceHeaderViewSet(viewsets.ModelViewSet):
+    queryset = PackageServiceHeader.objects.all()
+    serializer_class = PackageServiceHeaderSerializer
+    permission_classes = [AdminPermission]
+
+
 class Health_packageViewSet(CreatedByMixin, viewsets.ModelViewSet):
     queryset = Health_package.objects.select_related("created_by").all()
     serializer_class = Health_packageSerializer
     permission_classes = [AdminPermission]
+
+    # 🔹 filter by department 'id', 'title', 'slug'
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = Health_packageFilter
+
+
 
 
 class BadgeViewSet(viewsets.ModelViewSet):

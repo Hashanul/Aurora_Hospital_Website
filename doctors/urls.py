@@ -1,9 +1,11 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import DoctorImageViewSet, DoctorViewSet, BestDoctorViewSet, DepartmentViewSet, ChamberTimeViewSet, DepartmentGroupViewSet, DepartmentBannerViewSet, DoctorBannerViewSet
+from .views import HomeDepartmentHeaderViewSet, HomeDoctorHeaderViewSet, DoctorImageViewSet, DoctorViewSet, BestDoctorViewSet, DepartmentViewSet, ChamberTimeViewSet, DepartmentGroupViewSet, DepartmentBannerViewSet, DoctorBannerViewSet
 
 router = DefaultRouter()
 
+router.register('department_header', HomeDepartmentHeaderViewSet, basename='department_header')
+router.register('doctor_header', HomeDoctorHeaderViewSet, basename='doctor_header')
 router.register('department_banner', DepartmentBannerViewSet)
 router.register('doctor_banner', DoctorBannerViewSet)
 router.register('doctor_image', DoctorImageViewSet, basename='doctor_image')

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Health_Check_upBanner, Health_Check_up, VisitorPackage, VisitorPackageBanner, PackageDetail,RoomRentBanner, RoomRent, EquipmentBanner, Equipment, FeedbackBanner, Feedback, ServiceBanner, VisitorService, FacilitiesBanner
+from .models import Health_Check_upBanner,VisitorServiceHeader, Health_Check_up, VisitorPackage, VisitorPackageBanner, PackageDetail,RoomRentBanner, RoomRent, EquipmentBanner, Equipment, FeedbackBanner, Feedback, ServiceBanner, VisitorService, FacilitiesBanner
 
 
 
@@ -122,3 +122,9 @@ class FeedbackSerializer(serializers.ModelSerializer):
         model = Feedback
         fields = '__all__'
 
+
+class VisitorServiceHeaderSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = VisitorServiceHeader
+        fields = '__all__'

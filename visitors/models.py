@@ -187,3 +187,24 @@ class Feedback(models.Model):
         return f"Feedback : {self.patient_name}"
 
   
+
+class VisitorServiceHeader(models.Model):
+    feedback_title = models.CharField(max_length=255, null=True, blank=True)
+    feedback_description = models.CharField(max_length=255, null=True, blank=True)
+
+    room_rent_title = models.CharField(max_length=255, null=True, blank=True)
+    room_rent_description = models.CharField(max_length=255, null=True, blank=True)
+
+    report_title = models.CharField(max_length=255, null=True, blank=True)
+    report_description = models.CharField(max_length=255, null=True, blank=True)
+
+    patientstory_title = models.CharField(max_length=255, null=True, blank=True)
+    patientstory_description = models.CharField(max_length=255, null=True, blank=True)
+
+    def __str__(self):
+        return f"""
+        Health: {self.feedback_title or '-'},
+        Home: {self.room_rent_title or '-'},
+        Health: {self.report_title or '-'},
+        Home: {self.patientstory_title or '-'},
+        """

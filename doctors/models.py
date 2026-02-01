@@ -10,7 +10,6 @@ from django.conf import settings
 
  
 
-
 class DepartmentBanner(models.Model):
     title = models.CharField(max_length=255)
     image = models.FileField(upload_to='departments_banner/', blank=True, null=True)
@@ -34,6 +33,21 @@ class DoctorBanner(models.Model):
     def __str__(self):
         return f"Doctor Banner : {self.title}"
     
+
+class HomeDepartmentHeader(models.Model):
+    title = models.CharField(max_length=255, null=True, blank=True)
+    sub_title = models.CharField(max_length=255, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.title if self.title else self.id}"
+
+
+class HomeDoctorHeader(models.Model):
+    title = models.CharField(max_length=255, null=True, blank=True)
+    sub_title = models.CharField(max_length=255, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.title if self.title else self.id}"
 
 
 class Department(models.Model):

@@ -1,5 +1,5 @@
 from django.db import models
-
+from home.models import Health_package
 from doctors.models import Department, Doctor, ChamberTime
 from accounts.models import User
 from calendar import monthrange
@@ -108,3 +108,41 @@ class Report(models.Model):
 
     def __str__(self):
         return self.patient_id
+    
+
+
+class AppointmentPackageBanner(models.Model):
+    title = models.CharField(max_length=255)
+    image = models.FileField(upload_to='appointmentPackage_banner/', null=True, blank=True)
+
+    def __str__(self):
+        return f"Appointment Banner : {self.title if self.title else self.id}"
+    
+
+class AppointmentPackage(models.Model):
+    GENDER_CHOICES = [
+        ("Male", "Male"),
+        ("Female", "Female"),
+        ("Other", "Other"),
+    ]
+
+    patient_name = models.CharField(max_length=255)
+    date_of_birth = models.DateField()
+    gender = models.CharField(max_length=20, choices=GENDER_CHOICES)
+
+    contact_number = models.CharField(max_length=20)
+    email = models.EmailField()
+
+    request_for = models.TextField(blank=True, null=True)
+    health_package = models.ForeignKey(
+        Health_package, on_delete=models.CASCADE, related_name="appointments"
+    )
+
+    appointment_date = models.DateField()
+    appointment_time = models.TimeField()
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.patient_name} - {self.health_package.title}"
+    

@@ -3,6 +3,7 @@ from .models import (
     Hero,
     HeroBadge,
     About,
+    PackageServiceHeader,
     Health_package,
     Badge,
     AppointmentHomeImage,
@@ -65,12 +66,20 @@ class AboutSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class PackageServiceHeaderSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = PackageServiceHeader
+        fields = "__all__"
+
+
 class Health_packageSerializer(serializers.ModelSerializer):
     created_by = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = Health_package
         fields = "__all__"
+        read_only_fields = ("slug",)
 
 
 class BadgeSerializer(serializers.ModelSerializer):

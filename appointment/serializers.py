@@ -1,9 +1,12 @@
 from requests import Response
 from rest_framework import serializers
-from .models import Appointment, AppointmentBanner, Report
+from .models import Appointment, AppointmentBanner, Report, AppointmentPackage, AppointmentPackageBanner
+from home.models import Health_package 
 from doctors.models import Doctor, ChamberTime
 from datetime import date
 from datetime import date, timedelta
+from django.core.mail import send_mail
+from django.conf import settings
 
 
 class AppointmentBannerSerializer(serializers.ModelSerializer):
@@ -118,5 +121,66 @@ class ReportSerializer(serializers.ModelSerializer):
         model = Report
         fields = '__all__'
 
+class AppointmentPackageBannerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AppointmentPackageBanner
+        fields = '__all__'
 
     
+class AppointmentPackageSerializer(serializers.ModelSerializer):
+    
+    health_package = serializers.PrimaryKeyRelatedField(
+        queryset=Health_package.objects.all(),
+        write_only=True
+    )
+    
+    health_package_title = serializers.CharField(
+        source="health_package.title", read_only=True
+    )
+
+    class Meta:
+        model = AppointmentPackage
+        fields = "__all__"
+
+
+    # def validate(self, data):
+    #     date = data.get("appointment_date")
+    #     time = data.get("appointment_time")
+
+    #     if AppointmentPackage.objects.filter(
+    #         appointment_date=date,
+    #         appointment_time=time,
+    #     ).exists():
+    #         raise serializers.ValidationError(
+    #             "This time slot is already booked. Please choose another time."
+    #         )
+
+    #     return data
+    
+
+    def get_queryset(self):
+        # admin sees all, user sees only his
+        user = self.request.user
+        if user.is_authenticated and user.is_staff:
+            return AppointmentPackage.objects.all()
+        if user.is_authenticated:
+            return AppointmentPackage.objects.filter(email=user.email)
+        return AppointmentPackage.objects.none()
+
+    def perform_create(self, serializer):
+        appointment = serializer.save()
+
+        # Email notification
+        send_mail(
+            subject="Appointment Confirmation",
+            message=(
+                f"Dear {appointment.patient_name},\n\n"
+                f"Your appointment for {appointment.health_package.title} "
+                f"is confirmed on {appointment.appointment_date} "
+                f"at {appointment.appointment_time}.\n\n"
+                f"Thank you."
+            ),
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[appointment.email],
+            fail_silently=True,
+        )    

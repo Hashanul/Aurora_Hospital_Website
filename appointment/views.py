@@ -2,8 +2,8 @@
 from rest_framework import viewsets, status, filters
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
-from .models import Appointment, AppointmentBanner, Report
-from .serializers import AppointmentSerializer, AppointmentBannerSerializer, ReportSerializer
+from .models import Appointment, AppointmentBanner, Report, AppointmentPackage, AppointmentPackageBanner
+from .serializers import AppointmentSerializer, AppointmentBannerSerializer, ReportSerializer, AppointmentPackageSerializer, AppointmentPackageBannerSerializer
 from rest_framework.exceptions import ValidationError
 from accounts.permissions import AdminPermission
 
@@ -90,4 +90,14 @@ class ReportViewSet(viewsets.ModelViewSet):
 
     # Search by patient_id (partial match)
     search_fields = ['patient_id']
+
+
+class AppointmentPackageBannerViewSet(viewsets.ModelViewSet):
+    queryset = AppointmentPackageBanner.objects.all()
+    serializer_class = AppointmentPackageBannerSerializer
+
+
+class AppointmentPackageViewSet(viewsets.ModelViewSet):
+    queryset = AppointmentPackage.objects.all()
+    serializer_class = AppointmentPackageSerializer
 

@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework import viewsets, filters
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import DoctorImage, Doctor, BestDoctor, Department, ChamberTime, DepartmentGroup, DepartmentBanner, DoctorBanner
-from .serializers import DoctorImageSerializer, DoctorSerializer, BestDoctorSerializer, DepartmentSerializer, ChamberTimeSerializer, DepartmentGroupSerializer, DepartmentBannerSerializer, DoctorBannerSerializer
+from .models import HomeDepartmentHeader, HomeDoctorHeader, DoctorImage, Doctor, BestDoctor, Department, ChamberTime, DepartmentGroup, DepartmentBanner, DoctorBanner
+from .serializers import HomeDoctorHeaderSerializer, HomeDepartmentHeaderSerializer, DoctorImageSerializer, DoctorSerializer, BestDoctorSerializer, DepartmentSerializer, ChamberTimeSerializer, DepartmentGroupSerializer, DepartmentBannerSerializer, DoctorBannerSerializer
 from accounts.permissions import AdminPermission
 from .filters import ChamberTimeFilter, DoctorFilter, DepartmentFilter
 from .pagination import DoctorPagination, CustomPagination
@@ -31,6 +31,16 @@ class DepartmentBannerViewSet(CreatedByMixin, viewsets.ModelViewSet):
     serializer_class = DepartmentBannerSerializer
     permission_classes = [AdminPermission]
 
+
+class HomeDepartmentHeaderViewSet(viewsets.ModelViewSet):
+    queryset = HomeDepartmentHeader.objects.all()
+    serializer_class = HomeDepartmentHeaderSerializer
+    permission_classes = [AdminPermission]
+
+class HomeDoctorHeaderViewSet(viewsets.ModelViewSet):
+    queryset = HomeDoctorHeader.objects.all()
+    serializer_class = HomeDoctorHeaderSerializer
+    permission_classes = [AdminPermission]
 
 
 class DepartmentViewSet(CreatedByMixin, viewsets.ModelViewSet):

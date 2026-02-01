@@ -152,6 +152,20 @@ class About(models.Model):
     def __str__(self):
         return f"{self.title}"
 
+class PackageServiceHeader(models.Model):
+    health_package_title = models.CharField(max_length=255, null=True, blank=True)
+    health_package_description = models.CharField(max_length=255, null=True, blank=True)
+
+    home_service_title = models.CharField(max_length=255, null=True, blank=True)
+    home_service_description = models.CharField(max_length=255, null=True, blank=True)
+
+    def __str__(self):
+        return f"""
+        Health: {self.health_package_title or '-'},
+        Home: {self.home_service_title or '-'},
+        """
+
+
 
 class Health_package(models.Model):
     GENDER_CHOICES = [
@@ -162,6 +176,7 @@ class Health_package(models.Model):
     ]
 
     title = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=200, unique=True, null=True, blank=True)
     description = CKEditor5Field(blank=True, null=True)
     gender = models.CharField(max_length=20, choices=GENDER_CHOICES)
     price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -172,6 +187,19 @@ class Health_package(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        """Generate a unique slug from the department name before saving."""
+        if self.title:
+            base_slug = slugify(self.title)
+            slug = base_slug
+            counter = 1
+            # Ensure unique slug (exclude self when updating)
+            while Health_package.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Health Package: {self.title} - {self.gender}"

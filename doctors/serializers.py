@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import DoctorImage, Doctor, BestDoctor, Department, ChamberTime, DepartmentGroup, DoctorBanner, DepartmentBanner
+from .models import DoctorImage, Doctor, BestDoctor, Department, ChamberTime, DepartmentGroup, DoctorBanner, DepartmentBanner, HomeDepartmentHeader, HomeDoctorHeader
 
 
 class DepartmentBannerSerializer(serializers.ModelSerializer):
@@ -15,6 +15,18 @@ class DoctorBannerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DoctorBanner
+        fields = '__all__'
+
+
+class HomeDepartmentHeaderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HomeDepartmentHeader
+        fields = '__all__'
+
+
+class HomeDoctorHeaderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HomeDoctorHeader
         fields = '__all__'
 
 
