@@ -5,6 +5,7 @@ from .models import (
     MenuContent,
     Hero,
     HeroBadge,
+    PackageServiceNewsHeader,
     About,
     Health_package,
     Badge,
@@ -34,6 +35,10 @@ class AboutAdmin(admin.ModelAdmin):
     ]
     list_filter = ["title", "our_mission_title", "our_vision_title"]
     search_fields = ["title", "our_mission_title", "our_vision_title"]
+
+@admin.register(PackageServiceNewsHeader)
+class PackageServiceNewsHeaderAdmin(admin.ModelAdmin):
+    list_display = ['id', 'health_package_header', 'home_service_header', 'news_header']
 
 
 @admin.register(Health_package)

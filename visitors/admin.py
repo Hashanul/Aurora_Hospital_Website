@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Health_Check_upBanner, Health_Check_up, ServiceBanner, VisitorService, FacilitiesBanner, VisitorPackageBanner
-from .models import VisitorPackage, PackageDetail, RoomRentBanner, RoomRent, EquipmentBanner, Equipment, FeedbackBanner, Feedback
+from .models import VisitorPackage, VisitorServiceHeader, PackageDetail, RoomRentBanner, RoomRent, EquipmentBanner, Equipment, FeedbackBanner, Feedback
 from import_export.admin import ImportExportModelAdmin
 
 
@@ -83,3 +83,8 @@ class FeedbackAdmin(admin.ModelAdmin):
     patient_name = ['patient_name', 'Contact_number', 'hn_number', 'email', 'consultant_name', 'created_by']
     search_fields = ['patient_name', 'Contact_number', 'hn_number', 'consultant_name']
     list_filter = ['patient_name', 'consultant_name']
+
+
+@admin.register(VisitorServiceHeader)
+class VisitorServiceHeaderAdmin(admin.ModelAdmin):
+    list_display = ['id', 'feedback_title', 'room_rent_title', 'report_title', 'patientstory_title']

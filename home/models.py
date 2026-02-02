@@ -28,6 +28,7 @@ class MenuItem(models.Model):
     to = models.CharField(max_length=255, blank=True, null=True)
     classChange = models.CharField(max_length=100, blank=True, null=True)
     order = models.CharField(max_length=5, blank=True, null=True)
+    is_department = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         if not self.to:
@@ -40,41 +41,54 @@ class MenuItem(models.Model):
     class Meta:
         app_label = "nav"
         db_table = "home_menuitem"
-        ordering = ["order"]
+        ordering = [F('order').asc(nulls_last=True)]
+
   
 
 class MenuContent(models.Model):
-    menu = models.ForeignKey(MenuItem, related_name="content", on_delete=models.CASCADE)
+    menu = models.ForeignKey(
+        MenuItem, related_name="content", on_delete=models.CASCADE
+    )
 
-    # these appear INSIDE content[] array
+    # optional (only for department menus)
+    department = models.ForeignKey(
+        Department,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
+
     title = models.CharField(max_length=255)
     to = models.CharField(max_length=255, blank=True, null=True)
     order = models.PositiveIntegerField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
-        regenerate = False
-
-        if self.pk:
-            # existing object → check title change
-            old = MenuContent.objects.filter(pk=self.pk).values('title').first()
-            if old and old['title'] != self.title:
-                regenerate = True
+        if self.menu.is_department and self.department:
+            # 🔹 auto from Department
+            self.title = self.department.name
+            self.order = self.department.order
+            self.to = f"/{slugify(self.menu.title)}/{slugify(self.department.slug)}"
         else:
-            # new object
-            regenerate = True
-
-        if regenerate:
-            self.to = f"/{slugify(self.menu.title)}/{slugify(self.title)}"
+            # 🔹 manual menu content (about, contact, etc.)
+            if not self.to:
+                self.to = "/" + slugify(self.title)
 
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"Content: {self.title} → Menu:{self.menu.title}"
+        return f"{self.menu.title} → {self.title}"
+
 
     class Meta:
         app_label = "nav"
         db_table = "home_menucontent"
         ordering = [F('order').asc(nulls_last=True)]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["menu", "department"],
+                name="unique_department_per_menu"
+    )
+]
 
 
 class Hero(models.Model):
@@ -152,12 +166,15 @@ class About(models.Model):
     def __str__(self):
         return f"{self.title}"
 
-class PackageServiceHeader(models.Model):
-    health_package_title = models.CharField(max_length=255, null=True, blank=True)
+class PackageServiceNewsHeader(models.Model):
+    health_package_header = models.CharField(max_length=255, null=True, blank=True)
     health_package_description = models.CharField(max_length=255, null=True, blank=True)
 
-    home_service_title = models.CharField(max_length=255, null=True, blank=True)
+    home_service_header = models.CharField(max_length=255, null=True, blank=True)
     home_service_description = models.CharField(max_length=255, null=True, blank=True)
+
+    news_header = models.CharField(max_length=255, null=True, blank=True)
+    news_description = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
         return f"""

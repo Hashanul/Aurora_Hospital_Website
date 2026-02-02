@@ -31,25 +31,13 @@ class ContactPageSerializer(serializers.ModelSerializer):
             'updated_at',
         ]
 
-    # Return total number of doctors
     def get_total_doctor(self, obj):
         return Doctor.objects.count()
 
-    # Return list of doctor image URLs
     def get_doctor_images(self, obj):
-        request = self.context.get('request')
+        # Only return the image URL string, no .url needed
         doctors = Doctor.objects.exclude(image='').exclude(image__isnull=True)
-
-        images = []
-        for doctor in doctors:
-            if doctor.image:
-                image_url = doctor.image.url
-                if request:
-                    image_url = request.build_absolute_uri(image_url)
-                images.append(image_url)
-
-        return images
-
+        return [doctor.image for doctor in doctors]
 
 
 

@@ -8,7 +8,7 @@ from .models import (
     Hero,
     HeroBadge,
     About,
-    PackageServiceHeader,
+    PackageServiceNewsHeader,
     Health_package,
     Badge,
     AppointmentHomeImage,
@@ -23,7 +23,7 @@ from .serializers import (
     HeroSerializer,
     HeroBadgeSerializer,
     AboutSerializer,
-    PackageServiceHeaderSerializer,
+    PackageServiceNewsHeaderSerializer,
     Health_packageSerializer,
     BadgeSerializer,
     AppointmentHomeImageSerializer,
@@ -70,9 +70,9 @@ class AboutViewSet(CreatedByMixin, viewsets.ModelViewSet):
     permission_classes = [AdminPermission]
 
 
-class PackageServiceHeaderViewSet(viewsets.ModelViewSet):
-    queryset = PackageServiceHeader.objects.all()
-    serializer_class = PackageServiceHeaderSerializer
+class PackageServiceNewsHeaderViewSet(viewsets.ModelViewSet):
+    queryset = PackageServiceNewsHeader.objects.all()
+    serializer_class = PackageServiceNewsHeaderSerializer
     permission_classes = [AdminPermission]
 
 

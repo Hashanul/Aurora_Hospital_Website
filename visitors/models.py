@@ -1,6 +1,8 @@
 from django.db import models
 from accounts.models import User
 from django_ckeditor_5.fields import CKEditor5Field
+from django.db.models import F
+
 
 
 class Health_Check_upBanner(models.Model):
@@ -200,6 +202,11 @@ class VisitorServiceHeader(models.Model):
 
     patientstory_title = models.CharField(max_length=255, null=True, blank=True)
     patientstory_description = models.CharField(max_length=255, null=True, blank=True)
+
+    # class Meta:
+    #     ordering = [
+    #         F('order').desc(nulls_last=True),  # 4 → 3 → 2 → 1
+    #     ]
 
     def __str__(self):
         return f"""

@@ -7,7 +7,7 @@ from .views import (
     HeroViewSet,
     HeroBadgeViewSet,
     AboutViewSet,
-    PackageServiceHeaderViewSet,
+    PackageServiceNewsHeaderViewSet,
     Health_packageViewSet,
     BadgeViewSet,
     AppointmentHomeImageViewSet,
@@ -24,7 +24,7 @@ router.register("contents", MenuContentViewSet, basename="contents")
 router.register("hero", HeroViewSet)
 router.register("hero_badge", HeroBadgeViewSet)
 router.register("about", AboutViewSet)
-router.register("package_service_header", PackageServiceHeaderViewSet)
+router.register("package_service_news_header", PackageServiceNewsHeaderViewSet)
 router.register("health_package", Health_packageViewSet)
 router.register("badge", BadgeViewSet)
 router.register("appointment_home_image", AppointmentHomeImageViewSet)

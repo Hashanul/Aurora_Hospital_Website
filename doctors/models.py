@@ -51,7 +51,6 @@ class HomeDoctorHeader(models.Model):
 
 
 class Department(models.Model):
-    title = models.CharField(max_length=255)
     name = models.CharField(max_length=200, unique=True)
     banner = models.FileField(upload_to='department_banner/', blank=True, null=True)
     slug = models.SlugField(max_length=200, unique=True, null=True, blank=True)

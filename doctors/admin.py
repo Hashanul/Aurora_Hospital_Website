@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import DepartmentBanner, DoctorBanner, Department, Doctor, DepartmentGroup, ChamberTime
+from .models import DepartmentBanner, DoctorBanner, HomeDepartmentHeader, HomeDoctorHeader, Department, DoctorImage, Doctor, DepartmentGroup, ChamberTime
 from import_export.admin import ImportExportModelAdmin
 from import_export.formats import base_formats
 from .resources import DoctorResource, DepartmentResource, DepartmentGroupResource, ChamberTimeResource
@@ -10,19 +10,19 @@ class DepartmentBannerAdmin(admin.ModelAdmin):
     list_display = ["title", "image", "created_by"]
     search_fields = ["title"]
 
-
-@admin.register(ChamberTime)
-class ChamberTimeAdmin(ImportExportModelAdmin):
-    resource_class = ChamberTimeResource
-    list_display = ["id", "drCode", "dayName",
-                    "visitType", "startTime", "finishTime"]
-    autocomplete_fields = ['drCode']
-
-
 @admin.register(DoctorBanner)
 class DoctorBannerAdmin(admin.ModelAdmin):
     list_display = ["title", "image", "created_by"]
     search_fields = ["title"]
+
+@admin.register(HomeDepartmentHeader)
+class HomeDepartmentHeaderAdmin(admin.ModelAdmin):
+    list_display = ['id', 'title', 'sub_title']
+
+
+@admin.register(HomeDoctorHeader)
+class HomeDoctorHeaderAdmin(admin.ModelAdmin):
+    list_display = ['id', 'title', 'sub_title']
 
 
 @admin.register(Department)
@@ -38,6 +38,12 @@ class DepartmentAdmin(ImportExportModelAdmin):
         return [base_formats.CSV, base_formats.XLS, base_formats.XLSX]
 
 
+@admin.register(DoctorImage)
+class DoctorImageAdmin(ImportExportModelAdmin):
+
+    list_display=['id', 'dr_image', 'drCode']
+
+
 @admin.register(Doctor)
 class DoctorAdmin(ImportExportModelAdmin):
     resource_class = DoctorResource
@@ -51,6 +57,14 @@ class DoctorAdmin(ImportExportModelAdmin):
 
     def get_export_formats(self):
         return [base_formats.CSV, base_formats.XLS, base_formats.XLSX]
+
+
+@admin.register(ChamberTime)
+class ChamberTimeAdmin(ImportExportModelAdmin):
+    resource_class = ChamberTimeResource
+    list_display = ["id", "drCode", "dayName",
+                    "visitType", "startTime", "finishTime"]
+    autocomplete_fields = ['drCode']
 
 
 @admin.register(DepartmentGroup)

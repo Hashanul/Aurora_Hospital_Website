@@ -3,7 +3,7 @@ from .models import (
     Hero,
     HeroBadge,
     About,
-    PackageServiceHeader,
+    PackageServiceNewsHeader,
     Health_package,
     Badge,
     AppointmentHomeImage,
@@ -39,7 +39,7 @@ class MenuItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MenuItem
-        fields = ["id", "title", "to", "classChange", "order", "content"]
+        fields = ["id", "title", "to", "classChange", "order", "content", "is_department"]
 
 
 class HeroSerializer(serializers.ModelSerializer):
@@ -66,10 +66,10 @@ class AboutSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class PackageServiceHeaderSerializer(serializers.ModelSerializer):
+class PackageServiceNewsHeaderSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = PackageServiceHeader
+        model = PackageServiceNewsHeader
         fields = "__all__"
 
 
