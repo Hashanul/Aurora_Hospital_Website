@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import AppointmentBanner, Appointment, Report, AppointmentPackageBanner, AppointmentPackage
+from .models import AppointmentBanner, Appointment, Report, AppointmentPackageBanner, AppointmentPackage, AppointmentPackageHeader
 
 
 @admin.register(AppointmentBanner)
@@ -26,6 +26,11 @@ class ReportAdmin(admin.ModelAdmin):
 @admin.register(AppointmentPackageBanner)
 class AppointmentPackageBannerAdmin(admin.ModelAdmin):
     list_display = ['id', 'title']
+
+
+@admin.register(AppointmentPackageHeader)
+class AppointmentPackageBannerAdmin(admin.ModelAdmin):
+    list_display = ['id', 'title', 'sub_title']
 
 
 @admin.register(AppointmentPackage)

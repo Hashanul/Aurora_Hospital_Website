@@ -203,10 +203,11 @@ class VisitorServiceHeader(models.Model):
     patientstory_title = models.CharField(max_length=255, null=True, blank=True)
     patientstory_description = models.CharField(max_length=255, null=True, blank=True)
 
-    # class Meta:
-    #     ordering = [
-    #         F('order').desc(nulls_last=True),  # 4 → 3 → 2 → 1
-    #     ]
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at'] 
+
 
     def __str__(self):
         return f"""
@@ -215,3 +216,4 @@ class VisitorServiceHeader(models.Model):
         Health: {self.report_title or '-'},
         Home: {self.patientstory_title or '-'},
         """
+

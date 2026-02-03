@@ -38,6 +38,11 @@ class HomeDepartmentHeader(models.Model):
     title = models.CharField(max_length=255, null=True, blank=True)
     sub_title = models.CharField(max_length=255, null=True, blank=True)
 
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at'] 
+
     def __str__(self):
         return f"{self.title if self.title else self.id}"
 
@@ -45,6 +50,11 @@ class HomeDepartmentHeader(models.Model):
 class HomeDoctorHeader(models.Model):
     title = models.CharField(max_length=255, null=True, blank=True)
     sub_title = models.CharField(max_length=255, null=True, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at'] 
 
     def __str__(self):
         return f"{self.title if self.title else self.id}"

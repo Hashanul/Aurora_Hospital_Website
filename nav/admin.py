@@ -10,7 +10,7 @@ class MenuItemResource(resources.ModelResource):
         import_id_fields = ('title',)  # Use title as the unique identifier for matching
         skip_unchanged = True          # Skip rows if no changes detected
         report_skipped = True          # Report skipped duplicates in admin results
-        fields = ('title', 'to', 'classChange', 'order')
+        fields = ('title', 'to', 'classChange', 'order', 'is_department')
         # Optionally exclude 'id' if you do not want to import/export it
         exclude = ('id',)
 

@@ -176,10 +176,16 @@ class PackageServiceNewsHeader(models.Model):
     news_header = models.CharField(max_length=255, null=True, blank=True)
     news_description = models.CharField(max_length=255, null=True, blank=True)
 
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at'] 
+
     def __str__(self):
         return f"""
-        Health: {self.health_package_title or '-'},
-        Home: {self.home_service_title or '-'},
+        Health: {self.health_package_header or '-'},
+        Home: {self.home_service_header or '-'},
+        Home: {self.news_header or '-'},
         """
 
 

@@ -1,6 +1,6 @@
 from requests import Response
 from rest_framework import serializers
-from .models import Appointment, AppointmentBanner, Report, AppointmentPackage, AppointmentPackageBanner
+from .models import Appointment, AppointmentBanner, Report, AppointmentPackage, AppointmentPackageBanner, AppointmentPackageHeader
 from home.models import Health_package 
 from doctors.models import Doctor, ChamberTime
 from datetime import date
@@ -184,3 +184,11 @@ class AppointmentPackageSerializer(serializers.ModelSerializer):
             recipient_list=[appointment.email],
             fail_silently=True,
         )    
+
+
+
+class AppointmentPackageHeaderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AppointmentPackageHeader
+        fields = '__all__'
+

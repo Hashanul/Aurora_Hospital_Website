@@ -2,8 +2,8 @@
 from rest_framework import viewsets, status, filters
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
-from .models import Appointment, AppointmentBanner, Report, AppointmentPackage, AppointmentPackageBanner
-from .serializers import AppointmentSerializer, AppointmentBannerSerializer, ReportSerializer, AppointmentPackageSerializer, AppointmentPackageBannerSerializer
+from .models import Appointment, AppointmentBanner, Report, AppointmentPackage, AppointmentPackageBanner, AppointmentPackageHeader
+from .serializers import AppointmentSerializer, AppointmentBannerSerializer, ReportSerializer, AppointmentPackageSerializer, AppointmentPackageBannerSerializer, AppointmentPackageHeaderSerializer
 from rest_framework.exceptions import ValidationError
 from accounts.permissions import AdminPermission
 
@@ -100,4 +100,8 @@ class AppointmentPackageBannerViewSet(viewsets.ModelViewSet):
 class AppointmentPackageViewSet(viewsets.ModelViewSet):
     queryset = AppointmentPackage.objects.all()
     serializer_class = AppointmentPackageSerializer
+
+class AppointmentPackageHeaderViewSet(viewsets.ModelViewSet):
+    queryset = AppointmentPackageHeader.objects.all()
+    serializer_class = AppointmentPackageHeaderSerializer
 
