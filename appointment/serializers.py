@@ -1,6 +1,6 @@
 from requests import Response
 from rest_framework import serializers
-from .models import Appointment, AppointmentBanner, Report, AppointmentPackage, AppointmentPackageBanner, AppointmentPackageHeader
+from .models import Appointment, AppointmentBanner, Report, ReportPortal, AppointmentPackage, AppointmentPackageBanner, AppointmentPackageHeader
 from home.models import Health_package 
 from doctors.models import Doctor, ChamberTime
 from datetime import date
@@ -120,6 +120,14 @@ class ReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Report
         fields = '__all__'
+
+
+class ReportPortalSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ReportPortal
+        fields = '__all__'
+
 
 class AppointmentPackageBannerSerializer(serializers.ModelSerializer):
     class Meta:

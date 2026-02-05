@@ -110,6 +110,16 @@ class Report(models.Model):
         return self.patient_id
     
 
+class ReportPortal(models.Model):
+    title = models.CharField(max_length=255, null=True, blank=True)
+    image = models.FileField(upload_to='report_portal/', null=True, blank=True)
+    note = models.CharField(max_length=255, null=True, blank=True)
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Report_portal: {self.title if self.title else self.id}"
+
 
 class AppointmentPackageBanner(models.Model):
     title = models.CharField(max_length=255)
@@ -158,3 +168,4 @@ class AppointmentPackageHeader(models.Model):
 
     def __str__(self):
         return f"{self.title if self.title else self.id}"
+

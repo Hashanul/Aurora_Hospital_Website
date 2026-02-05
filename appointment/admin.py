@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import AppointmentBanner, Appointment, Report, AppointmentPackageBanner, AppointmentPackage, AppointmentPackageHeader
+from .models import AppointmentBanner, Appointment, Report, ReportPortal, AppointmentPackageBanner, AppointmentPackage, AppointmentPackageHeader
 
 
 @admin.register(AppointmentBanner)
@@ -21,6 +21,13 @@ class ReportAdmin(admin.ModelAdmin):
     list_display= ['id', 'patient_id', 'report_file']
     list_filter= ['patient_id']
     search_fields = ['patient_id']
+
+
+@admin.register(ReportPortal)
+class ReportPortalAdmin(admin.ModelAdmin):
+    list_display = ['id', 'title', 'note'] 
+    list_filter= ['title', 'note'] 
+    search_fields = ['title', 'note'] 
 
 
 @admin.register(AppointmentPackageBanner)
