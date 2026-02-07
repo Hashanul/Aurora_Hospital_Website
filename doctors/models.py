@@ -130,7 +130,7 @@ class DoctorImage(models.Model):
 
 
 class Doctor(models.Model):
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, null=True, blank=True)
     drName = models.CharField(max_length=255, blank=True, null=True)
     designation = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
