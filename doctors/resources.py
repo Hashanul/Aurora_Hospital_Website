@@ -115,6 +115,9 @@ class DoctorResource(resources.ModelResource):
         for key, value in row.items():
             if value == "":
                 row[key] = None
+        # Remove 'id' if present to avoid import errors
+        if 'id' in row:
+            del row['id']
 
     # 🔹 Main duplicate logic
     def import_row(self, row, instance_loader, **kwargs):
@@ -145,12 +148,13 @@ class DoctorResource(resources.ModelResource):
     class Meta:
         model = Doctor
 
-        # ❌ import_id_fields deliberately removed
+        # ❌ import_id_fields deliberately removed to prevent defaulting to 'id'
+        import_id_fields = []
+
         skip_unchanged = True
         report_skipped = True
 
         fields = (
-            "id",
             "drName",
             "designation",
             "description",
@@ -167,7 +171,7 @@ class DoctorResource(resources.ModelResource):
             "sms",
             "order",
         )
-        exclude = ("created_by", "created_at", "updated_at")
+        exclude = ("id", "created_by", "created_at", "updated_at")
 
 
 # ===========================

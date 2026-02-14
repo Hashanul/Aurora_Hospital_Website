@@ -51,6 +51,7 @@ class DoctorAdmin(ImportExportModelAdmin):
     list_filter = ["designation", "department"]
     search_fields = ["drName", "designation"]
     ordering = ['order']
+    readonly_fields = ['image']
 
     def get_import_formats(self):
         return [base_formats.CSV, base_formats.XLS, base_formats.XLSX]
