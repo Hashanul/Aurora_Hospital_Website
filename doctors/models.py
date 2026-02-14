@@ -118,7 +118,7 @@ class DoctorImage(models.Model):
 
         # 🔹 If image exists → update Doctor.image
         if self.dr_image:
-            doctor.image = f"{self.dr_image.url}"
+            doctor.image = self.dr_image
         else:
             doctor.image = None
 
@@ -135,7 +135,7 @@ class Doctor(models.Model):
     designation = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     richtext = CKEditor5Field(blank=True, null=True)
-    image = models.CharField(max_length=500, blank=True, null=True)
+    image = models.FileField(upload_to="doctors/", blank=True, null=True)
     drCode = models.CharField(max_length=20, null=True, blank=True)
 
     # Foreign keys

@@ -42,7 +42,7 @@ SITE_ID = 1
 
 
 # settings.py
-BASE_URL = "http://192.168.88.174:8000"
+BASE_URL = "https://auroraapi.raktch.com/"
 
 
 CSRF_TRUSTED_ORIGINS = [
